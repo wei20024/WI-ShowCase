@@ -1,0 +1,471 @@
+body, html /*保证整体页面不出现超出或者不满屏等奇怪问题*/
+	{
+		background-color:#296683;
+		overflow-x:auto ;
+		overflow-y:auto;
+		height: 100%;
+		width: 100%;
+		padding: 0px;
+		margin:0px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		user-select: none;
+		background-repeat: no-repeat;
+		background-position: right bottom;
+		min-height:800px;
+	}
+	
+	html
+	{
+		background-color:#296683;
+	}
+	
+	.logo
+	{
+		position:absolute;
+		width:100%;
+		height:60px;
+		padding:10px;
+	}
+	
+	.loginCent
+	{
+		position:absolute;
+		left:50%;
+		top:100px;
+	}
+
+	.loginContainer
+	{
+		position:absolute;
+		top:30px;
+		left:-165px;
+		width:330px;
+		height:210px;
+		padding-top:5px;
+		padding-bottom:5px;
+		-webkit-border-radius:5px;
+		background-color:rgba(255, 255, 255, 0.15);
+	}
+	
+	.username_input
+	{
+		position:absolute;
+		top:25px;
+	}
+	
+	.userName
+	{
+		position:absolute;
+		width:295px;
+		height:35px;
+		left:15px;
+		border-color:#CCCCCC #DDDDDD #DDDDDD #CCCCCC;
+		border-left:1px solid #CCCCCC;
+		border-style:solid;
+		border-width:2px;
+		font-size:1em;
+		overflow:hidden;
+		-webkit-border-radius:5px;
+	}
+	
+	.password_input
+	{
+		position:absolute;
+		top:78px;
+	}
+	
+	.userPass
+	{
+		position:absolute;
+		width:295px;
+		height:35px;
+		left:15px;
+		border-color:#CCCCCC #DDDDDD #DDDDDD #CCCCCC;
+		border-left:1px solid #CCCCCC;
+		border-style:solid;
+		border-width:2px;
+		font-size:1em;
+		overflow:hidden;
+		-webkit-border-radius:5px;
+	}
+	
+	.controlgroup
+	{
+		position: absolute;
+		top: 122px;
+		left: 15px;
+		width: 300px;
+		height: 40px;
+		background-color: #F3F3F3;
+		border-radius: 5px;
+	}
+	
+	.custom
+	{
+		position:absolute;
+		width:22px;
+		height:22px;
+		top:20%;
+		left:10px;
+	}
+	
+	.checkboxLabel
+	{
+		position: absolute;
+		left: 45px;
+		top: 20%;
+		font-size: 1.1em;
+		line-height: 1.5em;
+		font-weight: bold;
+	}
+	
+	.buttonStyle
+	{
+		position: absolute;
+		top: 140px;
+		width: 300px;
+		height: 55px;
+		background-color: #9BE017;
+		border-radius: 5px;
+		left:15px;
+	}
+	
+	/* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
+.loginBtn:link{background-position:center 0px;}
+.loginBtn:visited{background-position:center 0px;}
+.loginBtn:hover{background-position:center -36px;}
+.loginBtn:active{background-position:center 36px;}
+	
+	.loginBtn
+	{
+		position: absolute;
+		width: 300px;
+		height: 55px;
+		font-weight: bold;
+		font-size: 25px;
+		color: whitesmoke;
+		text-align: center;
+		line-height: 55px;
+	}
+	
+	.loadingDiv
+	{
+		position: absolute;
+  		top:150px;
+  		left:50%;
+  		width:1px;
+  		height: 1px;
+  		border: none;
+  		overflow:visible;
+	}
+	.loadingImg
+	{
+		position: absolute;
+		background-image: url(/webui/mobile/img/ajax-loader.gif);
+		background-position: 77px 10px;
+		background-repeat: no-repeat;
+		width: 200px;
+		z-index: 2;
+		height: 86px;
+		left: -100px;
+		background-color: rgba(255, 255, 255, 0.94);
+		border-radius: 5px;
+	}
+	
+	.loadingTxet
+	{
+		position: absolute;
+		top: 59px;
+		font-size: 1.2em;
+		width: 200px;
+		z-index: 3;
+		left: -40px;
+		font-weight:bolder;
+	}
+	
+	.globalMask
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+}
+
+.globalMaskBack
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	opacity: 0.2;
+	filter:alpha(opacity=20);
+	-moz-opacity:0.2;
+	-khtml-opacity: 0.2;
+}
+
+.globalDialogAnchor
+{
+	top: 40%;
+}
+
+.smallGlobalDialog
+{
+	height: 150px;
+	width: 100px;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.centerEle
+{
+  position: absolute;
+  top:35%;
+  left:50%;
+  width:1px;
+  height: 1px;
+  border: none;
+  overflow:visible;
+}
+
+.globalDialog
+{
+	position: absolute;
+	top: -75px;
+	left: -125px;
+	width: 250px;
+	height: 150px;
+	-webkit-border-radius: 6px;
+	background-color: rgba(252, 250, 250, 1);
+}
+
+#globalConfirmTipContainer
+{
+	position: absolute;
+	top: 20%;
+	left: 0%;
+	width: 100%;
+	overflow: hidden;
+	display:table;
+}
+
+#globalConfirmTipText
+{
+	white-space: normal;
+	text-align: center;
+	vertical-align: middle;
+	position: relative;
+	height: 100%;
+	width: 100%;
+	display:table-cell;
+	color:#000000;
+}
+
+.globalDialogButtonsWarp
+{
+	position: absolute;
+	bottom: 1px;
+	left: 0%;
+	width: 100%;
+	height: 45px;
+	padding-top: 5px;
+	border-top:1px solid #999999;
+}
+.globalDialogLinkWarp
+{
+	position: absolute;
+	left:25px;
+	width: 200px;
+	height: 36px;
+	display:inline-block;
+	margin: 0 auto;
+}
+
+
+/* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
+.globalDialogLink:link{background-position:center 0px;}
+.globalDialogLink:visited{background-position:center 0px;}
+.globalDialogLink:hover{background-position:center -36px;}
+.globalDialogLink:active{background-position:center 36px;}
+
+.globalDialogOkLink
+{
+	position:absolute;
+	width: 200px;
+	height: 36px;
+	color:black;
+	line-height:32px;
+	background-color: #ccc;
+	font-size:20px;
+	text-align:center;
+	font-weight: bold; 
+	text-decoration: none;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ccc) ,to(#999));
+}
+
+
+.globalDialogLink
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 200px;
+	height: 36px;
+}
+
+.rembergroup
+{
+	position:absolute;
+	top:230px;
+	width:330px;
+	right:15px;
+}
+
+.rembertext
+{
+position:absolute;
+	top:0px;
+	width:100px;
+	right:50px;
+	height:18px;
+	color:white;
+	text-align:right;
+	margin:5px;
+	padding-right:5px;
+	font-weight: bold;
+}
+	
+.selectgroup
+{
+position: absolute;
+top: 0px;
+right: 0px;
+width: 50px;
+height: 18px;
+margin: 4px;
+}
+
+.onoffswitch-checkbox
+{
+	display:none;
+}
+
+.onoffswitch-label
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+
+	border-radius:20px;
+	overflow:hidden;
+}
+
+.onoffswitch-switch
+{
+	position:absolute;
+	top:0;
+	bottom:0;
+	width:18px;
+	height:18px;
+	background:white;
+
+	border-radius:50%;
+}
+
+.onoffswitch-inner
+{
+	width:200%;
+}
+
+
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+	float: left; 
+	padding: 0;
+	width: 50%; 
+	height: 26px;
+	color: white;
+	box-sizing: border-box;
+}
+
+.onoffswitch-inner:before
+{
+	content: "";
+	padding-left: 10px;
+	color: #FFFFFF;
+	background-color: #C9C9C9;
+}
+
+.onoffswitch-inner:after 
+{
+	content: "";
+	padding-right: 10px;
+	color: #999999;
+	background-color: #9BE017;
+	text-align: right;
+}
+
+.domainSelect
+{
+	position:absolute;
+	top:78px;
+	width:300px;
+	height:41px;
+	left:15px;
+}
+
+.seslectItem
+{
+	width:100%;
+	height:100%;
+	background-color:white;
+	border:0px;
+	-webkit-border-radius:5px;
+}
+
+.dymanicPassword
+{
+	position:absolute;
+	width:295px;
+	height:35px;
+	left:15px;
+	border-color:#CCCCCC #DDDDDD #DDDDDD #CCCCCC;
+	border-left:1px solid #CCCCCC;
+	border-style:solid;
+	border-width:2px;
+	font-size:1em;
+	overflow:hidden;
+	-webkit-border-radius:5px;
+}
+
+.dymanicPass_input
+{
+	position: absolute;
+	top: 132px;
+}
+
+.mesgButtonLink
+{
+	position: absolute;
+	left: 210px;
+}
+.mesgButton
+{
+	position: absolute;
+	width: 100px;
+	height: 41px;
+	background-color: #4A96E2;
+	color: white;
+	-webkit-border-radius: 5px;
+	text-align:center;
+	text-decoration: initial;
+	line-height: 40px;
+}
+
+
+

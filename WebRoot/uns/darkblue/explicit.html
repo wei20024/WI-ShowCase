@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="ROBOTS" content="NOINDEX, NOFOLLOW, NOARCHIVE">
+		<meta http-equiv="X-UA-Compatible" content="IE=7">
+		<meta http-equiv="Content-Style-Type" content="text/css">
+		<meta http-equiv="Content-Script-Type" content="text/javascript">
+		<meta http-equiv="Progma" content="cache">
+		<meta http-equiv="cache-control" content="cache">
+		<title>Desktop@SingleCLOUD</title>
+		<link rel="stylesheet" type="text/css" href="/uns/darkblue/css/css1.css">
+		<link rel="stylesheet" type="text/css" href="/uns/darkblue/css/explicit.css">
+
+		<link rel="SHORTCUT ICON" href="/uns/darkblue/img/logo.ico" type="image/vnd.microsoft.icon">
+		<link rel="stylesheet" type="text/css" media="handheld,all" href="/uns/darkblue/css/style.css">
+		<script type="text/javascript" src="/jslib/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="/jslib/jquery.cookie.js"></script>
+		<script type="text/javascript" src="/jslib/log4javascript.js"></script>
+		<script type="text/javascript" src="/jslib/json2.js"></script> 
+		<script type="text/javascript" src="/uns/darkblue/js/src/javascript.js"></script>
+		<script type="text/javascript" src="/uns/darkblue/js/src/explicit.js"></script>
+		<script type="text/javascript" src="/uns/darkblue/js/src/hdpclient.js"></script>
+		<script type="text/javascript" src="/uns/darkblue/js/src/globalvar.js"></script>
+		<script type="text/javascript" src="/uns/darkblue/js/utils/service.js"></script>
+		<script type="text/javascript" src="/uns/darkblue/js/src/constantvar.js"></script>
+		<script type="text/javascript" src="/uns/common/js/utils/resultCode.js"></script>
+		<script type="text/javascript" src="/uns/common/js/language/loginLanguage.js"></script>  
+		<script type="text/javascript" src="/uns/darkblue/js/src/loadcss.js"></script>
+    	<script type="text/javascript" src="/uns/darkblue/js/src/explicitSelf.js"></script>
+	</head>
+
+
+
+	<body
+		style="height: auto; background: url(&quot;/uns/darkblue/img/backGroundMainE.jpg&quot;) no-repeat scroll center top rgb(33, 53, 106);"
+		class="horizonPage"
+		onload="putInTopFrame();onLoadLayout();setup_popup_behaviour();updateLayout();setup_login_submit_keys();RegFPIfAuthen();"
+		dir="ltr" onmouseup="setkey()"
+		onselectstart="return(event.srcElement.tagName=='INPUT')">
+
+
+		<form method="post" action="" name="CitrixForm" autocomplete="off">
+			<input name="UserIdentifyString" id="UserIdentifyString" value=""
+				maxlength="24" type="hidden">
+
+			<div class="logo"></div>
+			<div id="overallWrapper" style="clear: left; height: 840px;">
+				<div id="pageContent">
+
+					<div id="hiddenFingerDiv" style="width: 0; height: 0;"></div>
+					<div style="height: 150px; margin-top: -75px;" id="centerBack">
+						<div
+							style="height: 1px; width: 340px; margin-left: 5px; border-top: 1px solid #900;"
+							class="roundCrack"></div>
+						<div
+							style="height: 1px; width: 344px; margin-left: 3px; border-left: 1px solid #900; border-right: 1px solid #900;"
+							class="roundCrack"></div>
+						<div
+							style="height: 1px; width: 346px; margin-left: 2px; border-left: 1px solid #900; border-right: 1px solid #900;"
+							class="roundCrack"></div>
+						<div
+							style="height: 2px; width: 348px; margin-left: 1px; border-left: 1px solid #900; border-right: 1px solid #900;"
+							class="roundCrack"></div>
+						<div
+							style="height: 85%; width: 350px; margin: 0px; border-left: 1px solid #900; border-right: 1px solid #900;"
+							id="bc" class="roundCrack"></div>
+						<div
+							style="height: 2px; width: 348px; margin-left: 1px; border-left: 1px solid #900; border-right: 1px solid #900;"
+							class="roundCrack"></div>
+						<div
+							style="height: 1px; width: 346px; margin-left: 2px; border-left: 1px solid #900; border-right: 1px solid #900;"
+							class="roundCrack"></div>
+						<div
+							style="height: 1px; width: 344px; margin-left: 3px; border-left: 1px solid #900; border-right: 1px solid #900;"
+							class="roundCrack"></div>
+						<div
+							style="height: 1px; width: 340px; margin-left: 5px; border-bottom: 1px solid #900;"
+							class="roundCrack"></div>
+					</div>
+					<div style="margin-top: -150px;" id="centerContainer">
+						<input name="LoginType" value="Explicit" type="hidden">
+						<table id="loginMainForm" style="margin: 0px;" cellpadding="0"
+							cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td id="normalImg" style="width: 76px; height: 86px;">
+										<div class="loginImgDiv">
+											<img src="/uns/darkblue/img/headImg1.jpg" class="headImg" id="normalHeadImg"
+												style="position: relative; top: 0px;">
+										</div>
+									</td>
+									<td id="fingerImg"
+										style="display: none; width: 76px; _width: 74px; height: 86px;">
+										<div class="loginImgDiv"
+											style="margin-top: 10px; _margin-top: 0;">
+											<img src="/uns/darkblue/img/finger.png" class="headImg"
+												style="position: relative; top: 0px;">
+										</div>
+										<div
+											style="margin-left: 12px; _margin-left: 6px; text-align: center; color: white; width: 64px; height: 14px;"
+											id="FingerTest" name="FingerTest">
+											<span>指纹</span>
+										</div>
+									</td>
+									<td style="padding-left: 10px; width: 260px; _width: 258px;">
+										<table class="loginForm"
+											style="margin-top: 5px; border-spacing: experssion(this.cellspacing =   5);"
+											cellpadding="0">
+
+
+											<tbody>
+												<tr style="height: 30px; _height: 10px;">
+													<td id="usernameTd" class="loginFormInputTd"
+														style="width: 160px;">
+														<div class="roundEdge"
+															style="width: 157px; _width: 155px; margin-left: 2px;"></div>
+														<div class="roundEdge"
+															style="width: 159px; _width: 157px; margin-left: 1px;"></div>
+														<div class="roundbody">
+															<div id="usernameTdDiv" class="inputbg">
+																<input value="请输入用户名"
+																	name="user" id="user" class="enabledInput"
+																	maxlength="256"
+																	onkeypress="loginKey(event)"
+																	onkeyup="onUsernameTextEntry(this.form);"
+																	onchange="onUsernameTextEntry(this.form);"
+																	onfocus="changeCls('usernameTd','focus'); setEmptyValue('user','userNameTip',0); setEmptyValue('password','userPassTipuns',1); this.select();"
+																	onblur="changeCls('usernameTd','blur'); setEmptyValue('user','userNameTip',1);"
+																	type="text">
+															</div>
+														</div>
+														<div class="roundEdge"
+															style="width: 159px; _width: 157px; margin-left: 1px;"></div>
+														<div class="roundEdge"
+															style="width: 157px; _width: 155px; margin-left: 2px;"></div>
+													</td>
+													<td style="width: 85px; _width: 83px;" id="useropp"
+														align="center">
+														<a href="javascript:enableUserName();" id="switchUser"
+															name="switchUser"
+															style="color: white; text-decoration: none; font-family: Microsoft YaHei; display: none;">
+															切换用户 </a>
+
+														<div id="finger" onclick="chooseOption();"
+															style="color: white; text-decoration: none; display: none; cursor: pointer;"
+															class="fingerRegist" title="选择操作">
+															<span id="fff">注册<img src="/uns/darkblue/img/point.gif"
+																	style="padding-left: 3px;"> </span>
+														</div>
+														<div id="options" style="display: none;">
+															<div onclick="OpenRegist();" class="foptions"
+																style="padding-bottom: 2px; border-bottom: 1px solid #AAAAAA;"
+																onmouseover="changecolor(this);"
+																onmouseout="changecolorr(this);" id="optionone">
+																&nbsp;&nbsp;&nbsp;注册指纹
+															</div>
+															<div onclick="ModifyFP();" class="foptions"
+																style="padding-top: 0; padding-bottom: 2px; border-bottom: 1px solid #AAAAAA;"
+																onmouseover="changecolor(this);"
+																onmouseout="changecolorr(this);" id="optiontwo">
+																&nbsp;&nbsp;&nbsp;变更指纹
+															</div>
+															<div onclick="SyncPwd();" class="foptions"
+																style="padding-top: 0;" onmouseover="changecolor(this);"
+																onmouseout="changecolorr(this);" id="optionthree">
+																&nbsp;&nbsp;&nbsp;手动修改密码
+															</div>
+														</div>
+
+													</td>
+												</tr>
+
+												<tr>
+													<td id="pwdtd" class="loginFormInputTd"
+														style="width: 160px;">
+														<div class="roundEdge"
+															style="width: 157px; _width: 155px; margin-left: 2px;"></div>
+														<div class="roundEdge"
+															style="width: 159px; _width: 157px; margin-left: 1px;"></div>
+														<div class="roundbody">
+															<div id="pwdtdDiv" class="inputbg">
+																<input   autocomplete="off"  style="color: rgb(170, 170, 170);"
+																	name="password" id="password" class="enabledInput"
+																	maxlength="256"
+																	onkeypress="loginKey(event)"
+																	onfocus="changeCls('pwdtd','focus'); setEmptyValue('password','userPassTipuns',0);"
+																	onblur="changeCls('pwdtd','blur'); setEmptyValue('password','userPassTipuns',1);"
+																	type="password">
+															</div>
+														</div>
+														<div class="roundEdge"
+															style="width: 159px; _width: 157px; margin-left: 1px;"></div>
+														<div class="roundEdge"
+															style="width: 157px; _width: 155px; margin-left: 2px;"></div>
+													</td>
+
+
+													<td id="lgbutton" style="width: 84px; display: block;"
+														align="center">
+														<a style="margin-left: 0px;"
+															href="javascript:checkUserBefor('user','password','userNameTip','userPassTipuns');"
+															title="单击此处后登录" onmouseover="changeLoginBtnColor(true);"
+															onmouseout="changeLoginBtnColor(false);"
+															onfocus="changeLoginBtnColor(true);"
+															onblur="changeLoginBtnColor(false);" id="btnLogin"
+															name="btnLogin"><img id="loginButtonBg"
+																src="/uns/darkblue/img/login.png" alt="单击此处后登录"> </a>
+
+													</td>
+													<td id="fgbutton"
+														style="width: 84px; _width: 82x; margin-left: 50px; display: none"
+														align="center">
+														<a href="javascript:VerifyFPOrLogin();" title="单击此处后登录"
+															onmouseover="changeLoginBtnColor(true);"
+															onmouseout="changeLoginBtnColor(false);"
+															onfocus="changeLoginBtnColor(true);"
+															onblur="changeLoginBtnColor(false);" id="btnLogin"
+															name="btnLogin"><img id="loginButtonBg"
+																src="/uns/darkblue/img/login.png" alt="单击此处后登录"> </a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+
+										<table id="highContrast_LoginButton" cellpadding="0"
+											cellspacing="0" align="right">
+											<tbody>
+												<tr>
+													<td>
+														<input id="loginBtn" name="login" title="单击此处后登录" type="submit" >
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<script type="text/javascript">
+							setSwitchLink();
+						</script>
+
+						<table id="otherCertificate"
+							style="margin: 0 auto; text-align: center; color: white; display: none;"
+							cellpadding="5" cellspacing="5" border="0">
+							<tbody>
+								<tr>
+									<td style="width: 90px; _width: 90px; height: 82px;">
+										<a href="javascript:showNormal(1)">
+											<img src="/uns/darkblue/img/headImg7.jpg" class="headImg"> 
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 90px; _width: 90px;">
+										<span id="userInputName">用户名</span>
+										<script type="text/javascript">
+											if (document.getElementById('user').value == null
+													|| document.getElementById('user').value == ""
+													|| document.getElementById('user').value == "请输入用户名") {
+												document.getElementById('userInputName').innerHTML = "用户名";
+											} else {
+												document.getElementById('userInputName').innerHTML = document
+														.getElementById('user').value;
+											}
+										</script>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<input id="FingerDate" name="FingerDate" value="" type="hidden">
+						<div id="fingerRegist" style="font-size: 12px; margin-top: -86px;">
+							<div id="centerBacktest"
+								style="*top: 0 !important; width: 640px; height: 400px; background: url(/uns/darkblue/img/BG.png) no-repeat; position: absolute; *margin-left: 190px;">
+
+							</div>
+							<div id="fingerInputUserAndPassword"
+								style="display: block; width: 640px; height: 400px; position: relative; margin-top: 0px; top: 0px; left: 45%; margin-left: -280px; *top: 0;">
+								<div id="tips"
+									style="width: 610px; margin-top: 10px; clear: right; height: 30px;">
+									<div
+										style="margin-bottom: 10px; margin-left: 0px; display: inline; width: 600px; float: left; clear: right;">
+										<strong>&nbsp;&nbsp;&nbsp;注册指纹&gt;&gt;输入用户名和密码开始注册</strong>
+									</div>
+									<div id="close" onclick="javascript:closeReg();"></div>
+								</div>
+								<table
+									style="text-align: center; margin-top: 100px; margin-left: 240px;"
+									cellpadding="0" cellspacing="0" border="0">
+									<tbody>
+										<tr style="height: 35px; _height: 10px;">
+											<td id="fusernameTd" class="loginFormInputTd"
+												style="width: 160px; _width: 158px;">
+												<div class="roundEdge"
+													style="width: 157px; _width: 155px; margin-left: 2px;"></div>
+												<div class="roundEdge"
+													style="width: 159px; _width: 157px; margin-left: 1px;"></div>
+												<div class="roundbody">
+													<div id="fusernameTdDiv" class="inputbg">
+														<input name="fuser" id="fuser" class="enabledInput"
+															maxlength="256" style="width: 153px; height: 21px;"
+															onkeyup="onUsernameTextEntry(this.form);"
+															onchange="onUsernameTextEntry(this.form);"
+															onfocus="changeCls('usernameTd','focus'); setEmptyValue('fuser','userNameTip',0); setEmptyValue('fpassword','userPassTipuns',1); this.select();"
+															onblur="changeCls('usernameTd','blur'); setEmptyValue('fuser','userNameTip',1);"
+															type="text">
+													</div>
+												</div>
+												<div class="roundEdge"
+													style="width: 159px; _width: 157px; margin-left: 1px;"></div>
+												<div class="roundEdge"
+													style="width: 157px; _width: 155px; margin-left: 2px;"></div>
+											</td>
+										</tr>
+
+										<tr style="height: 35px; _height: 10px;">
+											<td id="fpwdtd" class="loginFormInputTd"
+												style="width: 160px; _width: 158px;">
+												<div class="roundEdge"
+													style="width: 157px; _width: 155px; margin-left: 2px;"></div>
+												<div class="roundEdge"
+													style="width: 159px; _width: 157px; margin-left: 1px;"></div>
+												<div class="roundbody">
+													<div id="fpwdtdDiv" class="inputbg">
+														<input  autocomplete="off"  name="fpassword" id="fpassword"
+															class="enabledInput" style="width: 153px; height: 21px;"
+															maxlength="256"
+															onfocus="changeCls('pwdtd','focus'); setEmptyValue('fpassword','userPassTipuns',0);"
+															onblur="changeCls('pwdtd','blur'); setEmptyValue('fpassword','userPassTipuns',1);"
+															type="password">
+													</div>
+												</div>
+												<div class="roundEdge"
+													style="width: 159px; _width: 157px; margin-left: 1px;"></div>
+												<div class="roundEdge"
+													style="width: 157px; _width: 155px; margin-left: 2px;"></div>
+											</td>
+										</tr>
+
+
+
+									</tbody>
+								</table>
+								<table style="margin: 0 auto; width: 640px; margin-left: 10px;">
+									<tbody>
+										<tr>
+											<td>
+												<div id="returnMess"></div>
+											</td>
+											<td>
+												<div id="fpbutton"
+													style="margin-top: 155px; width: 150px; margin-left: 145px;">
+													<input class="bbt" id="cancelReg" value="取消"
+														onclick="javascript:closeReg();" type="button">
+													<input class="bbt" id="doReg" value="确定&nbsp;"
+														onclick="javascript:checkForm();" type="button">
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<script type="text/javascript">
+									if (document.getElementById("fdomain")) {
+										window.top.document.getElementById("fpbutton").style.marginTop = 120 + "px";
+										window.top.document.getElementById("returnMess").style.marginTop = 120 + "px";
+									}
+									document.getElementById("fingerRegist").style.marginTop = -(document
+											.getElementById("centerContainer").offsetHeight)
+											+ "px";
+								</script>
+							</div>
+						</div>
+						<div id="messagesArea">
+							<div id="feedbackArea" class="noFeedback">
+								<p id="tmpFeedback" class="feedbackStyleError" style="color: #FF0000"></p>
+							</div>
+							<!--  
+							<div id="sysMessage">
+							</div>
+							-->
+						</div>
+						<div id="loginStyle" class="showCer"
+							style="text-align: center; display: none; margin-top: 0px;">
+							<div id="certificateButton"
+								onclick="javascript:showLoginChoose()">
+								其它凭证
+							</div>
+						</div>
+					</div>
+					<script type="text/javascript">
+						document.body.style.height = "auto";
+						if (document.getElementById("hiddenFingerDiv")) {
+							if (document.getElementById("fingerChannel")) {
+								document.getElementById("hiddenFingerDiv").innerHTML = "<embed type='application/biocome-fingerprint-plugin' hidden='true' id='fingerprint' width='0' height='0'></embed>";
+							}
+						}
+					</script>
+					<div id="notice"></div>
+				</div>
+				<div id="heightFiller">
+				</div>
+			</div>
+		</form>
+		<script type="text/javascript">
+			
+		</script>
+
+		<div style="background: url(&quot;/uns/darkblue/img/Error24.gif&quot;) repeat scroll 0% 0% transparent; display: none;"></div>
+		<input name="UserIdentifyString" id="UserIdentifyString" value=""
+			maxlength="24" style="display: none;" />
+	</body>
+</html>

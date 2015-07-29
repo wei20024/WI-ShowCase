@@ -1,0 +1,482 @@
+@CHARSET "UTF-8";
+*
+{
+	font-family: "Microsoft YaHei","bold","arial";
+}
+body, html /*保证整体页面不出现超出或者不满屏等奇怪问题*/
+{ 
+	overflow-x:auto ;
+	overflow-y:auto;
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	margin:0px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	
+	background-repeat: no-repeat;
+	background-position: right bottom;
+}
+html
+{
+	background-color: #296683;
+}
+
+
+#bg
+	{
+		position: absolute;
+  		left: 0px;
+  		top: 0px;
+		width:100%;
+		height:100%;
+  		z-index:0;
+  		margin:0 0 0 0;
+	    overflow:hidden;
+		
+	}
+
+#bgimg
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:0;
+	
+}
+
+	
+#logo
+	{
+		position:absolute;
+		top:36px;
+		left:52px;
+		height:53px;
+		width:230px;
+		z-index:1;
+		
+	}
+#logoimg
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:53px;
+	width:230px;
+	z-index:1;
+}
+#userloginpanel
+	{
+		position:absolute;
+		top:290px;
+		left:35%;
+		width:510px;
+		height:248px;
+		TEXT-ALIGN: center;/*水平居中*/
+		vertical-align:middle;  /*显示直角矩形*/
+	}
+#loginframe
+{
+	position:absolute;
+	top:2px;
+	left:0px;
+	width:510px;
+	height:248px;
+	z-index:1;	
+}
+#headImgDiv
+{
+	position: absolute;
+  	left: 67px;
+  	top: 45px;
+	height:115px;		
+	width:116px;
+}
+#headImageBg
+{
+	position: absolute;
+  	left: 0px;
+  	top: 0px;
+	height:115px;		
+	width:116px;	
+}
+#headImage
+{
+	position: absolute;
+  	left: 10px;
+  	top: 10px;
+	height:95px;		
+	width:96px;
+}
+
+#uNameInput
+{
+	position:absolute;	
+	left: 195px;
+  	top: 45px;
+	height:35px;
+	width:251px;
+	z-index:2;
+}
+
+#uNameImg
+{
+	position:absolute;	
+	left: 0px;
+  	top: 0px;
+	height:35px;
+	width:251px;
+	z-index:3;
+}
+#userName
+{
+	position:absolute;	
+	left: 10px;
+  	top: 6px;
+	height:23px;
+	width:225px;
+	border:0;
+	z-index:4;
+	font-size:18px;	
+	color:#6c8ba4;
+	font-weight:bold;	
+}
+	
+#uNameLabel
+{
+	position:absolute;	
+	left: 195px;
+  	top: 35px;
+	height:41px;
+	width:251px;
+	z-index:2;
+	
+}
+#userNameLb
+{
+	position:absolute;	
+	left: 10px;
+  	top: 15px;
+	height:30px;
+	width:200px;
+	border:none;
+	z-index:3;
+	font-size:20px;
+	font-weight:bold;
+	color:#ffffff;
+	text-align:left;
+	text-shadow:2px 2px 4px #000000;
+	overflow: hidden; 
+	text-overflow:ellipsis;
+	word-break:keep-all;
+	word-wrap:normal;
+	white-space:nowrap;
+	
+}
+
+#btnEditName
+{
+	position:absolute;	
+	left: 210px;
+  	top: 18px;
+	width:25px;
+	height:25px;	
+	z-index:3;
+	background-image:url(/uns/default/img/edit.png);
+}
+a:link#btnEditName{background-position:center 0px;}
+a:visited#btnEditName{background-position:center 0px;}
+
+#passInput
+{
+	position:absolute;	
+	left: 195px;
+  	top: 85px;
+	height:35px;
+	width:251px;
+	z-index:2;
+}
+
+#dymanicPassInput
+{
+	position:absolute;	
+	left: 195px;
+  	top: 125px;
+	height:35px;
+	width:300px;
+	z-index:2;
+}
+
+#passImg
+{
+	position:absolute;	
+	left: 0px;
+  	top: 0px;
+	height:35px;
+	width:251px;
+	z-index:3;
+}
+#dymanicPassImg
+{
+	position:absolute;	
+	left: 0px;
+  	top: 0px;
+	height:35px;
+	width:251px;
+	z-index:3;
+}
+#userPass
+{
+	position:absolute;	
+	left: 10px;
+  	top: 6px;
+	height:23px;
+	width:225px;
+	border:0;
+	z-index:4;
+	font-size:18px;	
+	color:#6c8ba4;
+	font-weight:bold;	
+}
+#passImgTip
+{
+	position:absolute;	
+	left: 430px;
+  	top: 50px;
+	width:131px;
+	height:81px;
+	border:0;
+	z-index:5;
+	font-size:10px;	
+	color:#6c8ba4;
+	font-weight:bold;
+	display:none;
+}
+#tiptext
+{
+	position:absolute;	
+	left: 2px;
+  	top: 3px;
+	width:195px;
+	height:71px;
+	border:0;
+	z-index:6;
+	font-size:10px;	
+	font-weight:bold;
+}
+#lefttip
+{
+	position:absolute;	
+	left: 0px;
+  	top: 0px;
+	width:9px;
+	height:71px;
+	border:0;
+	z-index:5;
+	font-size:10px;	
+	font-weight:bold;
+	background-image:url(/uns/default/img/left.png);
+}
+#leftmid
+{
+	position:absolute;	
+	left: 9px;
+  	top: 0px;
+	width:15px;
+	height:71px;
+	border:0;
+	z-index:5;
+	font-size:10px;	
+	font-weight:bold;
+	background-image:url(/uns/default/img/mid.png);
+}
+#midbottom
+{
+	position:absolute;	
+	left: 24px;
+  	top: 0px;
+	width:18px;
+	height:81px;
+	border:0;
+	z-index:5;
+	font-size:10px;	
+	font-weight:bold;
+	background-image:url(/uns/default/img/mid-botton.png);
+}
+#rightmid
+{
+	position:absolute;	
+	left: 42px;
+  	top: 0px;
+	width:150px;
+	height:71px;
+	border:0;
+	z-index:5;
+	font-size:10px;	
+	font-weight:bold;
+	background-image:url(/uns/default/img/mid.png);
+}
+#righttip
+{
+	position:absolute;	
+	left: 192px;
+  	top: 0px;
+	width:9px;
+	height:71px;
+	border:0;
+	z-index:5;
+	font-size:10px;	
+	font-weight:bold;
+
+	background-image:url(/uns/default/img/right.png);
+}
+#dymanicPassword
+{
+	position:absolute;	
+	left: 10px;
+  	top: 6px;
+	height:23px;
+	width:225px;
+	border:0;
+	z-index:4;
+	font-size:18px;	
+	color:#6c8ba4;
+	font-weight:bold;	
+}
+#getDymanicCode
+{
+	position:absolute;
+	left: 255px;
+  	top: 5px;
+	width:15px;
+	height:25px;
+	background-image:url(/uns/default/img/shouji.png);
+	z-index:3;
+	
+}
+#loginBtnDiv
+{
+	position:absolute;	
+	left: 195px;
+  	top: 175px;
+	width:130px;
+	height:45px;
+	z-index:2;
+}
+#resetPwdBtnDiv
+{
+	position:absolute;	
+	left: 325px;
+  	top: 185px;
+	width:130px;
+	height:45px;
+	z-index:2;
+}
+#loginBtn
+{
+	position:absolute;
+	left: 0px;
+  	top: 0px;
+	width:129px;
+	height:44px;
+	background-image:url(/uns/default/img/login.png);
+	z-index:3;
+	
+}
+/* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
+a:link#loginBtn{background-position:center 0px;}
+a:visited#loginBtn{background-position:center 0px;}
+a:hover#loginBtn{background-position:center -44px;}
+a:active#loginBtn{background-position:center 44px;}
+
+
+#errorDiv
+{
+	position:absolute;	
+	left: 190px;
+  	top: 225px;
+	height:15px;
+	width:320px;
+}
+#errorLb
+{
+	position:absolute;	
+	left: 0px;
+  	top: 0px;
+	height:15px;
+	width:320px;
+	border:none;
+	z-index:2;
+	font-size:13px;
+	font-weight:bold;
+	color:#f55;
+	text-align:left;
+	word-wrap:break-word;
+}
+
+#loadingpanel
+	{
+		position:absolute;
+		top:48%;
+		left:48%;
+		height:100px;		
+		width:100px;
+		TEXT-ALIGN: center;/*水平居中*/
+		vertical-align:middle;  /*显示直角矩形*/
+		z-index:0;
+	}
+
+
+#addiv
+{
+		position:absolute;
+		top:653px;
+		left:37%;
+		height:230px;		
+		width:480px;		
+		TEXT-ALIGN: center;/*水平居中*/
+		vertical-align:middle;  /*显示直角矩形*/
+}
+#ad
+{
+	position:absolute;
+		top:0;
+		left:0;
+		height:230px;		
+		width:480px;
+		z-index:1;
+}
+	
+.domainSelect
+{
+position: absolute;
+left: 195px;
+top: 125px;
+height: 35px;
+width: 251px;
+z-index: 2;
+}
+
+.domainSelect
+{
+position: absolute;
+left: 195px;
+top: 125px;
+height: 35px;
+width: 251px;
+z-index: 2;
+}
+
+#uNameImgDomain
+{
+	position:absolute;	
+	left: 0px;
+  	top: 0px;
+	height:35px;
+	width:251px;
+	z-index:3;
+}
+	
+	
+	

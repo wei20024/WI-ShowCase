@@ -1,0 +1,15 @@
+<request>
+	<uid>wangshoukui</uid>
+	<password>123qwe!@#</password>
+	<imei></imei>
+	<channelID>01</channelID>
+	<firmID>huawei</firmID>
+	<serviceID>8528894278356196767</serviceID>
+	<shortmsg>01</shortmsg>
+	<sourceIP>10.208.203.211</sourceIP>
+	<destinationIP>10.210.240.215</destinationIP>
+	<destinationPort>443,9443</destinationPort>
+	<extend>
+		<businessInfo>kuaixin</businessInfo>
+	</extend>
+</request> 

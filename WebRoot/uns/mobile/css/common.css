@@ -1,0 +1,12 @@
+
+
+#onlinehelpimg
+{
+	position:absolute;
+	top:60px;
+	right:33px;
+	height:32px;
+	width:36px;
+	background-image: url(/webui/mobile/img/help.png);
+	z-index: 110;
+}

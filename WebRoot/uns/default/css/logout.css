@@ -1,0 +1,105 @@
+@CHARSET "UTF-8";
+*
+{
+	font-family: "Microsoft YaHei","bold","arial";
+}
+html
+{
+	background-color: #296683;
+}
+body, html /*保证整体页面不出现超出或者不满屏等奇怪问题*/
+{ 
+	overflow-x:auto ;
+	overflow-y:auto;
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	margin:0px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	
+	background-repeat: no-repeat;
+	background-position: right bottom;
+}
+#logo
+	{
+		position:absolute;
+		top:36px;
+		left:52px;
+		height:53px;
+		width:230px;
+		z-index:1;
+		
+	}
+#logoimg
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:53px;
+	width:230px;
+	z-index:1;
+}
+#bg
+	{
+		position: absolute;
+  		left: 0px;
+  		top: 0px;
+  		z-index:0;
+  		margin:0 0 0 0；
+	}
+
+#bgimg
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:0;
+}
+#loadingpanel
+	{
+		position:absolute;
+		top:48%;
+		left:48%;
+		height:100px;		
+		width:100px;
+		TEXT-ALIGN: center;/*水平居中*/
+		vertical-align:middle;  /*显示直角矩形*/
+	}
+#errorPanel
+	{
+		position:absolute;
+		top:45%;
+		left:37%;
+		height:100px;		
+		width:500px;
+		TEXT-ALIGN: center;/*水平居中*/
+		vertical-align:text-bottom;
+	}
+#errorImg
+{
+	position:absolute;
+	top:3px;
+	left:0px;
+	height:32px;		
+	width:32px;
+	z-index:2;
+}
+#errorMessage
+{
+	position:absolute;
+	left: 40px;
+  	top: 0px;
+	height:25px;
+	width:800px;
+	border:none;
+	z-index:2;
+	font-size:25px;
+	font-weight:bold;
+	color:#ffffff;
+	text-align:left;
+	text-shadow:2px 2px 4px #000000;
+	padding-top:0px;
+}
+	
