@@ -1,0 +1,13 @@
+
+#lang {
+  position: absolute;
+  top: 63px;
+  right: 93px;
+  height: 32px;
+  width: 45px;
+  z-index: 110;
+  background-repeat: inherit;
+  background-image: url(/custom/resources/tyyd/web/default/img/dashbord/lang.png);
+}
+
+

@@ -1,0 +1,15 @@
+<request>
+	<uid>${uid}</uid>
+	<password>${password}</password>
+	<imei>xxx</imei>
+	<channelID>01</channelID>
+	<firmID>xxx</firmID>
+	<serviceID>xxx</serviceID>
+	<shortmsg>01</shortmsg>
+	<sourceIP>${sourceIP}</sourceIP>
+	<destinationIP>xxx</destinationIP>
+	<destinationPort>443,9443</destinationPort>
+	<extend>
+		<businessInfo>kuaixin</businessInfo>
+	</extend>
+</request>

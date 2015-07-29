@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<!-- appender 部分是可用的日志输出方式定义，可以定义多个 -->
+	<!-- org.apache.log4j.RollingFileAppender(文件大小到达指定尺寸的时候产生一个新的文件)  -->
+	<appender name="VDESKTOP" class="com.huawei.common.util.log.HRollingFileAppender">
+		<!-- 设置File参数：日志输出文件名 --> 
+		<!-- ${catalina.home}/hdc为HDC.pathprefix -->
+		<param name="File" value="${wi.log.home}/wi/logs/log/VDESKTOP/webui.log" />
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<!-- 设置文件大小 -->
+		<param name="MaxFileSize" value="2MB" />
+		<!-- 设置文件备份 -->  
+		<param name="MaxBackupIndex" value="10" /> <!-- Keep one backup file -->
+		<param name="Encoding" value="UTF-8"/>
+		<!-- 设置输出文件项目和格式 -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d]--[%p]--[%t]--[%F %M() %L] - %m %n" />
+		</layout>
+		<filter class="com.huawei.common.util.log.WIAppenderFilter" >
+			<!-- 定义该Appender需要打印出来的模块的日志 -->
+			<param name="ModuleName" value="VDESKTOP,CONFIG,USERLOGIN,INTERACT,LICENSE,BACKUP,GATEWAY" />
+		</filter>
+	</appender>
+	
+	
+	<appender name="CUSTOM" class="com.huawei.common.util.log.HRollingFileAppender">
+		<param name="File" value="${wi.log.home}/wi/logs/log/CUSTOM/custom.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="2MB" />
+		<param name="MaxBackupIndex" value="10" />
+		<param name="Encoding" value="UTF-8"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d]--[%p]--[%t]--[%F %M() %L] - %m %n" />			
+		</layout>
+		<filter class="com.huawei.common.util.log.WIAppenderFilter" >
+			<param name="ModuleName" value="CUSTOM" />
+		</filter>
+	</appender>
+
+	<!--  自定义category和logger，去除不必要的第三方包打印信息 BEGIN -->
+	<category name="org.apache">
+		<priority value="ERROR" />
+		<appender-ref ref="VDESKTOP" />
+	</category>
+	
+	<category name="org.springframework">
+		<priority value="ERROR" />
+		<appender-ref ref="VDESKTOP" />
+	</category>	
+	
+	<category name="org.eclipse">
+		<priority value="ERROR" />
+		<appender-ref ref="VDESKTOP" />
+	</category>
+	
+	<category name="org.infinispan">
+		<priority value="ERROR" />
+		<appender-ref ref="VDESKTOP" />
+	</category>
+	
+	<category name="org.jgroups">
+		<priority value="ERROR" />
+		<appender-ref ref="VDESKTOP" />
+	</category>
+	<category name="freemarker">
+		<priority value="ERROR" />
+		<appender-ref ref="VDESKTOP" />
+	</category>
+	<!-- END -->
+	<!-- END -->
+
+	<!-- root部分定义了log4j的默认输出级别和方式  -->
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="VDESKTOP" />
+		<appender-ref ref="CUSTOM" />
+
+	</root>
+
+</log4j:configuration> 

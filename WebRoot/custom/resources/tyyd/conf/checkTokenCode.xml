@@ -1,0 +1,14 @@
+<request>
+	<uid>${uid}</uid>
+	<tokenCode>${tokenCode}</tokenCode>
+	<channelID>01</channelID>
+	<firmID>xxx</firmID>
+	<serviceID>xxx</serviceID>
+	<businessID>${businessID}</businessID>
+	<sourceIP>${sourceIP}</sourceIP>
+	<destinationIP>xxx</destinationIP>
+	<destinationPort>443,9443</destinationPort>
+	<extend>
+		<businessInfo>kuaixin</businessInfo>
+	</extend>
+</request>

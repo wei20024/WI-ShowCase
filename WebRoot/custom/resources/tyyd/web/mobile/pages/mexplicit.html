@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Desktop@FusionAccess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel=stylesheet href="/custom/resources/tyyd/web/mobile/css/mexplicit.css">
+    <script type="text/javascript" src="/jslib/jquery-1.9.1.min.js"></script>
+     <script type="text/javascript" src="/jslib/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/custom/resources/tyyd/web/common/js/src/globalvar.js"></script>	
+    <script type="text/javascript" src="/custom/resources/tyyd/web/common/js/src/constantvar.js"></script>
+    <script type="text/javascript" src="/custom/resources/tyyd/web/common/js/utils/resultCode.js"></script>
+    <script type="text/javascript" src="/custom/resources/tyyd/web/common/js/language/loginLanguage.js"></script>
+	<script type="text/javascript" src="/custom/resources/tyyd/web/common/js/utils/service.js"></script>
+	<script type="text/javascript" src="/custom/resources/tyyd/web/mobile/js/mobileAccessJs/src/mexplicit.js"></script>
+</head>
+
+<div id="multiDomainCss"></div>
+
+<!-- begin first page -->
+<body>
+    <div id="logo" class="logo">
+  		<img id="logoimg" src="/custom/resources/tyyd/web/mobile/img/logo.png"/>  		
+  	</div>  
+
+  <div class="loginCent">
+  	<div class="loginContainer">
+  		<div class="username_input">
+  			<input type="text" class="userName" name="userName" id="userName" hidefocus="true" onfocus="setEmptyValue('userName','userNameTip',0);setEmptyValue('userPass','userPassTip',1);" />
+  		</div>
+  		<div class="password_input">
+  			<input  autocomplete="off"  type="password" class="userPass" name="userPass" id="userPass" onpaste="return false;" oncopy="return false;" hidefocus="true" onblur="setEmptyValue('userPass','userPassTip',1)" />
+  		</div>
+  		
+  		<div class="dymanicPass_input">
+  			<input autocomplete="off" class="dymanicPassword" type="password" id="dymanicPassword" name="dymanicPassword" onpaste="return false;" oncopy="return false;" onfocus="setEmptyValue('dymanicPassword','dynamicTip',0);"  onblur="setEmptyValue('dymanicPassword','dynamicTip',1);" onKeyPress="loginKey(event);" tabindex="102" style="display:none;"/>
+  			<input autocomplete="off" class="dymanicPassword" type="text" id="dymanicSpan" name="dymanicSpan" onpaste="return false;" oncopy="return false;" onfocus="setEmptyValue('dymanicPassword','dynamicTip',0);changPassType('dymanicPassword');"  onblur="setEmptyValue('dymanicPassword','dynamicTip',1);" onKeyPress="loginKey(event);" tabindex="102"  style="display:none;"/>
+  			<div class="mesgButtonLink" style="display:none;">
+		  		<a class="mesgButton" id="mesgButton" href="javascript:void(0);"><span>Get Code</span></a>
+			</div>
+  		</div>
+  		
+        <div id="domainSelect" class="domainSelect" style="display:none;">
+			<select id="seslectItem" class="seslectItem">
+			</select>
+		</div>	
+        
+        <div class="buttonStyle">
+        	 <a id="loginBtn" class="loginBtn"></a>
+        </div>
+  	</div>
+  	
+  </div>
+  
+    <div id= "messageBox" class="globalMask" style="display:none;">
+    	<div class="globalMaskBack"></div>
+    	<div class="globalDialogAnchor centerEle">
+ 			<div class="globalDialog  smallGlobalDialog">
+ 				<div id="globalConfirmTipContainer">
+		  			<div id="globalConfirmTipText"><span>Text Content</span></div>
+		  		</div>
+		  		<div class="globalDialogButtonsWarp" >
+ 					<div class="globalDialogLinkWarp">
+			  			<a class="globalDialogOkLink" href="javascript:void(0);"></a>
+			  		</div>
+ 				</div>
+ 			</div>
+    	</div>
+    </div>
+    
+    <div id="loadingDiv" class="loadingDiv">
+    	<div id="loadingImg" class="loadingImg"></div>
+    	<span class="loadingTxet" id="loadingTxet">loading...</span>
+    </div>
+    
+    <div id="mobilehint" style="display:none" >setAgent;autodologin;</div>
+
+</body> 
+</html>
