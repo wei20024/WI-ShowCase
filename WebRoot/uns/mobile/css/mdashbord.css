@@ -27,7 +27,11 @@
   -moz-border-radius:10px;
   -webkit-border-radius:10px;
   border-radius: 10px;
+<<<<<<< HEAD
   background-image: url(/uns/mobile/img/dashbord/loading3.gif);
+=======
+  background-image: url(/webui/mobile/img/dashbord/loading3.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .loading5
@@ -37,7 +41,11 @@
   left:-65px;
   width: 130px;
   height: 130px;
+<<<<<<< HEAD
   background-image: url(/uns/mobile/img/dashbord/loading5.gif);
+=======
+  background-image: url(/webui/mobile/img/dashbord/loading5.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
  
@@ -116,7 +124,11 @@ div
 	left: 10px;
 	width: 230px;
 	height: 53px;
+<<<<<<< HEAD
 	background-image:url(/uns/mobile/img/logo.png);
+=======
+	background-image:url(/webui/mobile/img/logo.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #globalTipAnchor
@@ -195,7 +207,11 @@ div
 	right:10px;
 	width:46px;
 	height: 46px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/logout.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/logout.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	z-index: 110;
 }
 
@@ -206,7 +222,11 @@ div
 	right:10px;
 	width:46px;
 	height: 46px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/logout.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/logout.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	z-index: 110;
 }
 
@@ -218,7 +238,11 @@ div
 	width: 250px;
 	height: 227px;
 	z-index: 100;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/optionArea.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/optionArea.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	display: none;
 }
 
@@ -229,7 +253,11 @@ div
 	right: 186px;
 	width: 45px;
 	height: 32px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/lang.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/lang.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #chbg
@@ -239,7 +267,11 @@ div
 	right: 175px;
 	width: 45px;
 	height: 32px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/changeBg.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/changeBg.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #chpsw
@@ -249,7 +281,11 @@ div
 	right: 115px;
 	width: 37px;
 	height: 40px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/chpsw.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/chpsw.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #logout
@@ -259,7 +295,11 @@ div
 	right: 38px;
 	width: 46px;
 	height: 46px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/logout.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/logout.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #vmAreaAnchor
@@ -306,7 +346,11 @@ div
 	left:0px;
 	width: 250px;
 	height: 250px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/vm.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/vm.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	display: inline-block;
 	margin-left: 20px;
 	margin-right: 20px;
@@ -327,7 +371,11 @@ div
 	left: 15px;
 	width:218px;
 	height: 152px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/connecting.gif);
+=======
+	background-image: url(/webui/mobile/img/dashbord/connecting.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	background-position: -8px -28px;
 	display: none;
 }
@@ -339,7 +387,11 @@ div
 	right: 20px;
 	width:20px;
 	height: 21px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/loading1.gif);
+=======
+	background-image: url(/webui/mobile/img/dashbord/loading1.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	display: none;
 }
 
@@ -350,7 +402,11 @@ div
 	left: 100px;
 	width:50px;
 	height:55px;
+<<<<<<< HEAD
 	background-image:url(/uns/mobile/img/dashbord/loginVM.png);
+=======
+	background-image:url(/webui/mobile/img/dashbord/loginVM.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .vmRoleConnecting>.connectingVm
@@ -389,7 +445,11 @@ a:active.loginVm{background-position:center 56px;}
 	right: 17px;
 	width:28px;
 	height:28px;
+<<<<<<< HEAD
 	background-image:url(/uns/mobile/img/dashbord/vmOption.png);
+=======
+	background-image:url(/webui/mobile/img/dashbord/vmOption.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	background-color: transparent;
 	border: 0px;
 }
@@ -437,7 +497,11 @@ a:active.powerSet{background-position:center 25px;}
 	left: 50px;
 	width:25px;
 	height:25px;
+<<<<<<< HEAD
 	background-image:url(/uns/mobile/img/dashbord/VNCButton.png);
+=======
+	background-image:url(/webui/mobile/img/dashbord/VNCButton.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 /* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
@@ -529,7 +593,11 @@ a:active.reboot{background-position:center 25px;}
 	width: 10px;
 	height: 10px;
 	z-index:4;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/vmTipOk.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/vmTipOk.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 /* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
@@ -620,7 +688,11 @@ a:active.reboot{background-position:center 25px;}
 	left: -247px;
 	width: 494px;
 	height: 297px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/globalConfirmBox.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/globalConfirmBox.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .globalDialogTitle
@@ -643,7 +715,11 @@ a:active.reboot{background-position:center 25px;}
 	right: 40px;
 	width: 16px;
 	height: 16px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/globalConfirmClose.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/globalConfirmClose.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 /* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
@@ -727,17 +803,29 @@ a:active.reboot{background-position:center 25px;}
 
 .globalDialogOkLink
 {
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/globalConfirmOkLink.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/globalConfirmOkLink.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .globalDialogCanncelLink
 {
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/globalConfirmCanncelLink.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/globalConfirmCanncelLink.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .globalDialogIgnoreLink
 {
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/globalConfirmIgnoreLink.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/globalConfirmIgnoreLink.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #choiceLang
@@ -749,7 +837,11 @@ a:active.reboot{background-position:center 25px;}
 {
 	height: 397px;
 	width: 532px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/bigbox.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/bigbox.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .bigGlobalDialog .globalDialogTitle
@@ -766,7 +858,11 @@ a:active.reboot{background-position:center 25px;}
 {
 	height: 275px;
 	width: 451px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/smallbox.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/smallbox.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .smallGlobalDialog .globalDialogTitle
@@ -822,7 +918,11 @@ a:active.reboot{background-position:center 25px;}
 	 left: 210px;
 	width: 74px;
 	height: 71px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/smallvm.png);
+=======
+	background-image: url(/webui/mobile/img/dashbord/smallvm.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #powerMgr .powerSelector
@@ -840,7 +940,11 @@ a:active.reboot{background-position:center 25px;}
 	left: 237px;
 	width: 20px;
 	height: 21px;
+<<<<<<< HEAD
 	background-image: url(/uns/mobile/img/dashbord/loading1.gif);
+=======
+	background-image: url(/webui/mobile/img/dashbord/loading1.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #neterror

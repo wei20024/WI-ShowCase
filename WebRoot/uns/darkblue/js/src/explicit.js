@@ -67,7 +67,11 @@ function call_back()
 		webuilog(loglevel.info,"checked os is: " + os);
 		if (os == "Windows")
 		{
+<<<<<<< HEAD
 			dowloader.find("#downloadClientButtion2").attr("href", "/plugin/AccessClient_Win.msi");
+=======
+			dowloader.find("#downloadClientButtion2").attr("href", "/plugin/WindowsClientSetup.msi");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		}
 		else if (os == "Linux")
 		{
@@ -399,7 +403,11 @@ function jump2home() {
 function judgePlatform() {
     var params = getUrlParams();
     if (params.server_port) {
+<<<<<<< HEAD
             _burl = 'https://' + params.server_port + '/uns/';
+=======
+            _burl = 'https://' + params.server_port + '/webui/';
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
         } else {
             alert("Get server address failed!");
         }

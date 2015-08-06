@@ -1660,7 +1660,11 @@ webui.objects.dashbord.actionurls = {
 	}
 	
 	// 更新虚拟机列表
+<<<<<<< HEAD
 	function tryLoop(type)
+=======
+	function tryLoop()
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	{	
 		if (inLoop == 1) return;
 		inLoop = 1;
@@ -1671,7 +1675,11 @@ webui.objects.dashbord.actionurls = {
 	        dataType : "json",
 	        contentType :"application/json",
 	        timeout: 300000,
+<<<<<<< HEAD
 	        data : JSON.stringify({queryType:type}),
+=======
+	        data : {},
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
             beforeSend: function(XMLHttpRequest){
             	XMLHttpRequest.setRequestHeader("randomTokenId",commonvar.getRandomTokenId());
 			},
@@ -1783,7 +1791,11 @@ webui.objects.dashbord.actionurls = {
 	// 开始运行虚拟机管理，主要工作为轮询后台虚拟机列表信息，处理虚拟机的增删以及状态改变
 	function begin()
 	{
+<<<<<<< HEAD
 		tryLoop(2);
+=======
+		tryLoop();
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		// 每隔3分钟调用后台虚拟机列表接口一次(不做任何处理)
 		setInterval(function(){
 			intervalVmList();
@@ -2012,7 +2024,11 @@ webui.objects.dashbord.actionurls = {
 		console.log("checked os is" , os);
 		if (os == "Windows")
 		{
+<<<<<<< HEAD
 			$("#downLoadR5").attr("href", "/plugin/AccessClient_Win.msi");
+=======
+			$("#downLoadR5").attr("href", "/plugin/WindowsClientSetup.msi");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			$("#downLoadR2").attr("href", "/plugin/Clients/huaweiDesktop.exe");
 		}
 		else if (os == "Linux")
@@ -2659,6 +2675,26 @@ webui.objects.dashbord.actionurls = {
 	        }
     	});		
 		
+<<<<<<< HEAD
+=======
+		// 保持每3秒鼠标活动次数信息，以及判断是否5分钟鼠标没有动，没动就注销
+		var lastTim = (new Date()).getTime();
+		$(document).mousemove(function(){mousemovePerSecTemp++; });
+		setInterval(function(){
+			mousemovePerSec = mousemovePerSecTemp; mousemovePerSecTemp = 0;
+			
+			if (mousemovePerSec > 0)
+			{
+				lastTim = (new Date()).getTime();
+			}
+			
+			if ((new Date()).getTime() - lastTim > webui.system.timout) // 5分钟没有鼠标活动退出
+			{
+				logout();
+			}
+		}, 3000);
+		
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		// 获取property的值
 		commonvar.getConfigInfo(call_back);
 

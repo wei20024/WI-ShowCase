@@ -1,6 +1,10 @@
 	
 	<div id="loadingpanel">
+<<<<<<< HEAD
     	<img src="/uns/default/img/loading.gif">
+=======
+    	<img src="/webui/default/img/loading.gif">
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
     </div>
 	
 	<div id="addiv">

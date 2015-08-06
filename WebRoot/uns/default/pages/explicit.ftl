@@ -44,6 +44,10 @@
     
     <!-- 广告宣传图片 -->
     <#include "advice.ftl">
+<<<<<<< HEAD
     
     <!-- 语言修改  -->
     <#include "changelanguage.ftl">
+=======
+
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7

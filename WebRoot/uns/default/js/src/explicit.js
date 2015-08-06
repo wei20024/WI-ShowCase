@@ -255,7 +255,11 @@ $(document).ready(function(){
 		//去掉联机帮助图标
 		$("#onlinehelpimg").hide();
 		$("#mobileConfirmSuccess").hide();
+<<<<<<< HEAD
 		$("#ad").attr("src","/uns/default/img/ad1.png");
+=======
+		$("#ad").attr("src","/webui/default/img/ad1.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		
 		//国际化
 		$("#checkboxText").text(Login.getString("rememberpwd"))
@@ -317,8 +321,11 @@ function keyDownFun()
 
 function call_back()
 {
+<<<<<<< HEAD
 	//把运行模式保存到Cookie中
 	commonvar.setCookieByProtocol("runMode", webui.system.config.runningMode);
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	if (webui.system.config.desktopLock == 1)
 	{
 		$("#onlinehelpimg").hide();
@@ -341,7 +348,11 @@ function call_back()
 		webuilog(loglevel.info,"checked os is: " + os);
 		if (os == "Windows")
 		{
+<<<<<<< HEAD
 			dowloader.find("#downloadClientButtion2").attr("href", "/plugin/AccessClient_Win.msi");
+=======
+			dowloader.find("#downloadClientButtion2").attr("href", "/plugin/WindowsClientSetup.msi");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		}
 		else if (os == "Linux")
 		{
@@ -469,10 +480,17 @@ function initLoginInfo()
 			$("#userName").val("");
 			document.getElementById('userName').focus();
 			$("#userName").focus(function(){
+<<<<<<< HEAD
   								$("#uNameImg").attr("src","/uns/default/img/inputfocus.png");
 								$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
 						}).blur(function(){
   								$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+  								$("#uNameImg").attr("src","/webui/default/img/inputfocus.png");
+								$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+						}).blur(function(){
+  								$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 						});
 			
 			editshow=true;
@@ -481,10 +499,17 @@ function initLoginInfo()
 								{
 									$("#userPass").val("");
 								}
+<<<<<<< HEAD
   								$("#passImg").attr("src","/uns/default/img/inputfocus.png");
 								$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
 						}).blur(function(){
   								$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+  								$("#passImg").attr("src","/webui/default/img/inputfocus.png");
+								$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+						}).blur(function(){
+  								$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 						});	
 
 			$("#uNameLabel").hide();	
@@ -505,10 +530,17 @@ function initLoginInfo()
 								{
 									$("#userPass").val("");
 								}
+<<<<<<< HEAD
   								$("#passImg").attr("src","/uns/default/img/inputfocus.png");
 								$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
 						}).blur(function(){
   								$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+  								$("#passImg").attr("src","/webui/default/img/inputfocus.png");
+								$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+						}).blur(function(){
+  								$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 						});	
 			
 			//用户名编辑按钮事件
@@ -517,10 +549,17 @@ function initLoginInfo()
 				$("#userName").val($("#userNameLb").text());
 				document.getElementById('userName').focus();
 				$("#userName").focus(function(){
+<<<<<<< HEAD
   								$("#uNameImg").attr("src","/uns/default/img/inputfocus.png");
 								$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
 						}).select().blur(function(){
   								$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+  								$("#uNameImg").attr("src","/webui/default/img/inputfocus.png");
+								$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+						}).select().blur(function(){
+  								$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 								});			
 				editshow=true;
 					
@@ -630,10 +669,17 @@ function autodologin(username, password, macs)
 		$("#userName").val("");
 		document.getElementById('userName').focus();
 		$("#userName").focus(function(){
+<<<<<<< HEAD
 								$("#uNameImg").attr("src","/uns/default/img/inputfocus.png");
 							$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
 					}).blur(function(){
 								$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+								$("#uNameImg").attr("src","/webui/default/img/inputfocus.png");
+							$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+					}).blur(function(){
+								$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 					});
 		
 		editshow=true;
@@ -642,10 +688,17 @@ function autodologin(username, password, macs)
 							{
 								$("#userPass").val("");
 							}
+<<<<<<< HEAD
 								$("#passImg").attr("src","/uns/default/img/inputfocus.png");
 							$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
 					}).blur(function(){
 								$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+								$("#passImg").attr("src","/webui/default/img/inputfocus.png");
+							$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+					}).blur(function(){
+								$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 					});	
 
 		$("#uNameLabel").hide();	
@@ -724,7 +777,11 @@ function doLogin() {
             webui.explicit.unicom.remberLogin();
             
 			var loginRsp=msg;
+<<<<<<< HEAD
 			 if (loginRsp.resultCode == ResultCode.code.OPERATE_SUCCESS || loginRsp.resultCode == ResultCode.code.SUCCESS) {
+=======
+			 if (loginRsp.resultCode == ResultCode.code.OPERATE_SUCCESS) {
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			   		clientTicket = loginRsp.loginState;
 					commonvar.setCookieByProtocol("userName",uname);
 			   		jump2home();
@@ -917,14 +974,22 @@ function checkParam()
 	{
 		errorLabel.text(Login.getString("userNameNotNull"));	
 		showErrorLabel(1);
+<<<<<<< HEAD
   		$("#uNameImg").attr("src","/uns/default/img/inputerror.png");
+=======
+  		$("#uNameImg").attr("src","/webui/default/img/inputerror.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		flag = false;
 	}
 	else if(!checkPass())
 	{
 		errorLabel.text(Login.getString("pwdNotNull"));
 		showErrorLabel(1);
+<<<<<<< HEAD
 		$("#passImg").attr("src","/uns/default/img/inputerror.png");
+=======
+		$("#passImg").attr("src","/webui/default/img/inputerror.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		flag = false;
 	}
 	else 
@@ -951,7 +1016,11 @@ function jump2home() {
 function judgePlatform() {
     var params = getUrlParams();
     if (params.server_port) {
+<<<<<<< HEAD
             _burl = 'https://' + params.server_port + '/uns/';
+=======
+            _burl = 'https://' + params.server_port + '/webui/';
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
         } else {
             alert("Get server address failed!");
         }

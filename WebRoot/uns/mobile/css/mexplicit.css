@@ -165,7 +165,11 @@ body, html /*保证整体页面不出现超出或者不满屏等奇怪问题*/
 	.loadingImg
 	{
 		position: absolute;
+<<<<<<< HEAD
 		background-image: url(/uns/mobile/img/ajax-loader.gif);
+=======
+		background-image: url(/webui/mobile/img/ajax-loader.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		background-position: 77px 10px;
 		background-repeat: no-repeat;
 		width: 200px;

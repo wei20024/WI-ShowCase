@@ -58,7 +58,10 @@ body{
 	background-image: url(../images/welcome.png);
 	background-repeat: no-repeat;
 	position: relative;
+<<<<<<< HEAD
 	background-color: #000000;
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 .index .table{
 	height: 118px;

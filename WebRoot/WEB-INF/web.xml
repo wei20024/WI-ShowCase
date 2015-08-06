@@ -132,6 +132,7 @@
 		<servlet-name>LauncherIcaServlet</servlet-name>
 		<url-pattern>/launch.ica</url-pattern>
 	</servlet-mapping>
+<<<<<<< HEAD
 	
 	<servlet>
 		<servlet-name>clientdownload</servlet-name>	
@@ -142,11 +143,15 @@
 		<url-pattern>/clientdownload</url-pattern>
 	</servlet-mapping>
 	
+=======
+
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	<servlet-mapping>
 		<servlet-name>CXFServlet</servlet-name>
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
 	<session-config>
+<<<<<<< HEAD
 		<session-timeout>5</session-timeout>
 	</session-config>
  
@@ -160,6 +165,10 @@
     <servlet-name>TokenLoginServlet</servlet-name>
     <url-pattern>/servlet/TokenLoginServlet</url-pattern>
   </servlet-mapping>
+=======
+		<session-timeout>30</session-timeout>
+	</session-config>
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	
   <display-name></display-name>	
   <welcome-file-list>

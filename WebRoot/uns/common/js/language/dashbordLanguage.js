@@ -40,9 +40,15 @@ webui.service.languageService.loadText({
 		'globalConfirmOkLinkuns': 'globalConfirmOkLinkzh',
 		'globalConfirmCanncelLinkuns': 'globalConfirmCanncelLinkzh',
 		'globalConfirmIgnoreLinkuns': 'globalConfirmIgnoreLinkzh',
+<<<<<<< HEAD
 		'globalConfirmOkLink': '/uns/default/img/dashbord/globalConfirmOkLinkzh',
 		'globalConfirmCanncelLink': '/uns/default/img/dashbord/globalConfirmCanncelLinkzh',
 		'globalConfirmIgnoreLink': '/uns/default/img/dashbord/globalConfirmIgnoreLinkzh',
+=======
+		'globalConfirmOkLink': '/webui/default/img/dashbord/globalConfirmOkLinkzh',
+		'globalConfirmCanncelLink': '/webui/default/img/dashbord/globalConfirmCanncelLinkzh',
+		'globalConfirmIgnoreLink': '/webui/default/img/dashbord/globalConfirmIgnoreLinkzh',
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		'Logout': '注销',
 		'Self-service': '自助维护',
 		'Reboot': '重启',
@@ -155,6 +161,7 @@ webui.service.languageService.loadText({
 		'17000003':'重启share模式虚拟机时，没有检测到用户登录。',
 		'17000004':'重启时根据虚拟机名没有找到对应的虚拟机。',
 		'Connect Error':'尝试访问请求的资源出错',
+<<<<<<< HEAD
 		'Query VM state error':'查询虚拟机状态出错。',
 		'Login Foebidden Timeaccesscontrol':'当前时间段无法登录',
 		'my desktop':'我的桌面',
@@ -178,6 +185,9 @@ webui.service.languageService.loadText({
 		'Click download':'下 载',
 		"download limit tip":'当前下载人数已经超过上限，请稍候点击页面上方链接升级',
 		'410204':'应用服务器准备中，请稍候重试'
+=======
+		'Query VM state error':'查询虚拟机状态出错。'
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	}, 
 	'en':
 	{
@@ -218,9 +228,15 @@ webui.service.languageService.loadText({
 		'globalConfirmOkLinkuns': 'globalConfirmOkLink',
 		'globalConfirmCanncelLinkuns': 'globalConfirmCanncelLink',
 		'globalConfirmIgnoreLinkuns': 'globalConfirmIgnoreLink',
+<<<<<<< HEAD
 		'globalConfirmOkLink': '/uns/default/img/dashbord/globalConfirmOkLink',
 		'globalConfirmCanncelLink': '/uns/default/img/dashbord/globalConfirmCanncelLink',
 		'globalConfirmIgnoreLink': '/uns/default/img/dashbord/globalConfirmIgnoreLink',
+=======
+		'globalConfirmOkLink': '/webui/default/img/dashbord/globalConfirmOkLink',
+		'globalConfirmCanncelLink': '/webui/default/img/dashbord/globalConfirmCanncelLink',
+		'globalConfirmIgnoreLink': '/webui/default/img/dashbord/globalConfirmIgnoreLink',
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		'Logout': 'Logout',
 		'VNCGateway Invalid':'The self-help console function is disabled. Please contact the administrator.',
 		'timeStampError':'The time on your desktop is not correctly configured. Please use the self-help console for diagnosis or contact the administrator.',
@@ -336,6 +352,7 @@ webui.service.languageService.loadText({
 		'17000003':'Fail to reboot, please ensure you had been login the computer.',
 		'17000004':'Fail to reboot the computer! For more infomation, please contact the administrator.',
 		'Connect Error':'An error occurred while trying to access the requested resource.',
+<<<<<<< HEAD
 		'Query VM state error':'Query vm state error',
 		'my desktop':'My Desktop',
 		'my application':'Common APPs',
@@ -359,6 +376,9 @@ webui.service.languageService.loadText({
 		"download limit tip":'The current number of downloading people has exceeded the limit. Please wait and click the link above later.',
 		'410204':'The application server is getting ready. Please try again later.'
 			
+=======
+		'Query VM state error':'Query vm state error'
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	},
 	'ar':
 	{
@@ -387,9 +407,15 @@ webui.service.languageService.loadText({
 		'InMaintenanceMode Restart Tip': 'جهاز سطح المكتب الذي تحاول إعادة تشغيله قيد الصيانة حاليًا. يرجى المحاولة مرة أخرى لاحقًا أو الاتصال بمسؤول النظام.',
 		'InMaintenanceMode Connect Tip': 'جهاز سطح المكتب الذي تحاول الاتصال به قيد الصيانة حاليًا. يرجى المحاولة مرة أخرى لاحقًا أو الاتصال بمسؤول النظام.',
 		'Confirm force reboot?': 'هل تريد فرض إعادة تشغيل VM؟',
+<<<<<<< HEAD
 		'globalConfirmOkLink': '/uns/arabic/img/globalConfirmOkLinkar',
 		'globalConfirmCanncelLink': '/uns/arabic/img/globalConfirmCanncelLinkar',
 		'globalConfirmIgnoreLink': '/uns/arabic/img/globalConfirmIgnoreLinkar',
+=======
+		'globalConfirmOkLink': '/webui/arabic/img/globalConfirmOkLinkar',
+		'globalConfirmCanncelLink': '/webui/arabic/img/globalConfirmCanncelLinkar',
+		'globalConfirmIgnoreLink': '/webui/arabic/img/globalConfirmIgnoreLinkar',
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		'Logout': 'تسجيل الخروج',
 		'VNCGateway Invalid':'تم تعطيل وظيفة وحدة المساعدة الذاتية. يرجى الاتصال بالمسؤول .',
 		'timeStampError':'لم يتم ضبط الوقت في جهاز سطح المكتب الخاص بك بشكل صحيح. يرجى استخدام وحدة المساعدة الذاتية للتشخيص أو الاتصال بالمسؤول .',
@@ -448,6 +474,7 @@ webui.service.languageService.loadText({
 		'Network Error': 'خطأ في الشبكة.',
 		'Download2':'انقر هنا',
 		'chrome download tip':'لتثبيت أو ترقية client plug-in ,',
+<<<<<<< HEAD
 		'noAuthen':'اسم المستخدم أو كلمة المرور غير صحيحة.',
 		'Login Foebidden Timeaccesscontrol':'Current time period can not log in.',
 		'my desktop':'My Desktop',
@@ -471,5 +498,8 @@ webui.service.languageService.loadText({
 		'Click download':'Download',
 		"download limit tip":'The current number of downloading people have exceeded the limit. Please wait and try to click the link above later.',
 		'410204':'Application server preparation, Please try again later'
+=======
+		'noAuthen':'اسم المستخدم أو كلمة المرور غير صحيحة.'
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	}
 });

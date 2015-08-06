@@ -27,7 +27,11 @@
   -moz-border-radius:10px;
   -webkit-border-radius:10px;
   border-radius: 10px;
+<<<<<<< HEAD
   background-image: url(/uns/default/img/dashbord/loading3.gif);
+=======
+  background-image: url(/webui/default/img/dashbord/loading3.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .loading5
@@ -37,7 +41,11 @@
   left:-65px;
   width: 130px;
   height: 130px;
+<<<<<<< HEAD
   background-image: url(/uns/default/img/dashbord/loading5.gif);
+=======
+  background-image: url(/webui/default/img/dashbord/loading5.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
  
@@ -128,7 +136,11 @@ div
 #globalTipArea
 {
 	position: absolute;
+<<<<<<< HEAD
 	top: 35px;
+=======
+	top: 50px;
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	left: -30%;
 	width: 100%;
 	height: 20px;
@@ -198,7 +210,11 @@ div
 	right:75px;
 	width:46px;
 	height: 46px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/gear.png);
+=======
+	background-image: url(/webui/default/img/dashbord/gear.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	z-index: 110;
 }
 
@@ -210,7 +226,11 @@ div
 	width: 250px;
 	height: 227px;
 	z-index: 100;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/optionArea.png);
+=======
+	background-image: url(/webui/default/img/dashbord/optionArea.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	display: none;
 }
 
@@ -231,7 +251,11 @@ div
 	right: 175px;
 	width: 45px;
 	height: 32px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/changeBg.png);
+=======
+	background-image: url(/webui/default/img/dashbord/changeBg.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #chpsw
@@ -241,7 +265,11 @@ div
 	right: 115px;
 	width: 37px;
 	height: 40px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/chpsw.png);
+=======
+	background-image: url(/webui/default/img/dashbord/chpsw.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #logout
@@ -251,7 +279,11 @@ div
 	right: 38px;
 	width: 46px;
 	height: 46px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/logout.png);
+=======
+	background-image: url(/webui/default/img/dashbord/logout.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #vmAreaAnchor
@@ -297,7 +329,11 @@ div
 	left:0px;
 	width: 250px;
 	height: 250px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/vm.png);
+=======
+	background-image: url(/webui/default/img/dashbord/vm.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	/*display:-moz-inline-stack !important; // for firefox 3*/
 	display: inline-block;
 	margin-left: 20px;
@@ -319,7 +355,11 @@ div
 	left: 15px;
 	width:218px;
 	height: 152px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/connecting.gif);
+=======
+	background-image: url(/webui/default/img/dashbord/connecting.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	background-position: -8px -28px;
 	display: none;
 }
@@ -331,7 +371,11 @@ div
 	right: 20px;
 	width:20px;
 	height: 21px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/loading1.gif);
+=======
+	background-image: url(/webui/default/img/dashbord/loading1.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	display: none;
 }
 
@@ -342,7 +386,11 @@ div
 	left: 100px;
 	width:50px;
 	height:55px;
+<<<<<<< HEAD
 	background-image:url(/uns/default/img/dashbord/loginVM.png);
+=======
+	background-image:url(/webui/default/img/dashbord/loginVM.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .vmRoleConnecting>.connectingVm
@@ -381,7 +429,11 @@ a:active.loginVm{background-position:center 56px;}
 	right: 17px;
 	width:28px;
 	height:28px;
+<<<<<<< HEAD
 	background-image:url(/uns/default/img/dashbord/vmOption.png);
+=======
+	background-image:url(/webui/default/img/dashbord/vmOption.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	background-color: transparent;
 	border: 0px;
 }
@@ -397,7 +449,11 @@ a:active.vmOption{background-position:center 28px;}
 	right: 0px;
 	width: 154px;
 	height: 51px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/vmOptionPannel.png);
+=======
+	background-image: url(/webui/default/img/dashbord/vmOptionPannel.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	display: none;
 }
 
@@ -408,7 +464,11 @@ a:active.vmOption{background-position:center 28px;}
 	left: 15px;
 	width:25px;
 	height:25px;
+<<<<<<< HEAD
 	background-image:url(/uns/default/img/dashbord/PowerButton.png);
+=======
+	background-image:url(/webui/default/img/dashbord/PowerButton.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 /* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
 a:link.powerSet{background-position:center 0px;}
@@ -423,7 +483,11 @@ a:active.powerSet{background-position:center 25px;}
 	left: 50px;
 	width:25px;
 	height:25px;
+<<<<<<< HEAD
 	background-image:url(/uns/default/img/dashbord/VNCButton.png);
+=======
+	background-image:url(/webui/default/img/dashbord/VNCButton.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 /* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
@@ -439,7 +503,11 @@ a:active.loginVnc{background-position:center 25px;}
 	left: 85px;
 	width:25px;
 	height:25px;
+<<<<<<< HEAD
 	background-image:url(/uns/default/img/dashbord/rebootButton.png);
+=======
+	background-image:url(/webui/default/img/dashbord/rebootButton.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 /* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
@@ -455,7 +523,11 @@ a:active.reboot{background-position:center 25px;}
 	left: 120px;
 	width:25px;
 	height:25px;
+<<<<<<< HEAD
 	background-image:url(/uns/default/img/dashbord/forceRebootButton.png);
+=======
+	background-image:url(/webui/default/img/dashbord/forceRebootButton.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	background-color: transparent;
 	border: 0px;
 }
@@ -510,7 +582,11 @@ a:active.reboot{background-position:center 25px;}
 	width: 10px;
 	height: 10px;
 	z-index:4;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/vmTipOk.png);
+=======
+	background-image: url(/webui/default/img/dashbord/vmTipOk.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 /* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
@@ -603,7 +679,11 @@ a:active.reboot{background-position:center 25px;}
 	left: -247px;
 	width: 494px;
 	height: 297px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/globalConfirmBox.png);
+=======
+	background-image: url(/webui/default/img/dashbord/globalConfirmBox.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .globalDialogTitle
@@ -626,7 +706,11 @@ a:active.reboot{background-position:center 25px;}
 	right: 40px;
 	width: 16px;
 	height: 16px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/globalConfirmClose.png);
+=======
+	background-image: url(/webui/default/img/dashbord/globalConfirmClose.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 /* 注意a标签的伪类要按照LoVe/HAte的顺序定义，否则匹配顺序不合逻辑*/
@@ -719,17 +803,29 @@ a:active.reboot{background-position:center 25px;}
 
 .globalDialogOkLink
 {
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/globalConfirmOkLink.png);
+=======
+	background-image: url(/webui/default/img/dashbord/globalConfirmOkLink.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .globalDialogCanncelLink
 {
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/globalConfirmCanncelLink.png);
+=======
+	background-image: url(/webui/default/img/dashbord/globalConfirmCanncelLink.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .globalDialogIgnoreLink
 {
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/globalConfirmIgnoreLink.png);
+=======
+	background-image: url(/webui/default/img/dashbord/globalConfirmIgnoreLink.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #choiceLang
@@ -741,7 +837,11 @@ a:active.reboot{background-position:center 25px;}
 {
 	height: 397px;
 	width: 532px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/bigbox.png);
+=======
+	background-image: url(/webui/default/img/dashbord/bigbox.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .bigGlobalDialog .globalDialogTitle
@@ -758,7 +858,11 @@ a:active.reboot{background-position:center 25px;}
 {
 	height: 275px;
 	width: 451px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/smallbox.png);
+=======
+	background-image: url(/webui/default/img/dashbord/smallbox.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .smallGlobalDialog .globalDialogTitle
@@ -832,7 +936,11 @@ a:active.reboot{background-position:center 25px;}
 	left: 237px;
 	width: 20px;
 	height: 21px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/dashbord/loading1.gif);
+=======
+	background-image: url(/webui/default/img/dashbord/loading1.gif);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 #neterror
@@ -901,18 +1009,27 @@ div.HiddenDiv
 .chromeDownloadTip
 {
 	position: absolute;
+<<<<<<< HEAD
 	top: 30px;
+=======
+	top: 50px;
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 }
 
 .yellowicon
 {
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/yellowicon.png);
+=======
+	background-image: url(/webui/default/img/yellowicon.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	position: absolute;
 	width: 20px;
 	height: 20px;
 	background-repeat: no-repeat;
 	left: -20px;
 }
+<<<<<<< HEAD
 
 .clientTip
 {
@@ -1422,3 +1539,5 @@ div.HiddenDiv
   	color: #414141;
   	line-height: 29px;
 }
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7

@@ -41,15 +41,23 @@ webui.system.desktopList=[];
 	//虚拟机状态查询时间间隔
 	webui.system.connectVmTimeout = 300000;
 	//客户端最低版本
+<<<<<<< HEAD
 	webui.system.clientVersion = '1.5.30.0';
 	
 	//mac客户端最低版本
 	webui.system.macClientVersion = '1.5.30.100';
+=======
+	webui.system.clientVersion = '1.5.20.100';
+	
+	//mac客户端最低版本
+	webui.system.macClientVersion = '1.5.20.100';
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	
 	//android应用下载链接
 	webui.system.androidTcDownloadUrl = 'http://'+window.location.hostname + '/plugin/aHDPtc.apk';
 	webui.system.androidDownloadUrl = 'http://'+window.location.hostname + '/plugin/aHDP.apk';
 	webui.system.iosDownloadUrl = 'http://itunes.apple.com/app/id852085857';
+<<<<<<< HEAD
 	webui.system.windowsClientDownloadUrl = 'AccessClient_Win.msi';
 	webui.system.macClientDownloadUrl = '/plugin/fusionaccess_mac.dmg';
 	webui.system.unknowAccessDownloadUrl = '/uns/common/pages/download.html';
@@ -60,6 +68,15 @@ webui.system.desktopList=[];
 	//只有应用时，默认显示在常用应用页签 myAppList: 常用应用， allAppList: 所有应用
 	webui.system.defaultTab = "myAppList";
 	
+=======
+	webui.system.windowsClientDownloadUrl = '/plugin/WindowsClientSetup.msi';
+	webui.system.macClientDownloadUrl = '/plugin/FusionAccessMac.zip';
+	webui.system.unknowAccessDownloadUrl = '/webui/common/pages/download.html';
+	webui.system.linuxClientDownloadUrl = '/plugin/LinuxClientSetupX86.bin';
+
+	webui.system.systemCode = "string1234567";	
+	
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 
 webui.system.config={
 		retryConnectVNCCount:0, 		//WI尝试连接VNC次数
@@ -73,6 +90,7 @@ webui.system.config={
 		isEmergencyLogon:0,
 		multidomainconfig:"",
 		explicitcercrl:"false",   //双向认证
+<<<<<<< HEAD
 		androidClientVersion:'1.5.10007', //android移动客户端最低版本
 		forceAndroidVersion:'0.0.0',
 		iosClientVersion:'1.5.10007', //ios移动客户端最低版本
@@ -83,6 +101,17 @@ webui.system.config={
 		clientAuth:0,
 		configFlag:0,
 		vmNameType:0
+=======
+		androidClientVersion:'1.5.10005', //android移动客户端最低版本
+		forceAndroidVersion:'0.0.0',
+		iosClientVersion:'1.5.10006', //ios移动客户端最低版本
+		forceIosVersion:'0.0.0',
+		androidTcClientVersion:'1.0.0', //androidTc移动客户端最低版本
+		forceAndroidTcVersion:'0.0.0',	
+		setBgImgFull:0,
+		clientAuth:0,
+		configFlag:0
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 };
 
 /**

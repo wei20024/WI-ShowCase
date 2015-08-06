@@ -364,6 +364,18 @@ a:visited#btnEditName{background-position:center 0px;}
 	height:45px;
 	z-index:2;
 }
+<<<<<<< HEAD
+=======
+#resetPwdBtnDiv
+{
+	position:absolute;	
+	left: 325px;
+  	top: 185px;
+	width:130px;
+	height:45px;
+	z-index:2;
+}
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 #loginBtn
 {
 	position:absolute;

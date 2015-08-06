@@ -6,6 +6,10 @@
 	right:33px;
 	height:32px;
 	width:36px;
+<<<<<<< HEAD
 	background-image: url(/uns/default/img/help.png);
+=======
+	background-image: url(/webui/default/img/help.png);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	z-index: 110;
 }

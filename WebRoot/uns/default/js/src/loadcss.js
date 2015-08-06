@@ -65,11 +65,19 @@ var commomMethod = {
 			css = $("link").last();
 			if(this.languageType == 'ar')
 			{	
+<<<<<<< HEAD
 				file = "/uns/arabic/css/" + file;
 			}
 			else
 			{
 				file = "/uns/default/css/" + file;		
+=======
+				file = "/webui/arabic/css/" + file;
+			}
+			else
+			{
+				file = "/webui/default/css/" + file;		
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			}
 			eval("css.attr({ rel: 'stylesheet',type: 'text/css', href:'" + file +"'})");
 		},
@@ -80,11 +88,19 @@ var commomMethod = {
 			css = $("link").last();
 			if(this.languageType == 'ar')
 			{	
+<<<<<<< HEAD
 				file = "/uns/arabic/css/" + file;
 			}
 			else
 			{
 				file = "/uns/default/css/" + file;		
+=======
+				file = "/webui/arabic/css/" + file;
+			}
+			else
+			{
+				file = "/webui/default/css/" + file;		
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			}
 			eval("css.attr({ rel: 'stylesheet',type: 'text/css', href:'" + file +"'})");
 		},

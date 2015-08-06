@@ -5,25 +5,43 @@
 	    <script type="text/javascript" src="/uns/default/js/src/changepassword.js"></script>	
 
 		<div id="passExpired" style="display:none;">
+<<<<<<< HEAD
 			<img id="alertBg" src="/uns/default/img/smallframe.png">	
 			<label id="alertTitle"></label>		
 			<img id="alertIcon" src="/uns/default/img/error.png">
+=======
+			<img id="alertBg" src="/webui/default/img/smallframe.png">	
+			<label id="alertTitle"></label>		
+			<img id="alertIcon" src="/webui/default/img/error.png">
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			<label id="alertText"></label>			
 			<a id="confirmMod" class="btnA" href="javascript:void(0);" onmouseup="this.blur()" hidefocus="true" tabindex="1"></a>
 	  		<a id="cancelMod" class="btnA" href="javascript:void(0);" onmouseup="this.blur()" hidefocus="true" tabindex="2"></a>			
 		</div>
 			
 		<div id="modifyPasswordDiv" style="display:none;">
+<<<<<<< HEAD
 			<img id="modBg" src="/uns/default/img/largeframe.png">
 			<label id="modTitle">修改密码</label>
 			<div id="modifyInputDiv" class="modifyClass">				
 				<div id="errorModifyDiv">
 					<img id="errorDivImg" src="/uns/default/img/bubbleerror.png">
+=======
+			<img id="modBg" src="/webui/default/img/largeframe.png">
+			<label id="modTitle">修改密码</label>
+			<div id="modifyInputDiv" class="modifyClass">				
+				<div id="errorModifyDiv">
+					<img id="errorDivImg" src="/webui/default/img/bubbleerror.png">
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 					<label id="errorDivLB">用户名错误</label>
 				</div>	
 				<div id="usernameDIV" class="divClass">
 					<label id="usernameLb" class="labelClass">用户名：</label>
+<<<<<<< HEAD
 					<input type="text" id="usernameInput" class="inputClass" tabindex="3"  readonly="readonly"/>
+=======
+					<input type="text" id="usernameInput" class="inputClass" tabindex="3"/>
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 				</div>	
 				<div id="oldPassDIV" class="divClass">
 					<label id="oldPassLb" class="labelClass">旧密码：</label>
@@ -45,12 +63,20 @@
 				</div>
 			</div>
 			<div id="modifySuccessDiv" class="modifyClass">
+<<<<<<< HEAD
 				<img id="successImg" src="/uns/default/img/successicon.png">
+=======
+				<img id="successImg" src="/webui/default/img/successicon.png">
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 				<label id="successLB1">恭喜您！新密码设置成功！</label>
 				<label id="successLB2">今后将使用新密码登录系统，请牢记！</label>
 				<a id="successA" href="javascript:void(0);" onmouseup="this.blur()" hidefocus="true" tabindex="9">点击跳转到主页面</a>
 			</div>
 			<div id="loadingpanel">
+<<<<<<< HEAD
     			<img src="/uns/default/img/Loader.gif">
+=======
+    			<img src="/webui/default/img/Loader.gif">
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
    			 </div>
 		</div>

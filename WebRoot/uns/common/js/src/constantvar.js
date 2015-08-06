@@ -11,7 +11,13 @@ var loglevel={
 	error:4,
 	fatal:5
 };
+<<<<<<< HEAD
 
+=======
+$.ajaxSetup({
+  timeout:120000
+});
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 function initLog()
 {
 	if(consoleVisible=="1")
@@ -99,6 +105,10 @@ var commonvar={
 	languageType:"zh",
 	init:function()
 	{
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		this.baseUrl=window.location.protocol+"//"+window.location.host+"/";
 		this.serviceUrl = {
 				
@@ -131,10 +141,13 @@ var commonvar={
 				getVMsPowerSet: this.baseUrl+"services/desktop/getvmspowerset" + "?" + Math.random(), // input: id:sid, vmDomain, computerName, dgName; output: {resultCode,errorMessage, customVMUserPolicy}
 				setVMsPowerSet: this.baseUrl+"services/desktop/setvmspowerset" + "?" + Math.random(), // input: id:sid, domain, computerName, dgName, customVMUserPolicy; output: {resultCode,errorMessage}
 				errorPage403:this.baseUrl+"uns/common/error/error403.jsp",
+<<<<<<< HEAD
 				getAppIcon: this.baseUrl+"services/desktop/getAppIcon" + "?" + Math.random(),
 				dealFavoriteApp: this.baseUrl+"services/desktop/dealFavoriteApp" + "?" + Math.random(),
 				getAppLoginInfo: this.baseUrl+"services/desktop/getApploginInfo" + "?" + Math.random(),
 				clientDownload: this.baseUrl+"clientdownload",
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 				getConfigInfo: this.baseUrl+ + "services/desktop/getconfiginfo"
 		};
 		this.getLangType();
@@ -143,6 +156,7 @@ var commonvar={
 		
 		//判断是否需要加载插件
 		this.setHdpPluginLoad();
+<<<<<<< HEAD
 		
         $.ajaxSetup({
             timeout: 120000,
@@ -154,16 +168,29 @@ var commonvar={
                 }
             }
         });
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	},
 	
 	//启动日志
 	startlog:function()
 	{
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		log = log4javascript.getLogger("main");
 		appender = new log4javascript.PopUpAppender();		
 		log.addAppender(appender);
 		log.debug("start webui page log console");
+<<<<<<< HEAD
 
+=======
+	
+	
+	
+	
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	if (!consoleVisible) {
 		appender.hide();				
 	} else {
@@ -250,7 +277,11 @@ var commonvar={
 	//设置个人语言信息
 	setCookieLang:function(langType)
 	{
+<<<<<<< HEAD
 		commonvar.setCookieByProtocol("webuiLangType", langType);
+=======
+		$.cookie("webuiLangType", langType, {expires:365,path:'/'});
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	},
 	//跳转到主页面
 	jump2home:function() 
@@ -404,7 +435,11 @@ var commonvar={
 	        dataType : "json",
 	        contentType :"application/json",
 	        data : JSON.stringify({
+<<<<<<< HEAD
 	        	"configReq":["dynamicPassword.SMSOTPAuth","retryConnectVNCCount","retryConnectCount","runningMode","autoConnectVm","desktopLock","dynamicPassword.2FactorAuth","clientAuth","vmNameType"]
+=======
+	        	"configReq":["dynamicPassword.SMSOTPAuth","retryConnectVNCCount","retryConnectCount","runningMode","autoConnectVm","desktopLock","dynamicPassword.2FactorAuth","clientAuth"]
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	        }),
 	        timeout: 300000,
 	        success : function(msg) {
@@ -479,10 +514,13 @@ var commonvar={
 		{
 			return "chrome";
 		}
+<<<<<<< HEAD
         else if (navigator.userAgent.indexOf("CloudClient") > 0)
 		{
             return "cloudclient";
 		}
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		else
 		{
 			return "other";
@@ -496,11 +534,19 @@ var commonvar={
 		css = $("link").last();
 		if(commonvar.languageType == 'ar')
 		{	
+<<<<<<< HEAD
 			file = "/uns/default/css/arabic/" + file;
 		}
 		else
 		{
 			file = "/uns/default/css/" + file;		
+=======
+			file = "/webui/default/css/arabic/" + file;
+		}
+		else
+		{
+			file = "/webui/default/css/" + file;		
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		}
 		eval("css.attr({ rel: 'stylesheet',type: 'text/css', href:'" + file +"'})");
 	},
@@ -619,11 +665,19 @@ function openWin()
 	
 	if(commonvar.languageType == 'zh')
 	{
+<<<<<<< HEAD
 		window.open("/onlinehelp/zh/index.html","","width=" + width +",height=" + heigh + ",top=" + top +",left=" + left + ",right=" + right + ",toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no");
 	}
 	else
 	{
 		window.open("/onlinehelp/en/index.html","","width=" + width +",height=" + heigh + ",top=" + top +",left=" + left + ",right=" + right + ",toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no");
+=======
+		window.open("/uns/common/onlinehelp/zh/index.html","","width=" + width +",height=" + heigh + ",top=" + top +",left=" + left + ",right=" + right + ",toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no");
+	}
+	else
+	{
+		window.open("/uns/common/onlinehelp/en/index.html","","width=" + width +",height=" + heigh + ",top=" + top +",left=" + left + ",right=" + right + ",toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	}
 	
 };
@@ -652,6 +706,7 @@ var HtmlUtil = {
 		return output;
 	}
 };
+<<<<<<< HEAD
 var wiJsVersion = "R5C20";
 
 // 构造语言选择对象
@@ -695,3 +750,6 @@ var wiJsVersion = "R5C20";
 		show: show
 	};
 })();
+=======
+var wiJsVersion = "R5C20";
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7

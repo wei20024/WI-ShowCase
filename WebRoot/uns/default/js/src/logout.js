@@ -14,7 +14,10 @@ $(document).ready(function(){
 	$("#loadingpanel").show();
 	$("#errorPanel").hide();
 	
+<<<<<<< HEAD
 	commonvar.setCookieByProtocol("tabPageTag", "vmList");
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	
 	var requestParam = new Object();
 	requestParam =commonvar.getRequestParam();

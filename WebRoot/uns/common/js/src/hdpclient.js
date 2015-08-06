@@ -1,6 +1,7 @@
 var hdpclient={
 	
 	PLUGIN:null,
+<<<<<<< HEAD
 	browserType:"",
 	
 	init:function()
@@ -8,6 +9,14 @@ var hdpclient={
 		this.browserType = commonvar.getBrowserType();
 		
 		if (this.browserType.indexOf("ie") == -1) 
+=======
+	
+	init:function()
+	{
+		var browserType = commonvar.getBrowserType();
+		
+		if (browserType.indexOf("ie") == -1) 
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		{
 			try
 			{	
@@ -34,6 +43,7 @@ var hdpclient={
 	getClientMac:function()
 	{
 		try
+<<<<<<< HEAD
 		{
 			// 判断是否cs客户端
 			if (this.browserType == "cloudclient")
@@ -41,6 +51,9 @@ var hdpclient={
 				return this.csClientSingleMac();
 			}
 			
+=======
+		{	
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			//从1.5.20.32以上版本获取到的客户端ip只有一个
 			if (this.clientVersion() >= '1.5.20.100')
 			{
@@ -87,6 +100,7 @@ var hdpclient={
 	clientVersion:function()
 	{
 		try
+<<<<<<< HEAD
 		{
             // 判断是否cs客户端
 			if (this.browserType == "cloudclient")
@@ -94,6 +108,9 @@ var hdpclient={
 				return cloudclientInfo.clientVersion();
 			}	
 			
+=======
+		{	
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			return this.PLUGIN.clientVersion();
 		}
 		catch (err)
@@ -107,12 +124,15 @@ var hdpclient={
 	{
 		try
 		{
+<<<<<<< HEAD
             // 判断是否cs客户端
 			if (this.browserType == "cloudclient")
 			{
 				return this.csClientSingleIp();
 			}
 			
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			//从1.5.20.32以上版本获取到的客户端ip只有一个
 			if (this.clientVersion() >= '1.5.20.100')
 			{
@@ -131,12 +151,15 @@ var hdpclient={
 	{
 		try
 		{	
+<<<<<<< HEAD
 		    // 判断是否cs客户端
 			if (this.browserType == "cloudclient")
 			{
 				return cloudclientInfo.clientName();
 			}
 			
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			return this.PLUGIN.clientName();
 		}
 		catch (err) 
@@ -149,12 +172,15 @@ var hdpclient={
 	{
 		try
 		{	
+<<<<<<< HEAD
 			// 判断是否cs客户端
 			if (this.browserType == "cloudclient")
 			{
 				return cloudclientInfo.clientVersion();
 			}
 			
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			return this.PLUGIN.clientVersion();
 		}
 		catch (err) 
@@ -166,6 +192,7 @@ var hdpclient={
 	{
 		try
 		{
+<<<<<<< HEAD
 			var url = window.location.hostname;
 			
 		    // 判断是否cs客户端
@@ -180,6 +207,8 @@ var hdpclient={
 				return this.PLUGIN.userIdentity(url);
 			}
 			
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			return this.PLUGIN.userIdentity();
 		}
 		catch(err)
@@ -205,6 +234,7 @@ var hdpclient={
 			webuilog(err); 
 		}
 	},
+<<<<<<< HEAD
 	csClientSingleIp:function()
 	{
 		try
@@ -222,6 +252,8 @@ var hdpclient={
 			webuilog(err); 
 		}
 	},
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	clientSingleMac:function()
 	{
 		try
@@ -238,6 +270,7 @@ var hdpclient={
 			webuilog(err); 
 		}
 	},
+<<<<<<< HEAD
 	csClientSingleMac:function()
 	{
 		try
@@ -255,17 +288,23 @@ var hdpclient={
 			webuilog(err); 
 		}
 	},
+=======
+	
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	//得到客户端类型
 	clientType:function()
 	{
 		try
 		{	
+<<<<<<< HEAD
 			// 判断是否cs客户端
 			if (this.browserType == "cloudclient")
 			{
 				return cloudclientInfo.clientType();
 			}
 			
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			return this.PLUGIN.clientType();
 		}
 		catch (err) 

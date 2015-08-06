@@ -253,7 +253,11 @@ showlog:function()
 	//设置个人语言信息
 	setCookieLang:function(langType)
 	{
+<<<<<<< HEAD
 		commonvar.setCookieByProtocol("webuiLangType", langType);
+=======
+		$.cookie("webuiLangType", langType, {expires:365,path:'/'});
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	},
 
 	// 获得浏览器语言
@@ -486,11 +490,19 @@ function openWin()
 	
 	if(commonvar.languageType == 'zh')
 	{
+<<<<<<< HEAD
 		window.open("/onlinehelp/zh/index.html","","width=" + width +",height=" + heigh + ",top=" + top +",left=" + left + ",right=" + right + ",toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no");
 	}
 	else
 	{
 		window.open("/onlinehelp/en/index.html","","width=" + width +",height=" + heigh + ",top=" + top +",left=" + left + ",right=" + right + ",toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no");
+=======
+		window.open("../onlinehelp/zh/index.html","","width=" + width +",height=" + heigh + ",top=" + top +",left=" + left + ",right=" + right + ",toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no");
+	}
+	else
+	{
+		window.open("../onlinehelp/en/index.html","","width=" + width +",height=" + heigh + ",top=" + top +",left=" + left + ",right=" + right + ",toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	}
 	
 };

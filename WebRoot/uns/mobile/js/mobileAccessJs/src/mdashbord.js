@@ -274,8 +274,12 @@ webui.objects.dashbord.actionurls = {
 		content = content.replace(/__vmTemplate__/g, eleId);
 		content = content.replace(/__vmName__/g, vmName);
 		container.append(content);
+<<<<<<< HEAD
 		var ele = $(document.getElementById(eleId));
 		
+=======
+		var ele = $("#" + eleId);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		if (vmName.length > 14) // 中文字符在vmNameLink/vmName标签250px的宽度下14个字符以上就会溢出
 		{
 			ele.find(".vmNameLink").attr("title", vmName); 
@@ -1133,7 +1137,11 @@ webui.objects.dashbord.actionurls = {
 	        dataType : "json",
 	        contentType :"application/json",
 	        timeout: 300000,
+<<<<<<< HEAD
 	        data : JSON.stringify({queryType:0}),
+=======
+	        data : {},
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
             beforeSend: function(XMLHttpRequest){
             	XMLHttpRequest.setRequestHeader("randomTokenId",commonvar.getRandomTokenId());
 			},
@@ -1407,7 +1415,11 @@ webui.objects.dashbord.actionurls = {
 		
 		if (osType == "Windows")
 		{
+<<<<<<< HEAD
 			dowloader.find("#downloadClientButtion2").attr("href", "/plugin/AccessClient_Win.msi");
+=======
+			dowloader.find("#downloadClientButtion2").attr("href", "/plugin/WindowsClientSetup.msi");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		}
 		else if (osType == "Linux")
 		{
@@ -2179,6 +2191,25 @@ webui.objects.dashbord.actionurls = {
 	        }
     	});		
 		
+<<<<<<< HEAD
+=======
+		// 保持每3秒鼠标活动次数信息，以及判断是否5分钟鼠标没有动，没动就注销
+		var lastTim = (new Date()).getTime();
+		$(document).mousemove(function(){mousemovePerSecTemp++; });
+		setInterval(function(){
+			mousemovePerSec = mousemovePerSecTemp; mousemovePerSecTemp = 0;
+			
+			if (mousemovePerSec > 0)
+			{
+				lastTim = (new Date()).getTime();
+			}
+			
+			if ((new Date()).getTime() - lastTim > webui.system.timout) // 5分钟没有鼠标活动退出
+			{
+				logout();
+			}
+		}, 3000);
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		
 		$("#compatibility").text(LA("Compatibility"));
 	}

@@ -13,10 +13,14 @@
 	<script type="text/javascript" src="/uns/common/js/src/globalvar.js"></script>	
 	<script type="text/javascript" src="/uns/common/js/utils/resultCode.js"></script>	
 	<script type="text/javascript" src="/uns/common/js/utils/service.js"></script>
+<<<<<<< HEAD
 	<script type="text/javascript" src="/uns/common/js/language/commonLanguage.js"></script>
 	<script type="text/javascript" src="/uns/default/js/src/common.js"></script>	
 	<link rel="stylesheet" type="text/css" href="/uns/default/css/onlinehelp.css"/>
 	<link rel="stylesheet" type="text/css" href="/uns/default/css/common.css"/>
+=======
+	<link rel="stylesheet" type="text/css" href="/uns/default/css/onlinehelp.css"/>
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
   </head>
   <body scroll=no style="background-image:url(${nullJpg});"> 
 
@@ -24,8 +28,11 @@
   		<img id="logoimg" src=${logoPng} />	
   	</div>
   	
+<<<<<<< HEAD
   	 <!-- ÓïÑÔÇÐ»»   -->
 	<a id="lang" href="javascript:void(0);" title="Language"></a>
   	
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
   </body>
 </html>

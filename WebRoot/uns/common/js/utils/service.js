@@ -30,6 +30,11 @@ var ServiceAPI = {
 				cache:false,
 				beforeSend: function(XMLHttpRequest){			
 				},
+<<<<<<< HEAD
+=======
+				complete:function(response){
+				},
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 				success : function(response) {							
 					if($.isFunction(success_callback)){
 							success_callback(response);
@@ -64,6 +69,12 @@ var ServiceAPI = {
                 beforeSend: function(XMLHttpRequest){
                 	XMLHttpRequest.setRequestHeader("randomTokenId",commonvar.getRandomTokenId());
 				},
+<<<<<<< HEAD
+=======
+				complete:function(response){
+
+				},
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
                 success : function(msg) {
 					webuilog(loglevel.info,"Post "+url+" success,response body is: ");
 					webuilog(loglevel.info,msg);
@@ -117,6 +128,7 @@ var ServiceAPI = {
             });
 		}
 	},
+<<<<<<< HEAD
 	ajaxGetNoResult:function(params, url, success_callback, error_callback){
 		if(typeof(params) != 'undefined' && url){
 			webuilog(loglevel.info,"Get "+url+" request body is: ");
@@ -143,6 +155,9 @@ var ServiceAPI = {
             });
 		}
 	},
+=======
+	
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	ajaxCrossDomain:function(params, url, formId, success_callback, error_callback, method) {
 		if(params && url){
 			$.ajax({

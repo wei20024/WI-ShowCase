@@ -98,7 +98,11 @@ function call_back()
 			//设置多域样式
 			var node = document.createElement('link');
 			node.rel = 'stylesheet';
+<<<<<<< HEAD
 			node.href = '/uns/default/css/dynamicCodeMultidomain.css';
+=======
+			node.href = '/webui/default/css/dynamicCodeMultidomain.css';
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			document.getElementById('multiDomainCss').appendChild(node);
 			var selectedDomain = $.cookie("selectedDomain");
 			var flag = false;
@@ -178,10 +182,17 @@ function initLoginInfo()
 			$("#userName").val("");
 			document.getElementById('userName').focus();
 			$("#userName").focus(function(){
+<<<<<<< HEAD
   								$("#uNameImg").attr("src","/uns/default/img/inputfocus.png");
 								$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
 						}).blur(function(){
   								$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+  								$("#uNameImg").attr("src","/webui/default/img/inputfocus.png");
+								$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+						}).blur(function(){
+  								$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 						});
 			
 			editshow=true;
@@ -190,10 +201,17 @@ function initLoginInfo()
 								{
 									$("#userPass").val("");
 								}
+<<<<<<< HEAD
   								$("#passImg").attr("src","/uns/default/img/inputfocus.png");
 								$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
 						}).blur(function(){
   								$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+  								$("#passImg").attr("src","/webui/default/img/inputfocus.png");
+								$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+						}).blur(function(){
+  								$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 						});	
 
 			$("#uNameLabel").hide();	
@@ -214,10 +232,17 @@ function initLoginInfo()
 								{
 									$("#userPass").val("");
 								}
+<<<<<<< HEAD
   								$("#passImg").attr("src","/uns/default/img/inputfocus.png");
 								$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
 						}).blur(function(){
   								$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+  								$("#passImg").attr("src","/webui/default/img/inputfocus.png");
+								$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+						}).blur(function(){
+  								$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 						});	
 			
 			//用户名编辑按钮事件
@@ -226,10 +251,17 @@ function initLoginInfo()
 				$("#userName").val($("#userNameLb").text());
 				document.getElementById('userName').focus();
 				$("#userName").focus(function(){
+<<<<<<< HEAD
   								$("#uNameImg").attr("src","/uns/default/img/inputfocus.png");
 								$("#passImg").attr("src","/uns/default/img/inputnofocus.png");
 						}).select().blur(function(){
   								$("#uNameImg").attr("src","/uns/default/img/inputnofocus.png");
+=======
+  								$("#uNameImg").attr("src","/webui/default/img/inputfocus.png");
+								$("#passImg").attr("src","/webui/default/img/inputnofocus.png");
+						}).select().blur(function(){
+  								$("#uNameImg").attr("src","/webui/default/img/inputnofocus.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 								});			
 				editshow=true;
 					
@@ -247,7 +279,15 @@ function initLoginInfo()
 		//点击登录按钮事件
 		$("#loginBtn").css({"background-image":Login.getString("loginbtn")}).click(function() {	
 			doLogin();
+<<<<<<< HEAD
 		});			
+=======
+		});	
+	
+		$("#resetPwd").click(function() {	
+			resetPwd_sendCode();
+		});
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 	}
 
 /**
@@ -389,7 +429,11 @@ function doLogin() {
 		code = null;
 		errorLabel.text(Login.getString("dymanicCodeNotNull"));
 		errorLabel.fadeIn(1000);
+<<<<<<< HEAD
 		$("#dymanicPassImg").attr("src","/uns/default/img/inputerror.png");
+=======
+		$("#dymanicPassImg").attr("src","/webui/default/img/inputerror.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		$("#loginBtn").bind("click",doLogin);
 		 $("#loadingpanel").css({"z-index":"0"}).hide();//显示缓冲图片	
 		return false;
@@ -717,14 +761,22 @@ function checkParam()
 	{
 		errorLabel.text(Login.getString("userNameNotNull"));	
 		errorLabel.fadeIn(1000);	
+<<<<<<< HEAD
   		$("#uNameImg").attr("src","/uns/default/img/inputerror.png");
+=======
+  		$("#uNameImg").attr("src","/webui/default/img/inputerror.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		flag = false;
 	}
 	else if(!checkPass())
 	{
 		errorLabel.text(Login.getString("pwdNotNull"));
 		errorLabel.fadeIn(1000);
+<<<<<<< HEAD
 		$("#passImg").attr("src","/uns/default/img/inputerror.png");
+=======
+		$("#passImg").attr("src","/webui/default/img/inputerror.png");
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 		flag = false;
 	}
 	else 
@@ -752,9 +804,87 @@ function jump2home() {
 function judgePlatform() {
     var params = getUrlParams();
     if (params.server_port) {
+<<<<<<< HEAD
             _burl = 'https://' + params.server_port + '/uns/';
+=======
+            _burl = 'https://' + params.server_port + '/webui/';
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
         } else {
             alert("Get server address failed!");
         }
 }
 
+<<<<<<< HEAD
+=======
+
+function resetPwd_sendCode()
+{
+	$("#getDymanicCode").unbind("click");
+	errorLabel.hide();
+	$("#loadingpanel").css({"z-index":"10"}).show();
+	
+	var userNmae = "";
+	if(editshow==false)
+	{
+		userNmae =$.trim($("#userNameLb").text());
+	}
+    else
+	{
+    	userNmae =$.trim($("#userName").val());
+	}	 
+    
+	if(userName == "")
+	{
+		errorLabel.text(Login.getString("userNameNotNull"));	
+		errorLabel.fadeIn(1000);	
+  		$("#uNameImg").attr("src","/webui/default/img/inputerror.png");
+    	$("#getDymanicCode").bind("click",getDymanicCode);
+		$("#loadingpanel").css({"z-index":"0"}).hide();//显示缓冲图片	
+        return false;
+    }
+	
+
+	var contextName = [];
+	var obj = {
+		username: uname,
+		};
+	
+	var params = JSON.stringify(obj);
+
+	 $.ajax({
+	        url : commonvar.serviceUrl.userLogin + "?" + Math.random(), // 加随机数防止缓存
+	        type : "POST",
+	        headers: {"cache-control": "no-cache"},	
+	        dataType : "json",
+	        contentType :"application/json",
+	        timeout: 300000,
+	        data : params,
+	        success:function(msg)
+	        {
+	        	$("#getDymanicCode").bind("click",getDymanicCode);            
+	            $("#loadingpanel").css({"z-index":"0"}).hide();
+				var loginRsp=msg;
+
+			   	$("#dymanicPassword").val("");
+				commonvar.setCookieByProtocol("userName",uname);
+                checkCode(loginRsp.resultCode); 
+	        },
+			error:function(msg,error)
+			{
+				$("#loadingpanel").css({"z-index":"0"}).hide();
+				$("#getDymanicCode").bind("click",getDymanicCode);
+				errorLabel.hide();
+				if(error=="timeout")
+				{
+					 errorLabel.text(Login.getString(error)).fadeIn(1000);
+				}
+				else
+				{
+					 errorLabel.text(Login.getString(msg.resultCode)).fadeIn(1000);
+				}
+				
+			}
+	 });
+}
+
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7

@@ -1,5 +1,8 @@
 #!/bin/sh
+<<<<<<< HEAD
 set +x
+=======
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
   echo "Please Input Your Password and press enter to finish!"
   read ANS
   ../../../../jre/bin/java -jar ../../../lib/myHttp11.jar $ANS > 1.txt

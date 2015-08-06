@@ -12,10 +12,17 @@ Login.loginLanguage = { // 登录界面字符串
 			'changeFinger':"更改指纹",
 			'changeFgPass':"更改密码",
 			'openFg':"点击指纹登陆",
+<<<<<<< HEAD
 			'confirmbtn':"url(/uns/default/img/btnyes.png)",
 			'cancelbtn':"url(/uns/default/img/btnno.png)",
 			'loginbtn':"url(/uns/default/img/loginzh.png)",
 			'adimg':"/uns/default/img/adch.png",
+=======
+			'confirmbtn':"url(/webui/default/img/btnyes.png)",
+			'cancelbtn':"url(/webui/default/img/btnno.png)",
+			'loginbtn':"url(/webui/default/img/loginzh.png)",
+			'adimg':"/webui/default/img/adch.png",
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			'congratulation':"新密码设置成功！",
 			'usenewpassword':"请使用新密码登录系统！",
 			'jumptohomepage':"点击跳转到主页面",
@@ -50,7 +57,11 @@ Login.loginLanguage = { // 登录界面字符串
 			'dynamicTip':'请输入动态密码',
 			'messageTip':'点击此处获取动态密码',
 			'userPassTipuns':'请输入用户密码',
+<<<<<<< HEAD
 			'userPassTip':'******',
+=======
+			'userPassTip':'请输入用户密码',
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			'checkboxText':'保持登录状态',
 			'loading':'加载中...',
 			'rememberpwd':'记住密码',
@@ -65,7 +76,11 @@ Login.loginLanguage = { // 登录界面字符串
 			'10011':'网络异常',
 			'ResultCode.code.USER_NO_EXIST':'用户名或密码错误',
 			'10013':'域名不能为空',
+<<<<<<< HEAD
 			'10025':'用户名或密码错误',
+=======
+			'10025':'旧密码错误',
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			'10026':'新密码不符合字符域的长度、复杂性或历史要求',
 			'10027':'帐户被锁定',
 			'10028':'修改密码失败，请联系系统管理员',
@@ -249,10 +264,17 @@ Login.loginLanguage = { // 登录界面字符串
 			'changeFinger':"Change Fingerprint",
 			'changeFgPass':"Change Password",
 			'openFg':"Login by Fingerprint",
+<<<<<<< HEAD
 			'confirmbtn':"url(/uns/default/img/btnok.png)",
 			'cancelbtn':"url(/uns/default/img/btncancel.png)",
 			'loginbtn':"url(/uns/default/img/loginen.png)",
 			'adimg':"/uns/default/img/aden.png",
+=======
+			'confirmbtn':"url(/webui/default/img/btnok.png)",
+			'cancelbtn':"url(/webui/default/img/btncancel.png)",
+			'loginbtn':"url(/webui/default/img/loginen.png)",
+			'adimg':"/webui/default/img/aden.png",
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			'congratulation':"The password is changed successefully!",
 			'usenewpassword':"Please use the new password to log in to the system.",
 			'jumptohomepage':"Home",
@@ -287,7 +309,11 @@ Login.loginLanguage = { // 登录界面字符串
 			'dynamicTip':'Please enter the One-Time password',
 			'messageTip':'Click here for One-Time Password',
 			'userPassTipuns':'password',
+<<<<<<< HEAD
 			'userPassTip':'******',
+=======
+			'userPassTip':'Please enter the user password',
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			'rememberpwd':'Remember me',
 			'10002':'The username or password is incorrect.',
 			'loading':'loading...',
@@ -300,7 +326,11 @@ Login.loginLanguage = { // 登录界面字符串
 			'10011':'The network is abnormal.',
 			'ResultCode.code.USER_NO_EXIST':'The username or password is incorrect.',
 			'10013':'The domain name cannot be empty.',
+<<<<<<< HEAD
 			'10025':'The username or password is incorrect.',
+=======
+			'10025':'The old password is incorrect.',
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			'10026':'The new password does not meet the length, complexity, or history requirements of the domain.',
 			'10027':'The account is locked. ',
 			'10028':'Failed to change the password. Please contact the administrator. ',
@@ -486,10 +516,17 @@ Login.loginLanguage = { // 登录界面字符串
 			'changeFinger':"تغيير بصمة الإصبع",
 			'changeFgPass':"تغيير كلمة المرور",
 			'openFg':"تسجيل الدخول ببصمة الإصبع",
+<<<<<<< HEAD
 			'confirmbtn':"url(/uns/arabic/img/btnokar.png)",
 			'cancelbtn':"url(/uns/arabic/img/btncancelar.png)",
 			'loginbtn':"url(/uns/arabic/img/loginar.png)",
 			'adimg':"/uns/default/img/aden.png",
+=======
+			'confirmbtn':"url(/webui/arabic/img/btnokar.png)",
+			'cancelbtn':"url(/webui/arabic/img/btncancelar.png)",
+			'loginbtn':"url(/webui/arabic/img/loginar.png)",
+			'adimg':"/webui/default/img/aden.png",
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			'congratulation':"تم تغيير كلمة المرور بنجاح!",
 			'usenewpassword':"يرجى استخدام كلمة المرور الجديدة لتسجيل الدخول إلى النظام.",
 			'jumptohomepage':"الصفحة الرئيسية",
@@ -523,7 +560,11 @@ Login.loginLanguage = { // 登录界面字符串
 			'userNameTip':'يرجى إدخال اسم المستخدم',
 			'dynamicTip':'أدخل كلمة المرور لمرة واحدة',
 			'messageTip':'انقر هنا للحصول على كلمة مرور لمرة واحدة',
+<<<<<<< HEAD
 			'userPassTip':'******',
+=======
+			'userPassTip':'يرجى إدخال كلمة مرور المستخدمط',
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			'10002':'اسم المستخدم أو كلمة المرور غير صحيحة.',
 			'ResultCode.code.PARAMETER_INVALID':'خطأ في المعلمات.',
 			'10004':'أدخل رمز التحقق.',
@@ -534,7 +575,11 @@ Login.loginLanguage = { // 登录界面字符串
 			'10011':'هناك مشكلة في الشبكة.',
 			'ResultCode.code.USER_NO_EXIST':'اسم المستخدم أو كلمة المرور غير صحيحة.',
 			'10013':'أدخل اسم المجال.',
+<<<<<<< HEAD
 			'10025':'اسم المستخدم أو كلمة المرور غير صحيحة.',
+=======
+			'10025':'كلمة المرور القديمة غير صحيحة.',
+>>>>>>> 7cf7c9997bcec953e9a329c30100afadb59cc3b7
 			'10026':'كلمة المرور الجديدة لا تستوفي متطلبات الطول أو التعقيد أو المحفوظات الخاصة بالمجال.',
 			'10027':'الحساب مقفل. ',
 			'10028':'تعذر تغيير كلمة المرور. يرجى الاتصال بالمسؤول.',
