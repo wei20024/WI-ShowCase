@@ -1,0 +1,11 @@
+
+#onlinehelpimg
+{
+	position:absolute;
+	top:60px;
+	right:33px;
+	height:32px;
+	width:36px;
+	background-image: url(/uns/default/img/help.png);
+	z-index: 110;
+}
