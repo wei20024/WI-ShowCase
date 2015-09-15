@@ -25,7 +25,13 @@ public enum CheckServiceUrl
     4, "/services/desktop/getvmspowerset"), 
 
   SETVMSPOWERSET(
-    5, "/services/desktop/setvmspowerset");
+    5, "/services/desktop/setvmspowerset"),
+  
+  GETAPPLOGININFO(
+	6,"/services/desktop/getApploginInfo"),
+  
+  DEALFAVORITEAPP(
+	7,"/services/desktop/dealFavoriteApp");
 
   private static List<String> utls;
   private int code;
@@ -71,7 +77,7 @@ public enum CheckServiceUrl
 
   public static boolean containUrl(String requri)
   {
-    if (CommonUtils.checkAllStringNull(new String[] { requri }))
+    if (CommonUtils.checkAllStringNull(requri ))
     {
       return false;
     }

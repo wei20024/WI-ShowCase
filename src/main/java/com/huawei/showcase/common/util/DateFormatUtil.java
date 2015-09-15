@@ -21,7 +21,7 @@ public final class DateFormatUtil
     }
     catch (ParseException e)
     {
-      LogUtils.VDESKTOP_LOG.error(String.format("Failed to parse %s to Date.", date ), e);
+      LogUtils.LOG.error(String.format("Failed to parse %s to Date.", date ), e);
     }return null;
   }
 
@@ -33,7 +33,7 @@ public final class DateFormatUtil
     }
     catch (ParseException e)
     {
-      LogUtils.VDESKTOP_LOG.error(String.format("Failed to parse %s to Date.",  date ), e);
+      LogUtils.LOG.error(String.format("Failed to parse %s to Date.",  date ), e);
     }return null;
   }
 
@@ -41,7 +41,7 @@ public final class DateFormatUtil
   {
     if (date == null)
     {
-      LogUtils.VDESKTOP_LOG.error("date is null.");
+      LogUtils.LOG.error("date is null.");
       return null;
     }
     return new SimpleDateFormat(DATE_FORMAT).format(date);
@@ -49,7 +49,7 @@ public final class DateFormatUtil
 
   public static Timestamp getTimestamp(String time)
   {
-    if (CommonUtils.checkAllStringNull(new String[] { time }))
+    if (CommonUtils.checkAllStringNull( time ))
     {
       return null;
     }
@@ -61,7 +61,7 @@ public final class DateFormatUtil
   {
     if (timestamp == null)
     {
-      LogUtils.VDESKTOP_LOG.error("timestamp is null.");
+      LogUtils.LOG.error("timestamp is null.");
       return null;
     }
 
@@ -72,7 +72,7 @@ public final class DateFormatUtil
   {
     if (time == null)
     {
-      LogUtils.VDESKTOP_LOG.error("time is null.");
+      LogUtils.LOG.error("time is null.");
       return null;
     }
 
@@ -93,7 +93,7 @@ public final class DateFormatUtil
   {
     if (calendar == null)
     {
-      LogUtils.VDESKTOP_LOG.error("time is null.");
+      LogUtils.LOG.error("time is null.");
       return null;
     }
 
@@ -155,7 +155,7 @@ public final class DateFormatUtil
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
       return 0L;
     }
     return date.getTime();

@@ -31,13 +31,18 @@ public final class WiRestAuthUtil
 
   static
   {
-    if ((!CommonUtils.checkAllStringNull(new String[] { unsToWiAuthType })) && 
+    if ((!CommonUtils.checkAllStringNull(unsToWiAuthType )) && 
       (unsToWiAuthType.equalsIgnoreCase("system")))
     {
       systemAuth = true;
     }
   }
-  
+  /***
+   * 检查是否系统自动登陆并进行登陆
+   * @param wiclient
+   * @param ipInfo
+   * @return
+   */
   public static boolean checkSystemAuth(WiClientService wiclient, String ipInfo)
   {
     if (!isSystemAuth())
@@ -53,7 +58,7 @@ public final class WiRestAuthUtil
       {
         return true;
       }
-      LogUtils.VDESKTOP_LOG.debug("need update token ");
+      LogUtils.LOG.debug("need update token ");
 
       if (updateAuthToken(wiclient, ipInfo, token))
       {
@@ -61,7 +66,7 @@ public final class WiRestAuthUtil
       }
     }
 
-    LogUtils.VDESKTOP_LOG.debug("need reLoing WI");
+    LogUtils.LOG.debug("need reLoing WI");
 
     return loginWiSystem(wiclient, ipInfo);
   }
@@ -82,14 +87,14 @@ public final class WiRestAuthUtil
         return true;
       }
 
-      LogUtils.VDESKTOP_LOG.error("update token error. rsp = " + rsp);
+      LogUtils.LOG.error("update token error. rsp = " + rsp);
       wiTokenMap.remove(ipInfo);
 
-      LogUtils.VDESKTOP_LOG.debug("rsp" + rsp);
+      LogUtils.LOG.debug("rsp" + rsp);
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     return false;
   }
@@ -102,9 +107,9 @@ public final class WiRestAuthUtil
 
       req.setUserName(wiRestUserName);
 
-      if (CommonUtils.checkAllStringNull(new String[] { wiRestUserPwd }))
+      if (CommonUtils.checkAllStringNull( wiRestUserPwd ))
       {
-        LogUtils.VDESKTOP_LOG.error("wiRestUserPwd is null.");
+        LogUtils.LOG.error("wiRestUserPwd is null.");
         return false;
       }
 
@@ -112,23 +117,23 @@ public final class WiRestAuthUtil
       req.setPassword(password);
       LoginSystemRsp rsp = wiclient.loginSystem(req);
 
-      LogUtils.VDESKTOP_LOG.debug("rsp" + rsp);
+      LogUtils.LOG.debug("rsp" + rsp);
       if ((rsp != null) && (ResultCode.SUCCESS.getCode() == rsp.getResultCode()))
       {
         Token token = new Token();
         token.setTokenId(rsp.getTokenId());
         token.setStartTime(System.currentTimeMillis());
         wiTokenMap.put(ipInfo, token);
-        LogUtils.VDESKTOP_LOG.info("login WI system " + ipInfo + " success.");
+        LogUtils.LOG.info("login WI system " + ipInfo + " success.");
         return true;
       }
 
-      LogUtils.VDESKTOP_LOG.error("loginWiSystem  error. rsp = " + rsp + " ipInfo = " + ipInfo);
+      LogUtils.LOG.error("loginWiSystem  error. rsp = " + rsp + " ipInfo = " + ipInfo);
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
-      LogUtils.VDESKTOP_LOG.error("loginWiSystem  error. ipInfo = " + ipInfo);
+      LogUtils.LOG.error(e);
+      LogUtils.LOG.error("loginWiSystem  error. ipInfo = " + ipInfo);
     }
     return false;
   }

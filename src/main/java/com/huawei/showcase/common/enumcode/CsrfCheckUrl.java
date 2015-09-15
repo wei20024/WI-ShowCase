@@ -29,8 +29,13 @@ public enum CsrfCheckUrl
   GETLOGININFO(
     8, "/services/desktop/getlogininfo"), 
 
+  GETAPPLOGININFO(
+    9,"/services/desktop/getApploginInfo"),
+    	  
+  DEALFAVORITEAPP(
+    10,"/services/desktop/dealFavoriteApp"),
   EXCEPT_URL(
-    8, "/services/api/");
+    11, "/services/api/");
 
   private static List<String> utls;
   private int code;
@@ -74,7 +79,7 @@ public enum CsrfCheckUrl
 
   public static boolean checkUrl(String requri)
   {
-    if (CommonUtils.checkAllStringNull(new String[] { requri }))
+    if (CommonUtils.checkAllStringNull( requri ))
     {
       return false;
     }
@@ -92,7 +97,7 @@ public enum CsrfCheckUrl
 
   public static boolean containUrl(String requri)
   {
-    if (CommonUtils.checkAllStringNull(new String[] { requri }))
+    if (CommonUtils.checkAllStringNull( requri ))
     {
       return false;
     }

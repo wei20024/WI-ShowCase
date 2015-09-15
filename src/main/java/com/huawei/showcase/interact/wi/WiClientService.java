@@ -83,7 +83,6 @@ public abstract interface WiClientService extends Serializable
 
   @POST
   @Path("/desktop/getLoginInfo")
- // @Path("/desktop/loginVm")
   @Produces({"application/json"})
   public abstract GetLoginInfoRsp getLoginInfo(GetLoginInfoReq paramGetLoginInfoReq);
 

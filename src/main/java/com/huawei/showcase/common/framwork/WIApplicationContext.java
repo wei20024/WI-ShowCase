@@ -71,7 +71,7 @@ public class WIApplicationContext
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error("Failed to register bean.", e);
+      LogUtils.LOG.error("Failed to register bean.", e);
     }
   }
 }

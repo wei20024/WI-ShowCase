@@ -85,7 +85,8 @@ function initLoginInfo()
 				var ConfigurationRsp=data;
                if (ConfigurationRsp.resultCode == ResultCode.code.OPERATE_SUCCESS) {
 			   		
-					authType = ConfigurationRsp.loginType;
+					//authType = ConfigurationRsp.loginType;
+            	    authType=0;
 			   		webuilog(loglevel.info,"auth type is: "+authType);
 					commonvar.setCookieByProtocol("authType", authType);
 					

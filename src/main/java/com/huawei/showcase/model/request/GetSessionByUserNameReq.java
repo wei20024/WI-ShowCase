@@ -17,7 +17,7 @@ public class GetSessionByUserNameReq extends UnsCommonReq
   public String toString()
   {
     StringBuilder builder = new StringBuilder();
-    builder.append("[WI>>HDC]QuerySessionInfoByUserName:userName=" + this.userName);
+    builder.append("QuerySessionInfoByUserName:userName=" + this.userName);
     builder.append(",domain=" + this.domain);
     return builder.toString();
   }

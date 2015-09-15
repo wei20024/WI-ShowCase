@@ -33,12 +33,12 @@ public final class WiMonitor extends BaseTask
 
   public void doTask()
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
     try
     {
       if (!initWIList())
       {
-        LogUtils.VDESKTOP_LOG.error("no wi info configured.");
+        LogUtils.LOG.error("no wi info configured.");
         return;
       }
 
@@ -53,7 +53,7 @@ public final class WiMonitor extends BaseTask
 
         WiInfo info = (WiInfo)this.wiInfoMap.get(key);
 
-        LogUtils.VDESKTOP_LOG.debug("wiInfoMap:" + key + "; wi ip is:" + info.getVlbIp());
+        LogUtils.LOG.debug("wiInfoMap:" + key + "; wi ip is:" + info.getVlbIp());
 
        if (!CommonUtils.checkAllStringNull(new String[] { info.getVlbIp(),info.getVlbPort() })) {
           {
@@ -75,42 +75,42 @@ public final class WiMonitor extends BaseTask
       }
       if (healthWiInfoMap.isEmpty())
       {
-        LogUtils.VDESKTOP_LOG.error("all of the wi list is empty.");
+        LogUtils.LOG.error("all of the wi list is empty.");
       }
 
       this.wiService.setWIMap(healthWiInfoMap);
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error("run method exception:");
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error("run method exception:");
+      LogUtils.LOG.error(e);
     }
     finally
     {
-      LogUtils.VDESKTOP_LOG.exitMethod();
+      LogUtils.LOG.exitMethod();
     }
   }
 
   private String getIpInfo(String ip, String port)
   {
     String ipInfo = ip;
-    if ((!CommonUtils.checkAllStringNull(new String[] { port })) && (!port.equals("80")) && (!port.equals("443")))
+    if ((!CommonUtils.checkAllStringNull( port )) && (!port.equals("80")) && (!port.equals("443")))
     {
       ipInfo = ipInfo + ":" + port;
     }
     return ipInfo;
   }
 
-  //checkStatus
+  
   private boolean checkWiService(String ipInfo, List<WiInterfaceModel> lstWi)
   {
     WiClientService wiclient = this.wiService.getClientProxy(ipInfo);
-    //return false;
+   
     if (checkStatus(wiclient))
     {
       if (!WiRestAuthUtil.checkSystemAuth(wiclient, ipInfo))
       {
-        LogUtils.VDESKTOP_LOG.error("login WI error,auth fail");
+        LogUtils.LOG.error("login WI error,auth fail");
         return false;
       }
       WiInterfaceModel wiInterfaceModel = new WiInterfaceModel();
@@ -122,7 +122,7 @@ public final class WiMonitor extends BaseTask
         Token token = WiRestAuthUtil.getWiTokenMap().get(ipInfo);
         if ((token == null) || (token.getTokenId() == null))
         {
-          LogUtils.VDESKTOP_LOG.error("WI token is null, ipInfo = " + ipInfo);
+          LogUtils.LOG.error("WI token is null, ipInfo = " + ipInfo);
           return false;
         }
         String sysAuthTokenId = token.getTokenId();
@@ -132,21 +132,21 @@ public final class WiMonitor extends BaseTask
     }
     else
     {
-      LogUtils.VDESKTOP_LOG.error("the wi is error.wiip = " + ipInfo);
+      LogUtils.LOG.error("the wi is error.wiip = " + ipInfo);
       return false;
     }
     return true;
   }
   
-  //monitorStatus
+ 
   private boolean checkStatus(WiClientService realClientProxy)
   {
 	 
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
    
     if (realClientProxy == null)
     {
-      LogUtils.VDESKTOP_LOG.error("wi proxy is null.");
+      LogUtils.LOG.error("wi proxy is null.");
       return false;
     }
 
@@ -158,29 +158,29 @@ public final class WiMonitor extends BaseTask
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
 
     if (rsp == null)
     {
-      LogUtils.VDESKTOP_LOG.error("getwistatus is null.");
+      LogUtils.LOG.error("getwistatus is null.");
       return false;
     }
 
-    LogUtils.VDESKTOP_LOG.debug("rsp" + rsp);
+    LogUtils.LOG.debug("rsp" + rsp);
 
     if (ResultCode.SUCCESS.getCode() == rsp.getResultCode())
     {
       return true;
     }
 
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return false;
   }
 
   private boolean initWIList()
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     this.wiInfoMap.clear();  
     List<WiInfo> wiInfos = LocalConfigWI.getWiInfos();
@@ -190,19 +190,10 @@ public final class WiMonitor extends BaseTask
       this.wiInfoMap.put(info.getWiName(), info);
     }
 
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return true;
   }
 
- /* public WiClientProxyService getWiService()
-  {
-    return this.wiService;
-  }
-
-  public void setWiService(WiClientProxyService wiService)
-  {
-    this.wiService = wiService;
-  }*/
 
   public Map<String, WiInfo> getWiInfoMap()
   {

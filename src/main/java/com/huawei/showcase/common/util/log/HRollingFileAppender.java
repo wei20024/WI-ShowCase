@@ -1,7 +1,5 @@
 package com.huawei.showcase.common.util.log;
 
-import com.huawei.showcase.common.util.configration.Configuration;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -10,19 +8,27 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.RollingFileAppender;
 import org.apache.log4j.helpers.CountingQuietWriter;
 import org.apache.log4j.helpers.LogLog;
 
+import com.huawei.showcase.common.util.CommonUtils;
+
 public class HRollingFileAppender extends RollingFileAppender
 {
-  public static final String LOG_HOME = System.getProperty("product.home") + System.getProperty("file.separator") + 
-    Configuration.getControllerPropInstance().getString("log.pathPrefix") + "/logs/log";
+  public static  String LOG_PATH = System.getProperty("WIDemo.LOGHOME");
+  
+  static{
+	  if(LOG_PATH==null || LOG_PATH.isEmpty()){
+		  LOG_PATH = CommonUtils.getProjAbsolutePath()+System.getProperty("file.separator")+"WEB-INF/wi";
+	  }
+  }
+  
+  public static final String LOG_HOME = LOG_PATH + "/logs/log";
+  public static final String LOG_BACKUP_HOME = LOG_PATH + System.getProperty("file.separator") + "logs/backup";
 
-  public static final String LOG_BACKUP_HOME = System.getProperty("product.home") + 
-    System.getProperty("file.separator") + Configuration.getControllerPropInstance().getString("log.pathPrefix") + 
-    "/logs/backup";
 
   private static ReentrantLock lock = new ReentrantLock();
 
@@ -33,7 +39,8 @@ public class HRollingFileAppender extends RollingFileAppender
     try
     {
       lock.lock();
-
+      this.setFile(LOG_HOME+"/VDESKTOP/webui.log");
+    
       if (!isLogBackUped)
       {
         File logFolder = new File(LOG_HOME);

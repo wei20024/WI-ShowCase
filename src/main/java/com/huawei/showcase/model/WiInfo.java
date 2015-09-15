@@ -14,7 +14,7 @@ public class WiInfo
   private String componentPort;
   private String vlbIp;
   private String vlbPort;
- // private ItaInfo itaInfo;
+ 
 
   public String toString()
   {
@@ -91,13 +91,4 @@ public class WiInfo
     this.vlbPort = vlbPort;
   }
 
- /* public ItaInfo getItaInfo()
-  {
-    return this.itaInfo;
-  }
-
-  public void setItaInfo(ItaInfo itaInfo)
-  {
-    this.itaInfo = itaInfo;
-  }*/
 }

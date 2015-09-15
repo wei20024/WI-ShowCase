@@ -1,4 +1,4 @@
-package com.huawei.showcase.common.util.configration;
+﻿package com.huawei.showcase.common.util.configration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,23 +17,18 @@ import com.huawei.showcase.common.util.log.LogUtils;
 
 
 /**
- * 
+ * 配置文件工具类
  * @author wzf
  *
  */
 public class Configuration
 {
-  //private static final String CONTROLLER_PROPERTY_FILENAME = "controller.properties";
-  private static final String LOGIN_PROPERTY_FILENAME = System.getProperty("product.home") + "/conf/controller.properties";
+  private static final String LOGIN_PROPERTY_FILENAME = CommonUtils.getProjAbsolutePath() + "/WEB-INF/classes/controller.properties";
   private String PropFileName="";
   private  Properties prop;
-  //private  Properties configurerProps = new Properties();
-
   private  static Configuration ControllerconfignIns = null;
-  //private  static Configuration LoginPropconfigIns = null;
-  private  static Configuration CustomPropconfigIns = null;
   private ReentrantLock lock = new ReentrantLock();
-  //private  Properties customConfigProperties;
+
 
   public static Configuration getControllerPropInstance()
   {
@@ -47,14 +42,6 @@ public class Configuration
 	 
   }
 
-  public static Configuration getCustomPropInstance(){
-	  if(CustomPropconfigIns ==null){
-		  CustomPropconfigIns = new Configuration();
-		  CustomPropconfigIns.prop = getConfigByPath(getCustomPropertiesPath());
-		  CustomPropconfigIns.PropFileName = getCustomPropertiesPath();
-	  }
-	  return CustomPropconfigIns;
-  }
   public String getString(String key, String defaultValue)
   {
     return getTrimmed(prop.getProperty(key, defaultValue));
@@ -123,9 +110,9 @@ public class Configuration
 
   public String getString(String key, Map<String, String> properties)
   {
-    if (CommonUtils.checkAllStringNull(new String[] { key }))
+    if (CommonUtils.checkAllStringNull( key ))
     {
-      LogUtils.CONFIG_LOG.error(String.format("The parameter key is invalid, methodName is %s.", key ));
+      LogUtils.LOG.error(String.format("The parameter key is invalid, methodName is %s.", key ));
       return null;
     }
 
@@ -142,9 +129,9 @@ public class Configuration
 
   public String getString(String key, String defaultValue, Map<String, String> properties)
   {
-    if (CommonUtils.checkAllStringNull(new String[] { key }))
+    if (CommonUtils.checkAllStringNull(key ))
     {
-      LogUtils.CONFIG_LOG.error(String.format("The parameter key is invalid, methodName is %s.", key ));
+      LogUtils.LOG.error(String.format("The parameter key is invalid, methodName is %s.", key ));
       return null;
     }
 
@@ -164,70 +151,18 @@ public class Configuration
     return this.prop.keySet();
   }
   
-  public Boolean writeData(String key, String keyvalue)
-  {
-    OutputStream fos = null;
-    String value = "";
 
-    if (CommonUtils.checkAllStringNull(new String[] { key }))
-    {
-      LogUtils.CONFIG_LOG.error(String.format("writeData() The parameter key and value is invalid, key is %s.", key ));
-      return Boolean.valueOf(false);
-    }
-    this.lock.lock();
-    try
-    {
-      if (keyvalue == null)
-      {
-        value = "";
-      }
-      else
-      {
-        value = keyvalue;
-      }
-      fos = new FileOutputStream(LOGIN_PROPERTY_FILENAME);
-      this.prop.setProperty(key, value);
-      this.prop.store(fos, "Update or add '" + key + "' value");
-    }
-    catch (IOException e)
-    {
-      LogUtils.CONFIG_LOG.error("Visit " + LOGIN_PROPERTY_FILENAME + " for updating " + 
-        value + " value error", e);
-      Boolean localBoolean = Boolean.valueOf(false); return localBoolean;
-    }
-    finally
-    {
-      try
-      {
-        if (fos != null)
-        {
-          fos.close();
-        }
-      }
-      catch (IOException e)
-      {
-        LogUtils.CONFIG_LOG.error("close " + LOGIN_PROPERTY_FILENAME + " file for updating " + 
-          value + " value error", e);
-      }
-      finally
-      {
-        this.lock.unlock();
-      }
-    }
-    return Boolean.valueOf(true);
-  }
-  
   public static Properties getConfigByPath(String path)
   {
-    if (CommonUtils.checkAllStringNull(new String[] { path }))
+    if (CommonUtils.checkAllStringNull( path ))
     {
-      LogUtils.CONFIG_LOG.error("path is null");
+      LogUtils.LOG.error("path is null");
       return null;
     }
     InputStream inputstream = null;
     try
     {
-      LogUtils.CONFIG_LOG.debug("Loading file : " + path);
+      LogUtils.LOG.debug("Loading file : " + path);
       inputstream = new FileInputStream(new File(path));
       Properties properties = new Properties();
       properties.load(inputstream);
@@ -235,7 +170,7 @@ public class Configuration
     }
     catch (IOException e)
     {
-      LogUtils.CONFIG_LOG.error("throw exception :Loading of property file failed.", e);
+      LogUtils.LOG.error("throw exception :Loading of property file failed.", e);
     }
     finally
     {
@@ -247,21 +182,12 @@ public class Configuration
         }
         catch (IOException e)
         {
-          LogUtils.CONFIG_LOG.error("close InputStream. meet some error.", e);
+          LogUtils.LOG.error("close InputStream. meet some error.", e);
         }
       }
     }
     return null;
   }
 
-  private static String getCustomPropertiesPath()
-  {
-    String productHome = System.getProperty("product.home");
-    if (CommonUtils.checkAllStringNull(new String[] { productHome }))
-    {
-      productHome = "/opt/WI/tomcat/WI/ROOT/WEB-INF";
-    }
-    return productHome.replace("WEB-INF", "custom/resources/conf/custom.properties");
-  }
 
 }

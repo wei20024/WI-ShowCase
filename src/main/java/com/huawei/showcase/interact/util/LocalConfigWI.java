@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import com.huawei.showcase.common.util.configration.WriteConf;
-//import com.huawei.showcase.model.ItaInfo;
 import com.huawei.showcase.common.util.configration.Configuration;
-import com.huawei.showcase.model.UserGroupInfo;
+import com.huawei.showcase.common.util.log.LogUtils;
 import com.huawei.showcase.model.WiInfo;
 
 public class LocalConfigWI {
@@ -36,24 +34,18 @@ public class LocalConfigWI {
 			wiList.add(wiId);
 		return wiList;
 	}
-	public static List<String>getWiInfoByUser(UserGroupInfo userInfo)
-	{
-		List<String> wiList = new ArrayList<String>();
-		wiList.add("wi1");
-		return wiList;
-	}
+
 	public static Map<String,WiInfo>getWiInfoMap()
 	{
-		//if(Winfomap==null) {
-			Winfomap= new HashMap<String, WiInfo>();
-			String wiprop = loginPropConf.getString(propWI_IP);
-			String[] wis = wiprop.split("/");
-			int index = 0;
-			String wiId="";
-			String wiIP = "";			
+		Winfomap= new HashMap<String, WiInfo>();
+		String wiprop = loginPropConf.getString(propWI_IP);
+		String[] wis = wiprop.split("/");
+		int index = 0;
+		String wiId="";
+		String wiIP = "";
+		try{
 			for(String wi:wis){
-				index = wi.indexOf(',');
-				//格式出错，崩溃
+				index = wi.indexOf(',');				
 				wiId = wi.substring(0,index);
 				wiIP = wi.substring(index+1);
 				if(!isIPValid(wiIP))continue;				
@@ -65,8 +57,17 @@ public class LocalConfigWI {
 				
 				Winfomap.put(wiId, wiInfo);
 			}
-		//}
-
+		}
+		catch(Exception e){
+			LogUtils.LOG.fatal("WI IP 配置格式出错 wiName1,ip/wiName2,ip");
+			
+		}
+		finally{
+			if(Winfomap.size()==0){
+				LogUtils.LOG.fatal("WI IP not configure correct");
+				System.exit(0);
+			}
+		}
 		return Winfomap;
 	}
 	private static boolean isIPValid(String testIP){

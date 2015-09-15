@@ -28,7 +28,7 @@ public class WIAppenderFilter extends LevelRangeFilter
 
   public void setModuleName(String moduleName)
   {
-    if (checkAllStringNull(new String[] { moduleName }))
+    if (checkAllStringNull(moduleName ))
     {
       return;
     }
@@ -40,7 +40,7 @@ public class WIAppenderFilter extends LevelRangeFilter
     }
   }
 
-  private static boolean checkAllStringNull(String[] params)
+  private static boolean checkAllStringNull(String... params)
   {
     if (params == null)
     {

@@ -25,13 +25,18 @@ import com.huawei.showcase.common.util.log.TransactionIdUtil;
 import com.huawei.showcase.interact.util.LocalConfigWI;
 import com.huawei.showcase.interact.wi.WiClientProxyService;
 import com.huawei.showcase.interact.wi.WiClientService;
+import com.huawei.showcase.model.AppModel;
+import com.huawei.showcase.model.IconInfoModel;
 import com.huawei.showcase.model.SessionModel;
 import com.huawei.showcase.model.UserGroupInfo;
 import com.huawei.showcase.model.VmModel;
 import com.huawei.showcase.model.WiInfo;
 import com.huawei.showcase.model.WiInterfaceModel;
 import com.huawei.showcase.model.request.DescribeVMUserCustomPolicyReq;
+import com.huawei.showcase.model.request.FavoriteAppReq;
+import com.huawei.showcase.model.request.GetAppLoginInfoReq;
 import com.huawei.showcase.model.request.GetConfigInfoReq;
+import com.huawei.showcase.model.request.GetIconReq;
 import com.huawei.showcase.model.request.GetLoginInfoReq;
 import com.huawei.showcase.model.request.GetSessionByUserNameReq;
 import com.huawei.showcase.model.request.GetUserInfoReq;
@@ -41,8 +46,11 @@ import com.huawei.showcase.model.request.QueryVmStatusReq;
 import com.huawei.showcase.model.request.RebootUserVMReq;
 import com.huawei.showcase.model.request.VncLoginReq;
 import com.huawei.showcase.model.response.DescribeVMUserCustomPolicyRsp;
+import com.huawei.showcase.model.response.FavoriteAppRsp;
+import com.huawei.showcase.model.response.GetAppLoginInfoRsp;
 import com.huawei.showcase.model.response.GetConfigInfoMapRsp;
 import com.huawei.showcase.model.response.GetConfigInfoRsp;
+import com.huawei.showcase.model.response.GetIconRsp;
 import com.huawei.showcase.model.response.GetLoginInfoRsp;
 import com.huawei.showcase.model.response.GetSessionByUserNameRsp;
 import com.huawei.showcase.model.response.GetUserInfoRsp;
@@ -77,26 +85,26 @@ public class AppCloudServiceImpl implements AppCloudService
 
   public GetVmListRsp getVmList(GetVmListReq req)
   {
-    LogUtils.VDESKTOP_LOG.debug(req);
+    LogUtils.LOG.debug(req);
 
     GetVmListRsp rsp = new GetVmListRsp();
 
     List<VmModel> vmList = new ArrayList<VmModel>();
-//    List<AppModel> appList = new ArrayList<AppModel>();
-//    List<AppModel> myAppList = new ArrayList<AppModel>();
+    List<AppModel> appList = new ArrayList<AppModel>();
+    List<AppModel> myAppList = new ArrayList<AppModel>();
 
-    Map<String, List<WiInterfaceModel>>  hdcMap = this.wiService.getWIMap();
+    Map<String, List<WiInterfaceModel>>  wiMap = this.wiService.getWIMap();
 
-    if ((hdcMap == null) || (hdcMap.isEmpty()))
+    if ((wiMap == null) || (wiMap.isEmpty()))
     {
-      LogUtils.VDESKTOP_LOG.error("hdc list is null.");
+      LogUtils.LOG.error("wi list is null.");
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
-      rsp.setResultDesc("hdc list is null.");
+      rsp.setResultDesc("wi list is null.");
       return rsp;
     }
 
     List<String> wiInfos = LocalConfigWI.getWiIds();
-    LogUtils.VDESKTOP_LOG.debug("farmIds = " + wiInfos);
+    LogUtils.LOG.debug("farmIds = " + wiInfos);
     if (wiInfos.size() == 1)
     {
       req.setGroupId((String)wiInfos.get(0));
@@ -108,7 +116,6 @@ public class AppCloudServiceImpl implements AppCloudService
     {
       final GetVmListReq getVmListReq = new GetVmListReq();
       getVmListReq.setCurrentSessionMap(req.getCurrentSessionMap());
-      //getVmListReq.setGroupId(req.getGroupId());
       getVmListReq.setIsEmergencyLogin(req.getIsEmergencyLogin());
       getVmListReq.setRetry(req.getRetry());
       getVmListReq.setTokenId(req.getTokenId());
@@ -134,7 +141,7 @@ public class AppCloudServiceImpl implements AppCloudService
           }
           catch (Exception e)
           {
-            LogUtils.VDESKTOP_LOG.error(e);
+            LogUtils.LOG.error(e);
           }
           return null;
         }
@@ -155,17 +162,17 @@ public class AppCloudServiceImpl implements AppCloudService
       }
       catch (Exception e)
       {
-        LogUtils.VDESKTOP_LOG.error(e);
+        LogUtils.LOG.error(e);
       }
 
       if (getRsp == null)
       {
-        LogUtils.VDESKTOP_LOG.error("vmRsp is null.");
-        retCode = ResultCode.HDC_INVALID.getCode();
+        LogUtils.LOG.error("vmRsp is null.");
+        retCode = ResultCode.WI_INVALID.getCode();
       }
       else if (ResultCode.SUCCESS.getCode() != getRsp.getResultCode())
       {
-        LogUtils.VDESKTOP_LOG
+        LogUtils.LOG
           .error("errorCode= " + getRsp.getResultCode() + ", errorMessage= " + getRsp.getResultDesc());
         retCode = getRsp.getResultCode();
         message = getRsp.getResultDesc();
@@ -174,15 +181,43 @@ public class AppCloudServiceImpl implements AppCloudService
       {
         healFlag = true;
 
-        vmList.addAll(dealVmList(req, getRsp));
-
+        if ((req.getQueryType() == null) || (StaticNumber.ZERO.getCode() == req.getQueryType().intValue()))
+        {
+          //vmList.addAll(dealVmList(req, getRsp));
+        	List<VmModel>tmpAllvmList = dealVmList(req,getRsp);
+        	addVmList(vmList,tmpAllvmList);
+        }
+        else if (StaticNumber.ONE.getCode() == req.getQueryType().intValue())
+        {
+        	//登录的多套WI是一样的
+        	List<AppModel> tmpAllapplist=dealAppList(req,getRsp);
+        	addAppList(appList,tmpAllapplist);
+        	List<AppModel>tmpFavApplist =dealAppList(req,getRsp);
+        	addAppList(myAppList,tmpFavApplist);
+          //appList.addAll(dealAppList(req, getRsp));
+          //myAppList.addAll(dealMyAppList(req, getRsp));
+        }
+        else
+        {//登录的多套WI是一样的
+        	List<VmModel>tmpAllvmList = dealVmList(req,getRsp);
+        	addVmList(vmList,tmpAllvmList);
+        	
+        	
+        	List<AppModel> tmpAllapplist=dealAppList(req,getRsp);
+        	addAppList(appList,tmpAllapplist);
+        	List<AppModel>tmpFavApplist =dealAppList(req,getRsp);
+        	addAppList(myAppList,tmpFavApplist);
+          //vmList.addAll(dealVmList(req, getRsp));
+          //appList.addAll(dealAppList(req, getRsp));
+          //myAppList.addAll(dealMyAppList(req, getRsp));
+        }
       }
 
     }
 
     if (!healFlag)
     {
-      LogUtils.VDESKTOP_LOG.info("query desktoplist of all the hdc is empty.");
+      LogUtils.LOG.info("query desktoplist of all the wi is empty.");
       rsp.setResultCode(retCode);
       rsp.setResultDesc(message);
       return rsp;
@@ -191,16 +226,27 @@ public class AppCloudServiceImpl implements AppCloudService
     rsp.setResultCode(ResultCode.SUCCESS.getCode());
 
     rsp.setVmList(vmList);
-//    rsp.setAppInfos(appList);
-//    rsp.setMyAppInfos(myAppList);
+    rsp.setAppInfos(appList);
+    rsp.setMyAppInfos(myAppList);
 
-    LogUtils.VDESKTOP_LOG.debug(rsp);
+    LogUtils.LOG.debug(rsp);
     return rsp;
+  }
+  
+  private void addAppList(List<AppModel>appList,List<AppModel>addedList){
+	  for(AppModel tmpapp:addedList){
+		  if(!appList.contains(tmpapp))appList.add(tmpapp);
+	  }
+  }
+  private void addVmList(List<VmModel>vmList,List<VmModel>addedList){
+	  for(VmModel tmpVm:addedList){
+		  if(!vmList.contains(tmpVm))vmList.add(tmpVm);
+	  }
   }
 
   private GetVmListRsp getVmListBySingleFarm(GetVmListReq req)
   {
-    LogUtils.VDESKTOP_LOG.debug(req);
+    LogUtils.LOG.debug(req);
 
     GetVmListRsp rsp = new GetVmListRsp();
     GetVmListRsp getRsp = this.wiClientService.getVmList(req);
@@ -211,22 +257,78 @@ public class AppCloudServiceImpl implements AppCloudService
 
     if ((getRsp == null) || (ResultCode.SUCCESS.getCode() != getRsp.getResultCode()))
     {
-      retCode = ResultCode.HDC_INVALID.getCode();
+      retCode = ResultCode.WI_INVALID.getCode();
       rsp.setResultCode(retCode);
       rsp.setResultDesc(message);
       return rsp;
     }
 
+    if ((req.getQueryType() == null) || (StaticNumber.ZERO.getCode() == req.getQueryType().intValue()))
+    {
+      rsp.setVmList(dealVmList(req, getRsp));
+    }
+    else if (StaticNumber.ONE.getCode() == req.getQueryType().intValue())
+    {
+      rsp.setAppInfos(dealAppList(req, getRsp));
+      rsp.setMyAppInfos(dealMyAppList(req, getRsp));
+    }
+    else
+    {
       rsp.setVmList(dealVmList(req, getRsp));
 
+      rsp.setAppInfos(dealAppList(req, getRsp));
+      rsp.setMyAppInfos(dealMyAppList(req, getRsp));
+    }
 
      rsp.setResultCode(ResultCode.SUCCESS.getCode());
 
-    LogUtils.VDESKTOP_LOG.debug(rsp);
+    LogUtils.LOG.debug(rsp);
     return rsp;
   }
 
- 
+  private List<AppModel> dealAppList(GetVmListReq req, GetVmListRsp getRsp)
+  {
+    if (getRsp == null)
+    {
+      return new ArrayList<AppModel>();
+    }
+
+    if (getRsp.getAppInfos() != null)
+    {
+      for (AppModel app : getRsp.getAppInfos())
+      {
+        app.setGroupId(getRsp.getFarmId());
+      }
+    }
+    else
+    {
+      return new ArrayList<AppModel>();
+    }
+
+    return getRsp.getAppInfos();
+  }
+
+  private List<AppModel> dealMyAppList(GetVmListReq req, GetVmListRsp getRsp)
+  {
+    if (getRsp == null)
+    {
+      return new ArrayList<AppModel>();
+    }
+
+    if (getRsp.getMyAppInfos() != null)
+    {
+      for (AppModel app : getRsp.getMyAppInfos())
+      {
+        app.setGroupId(getRsp.getFarmId());
+      }
+    }
+    else
+    {
+      return new ArrayList<AppModel>();
+    }
+
+    return getRsp.getMyAppInfos();
+  }
 
   private List<VmModel> dealVmList(GetVmListReq req, GetVmListRsp getRsp)
   {
@@ -245,7 +347,7 @@ public class AppCloudServiceImpl implements AppCloudService
         {
           vm.setGroupId(getRsp.getFarmId());
           
-          if (CommonUtils.checkAllStringNull(new String[] { vm.getSid() }))
+          if (CommonUtils.checkAllStringNull( vm.getSid() ))
           {
             vm.setSid(AesEncrypter.encodeBASE64(vm.getId()));
           }
@@ -325,7 +427,7 @@ public class AppCloudServiceImpl implements AppCloudService
     {
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     else
     {
@@ -356,17 +458,17 @@ public class AppCloudServiceImpl implements AppCloudService
   }
 
   /***
-   * @since 2015/8/20
+   * @date 2015/8/20
    */
   public GetConfigInfoRsp getConfigInfo(GetConfigInfoReq req)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     GetConfigInfoRsp rsp = new GetConfigInfoRsp();
 
     if (req == null)
     {
-      LogUtils.VDESKTOP_LOG.error("The params is null.");
+      LogUtils.LOG.error("The params is null.");
       rsp.setResultCode(ResultCode.REQUEST_INVALID.getCode());
       rsp.setResultDesc(ResultCode.REQUEST_INVALID.getMessage());
       return rsp;
@@ -386,22 +488,12 @@ public class AppCloudServiceImpl implements AppCloudService
         
       if (GetConfigForbidKey.containKey(key))
       {
-        LogUtils.VDESKTOP_LOG.error("The key cannot be req key = " + key);
+        LogUtils.LOG.error("The key cannot be req key = " + key);
       }
       else
       {
-        if ("multidomainconfig".equalsIgnoreCase(key))
-        {
-          String mutilDomainConfig = "";
-          configInfoValue.setKey(key);
-          configInfoValue.setValue(mutilDomainConfig);
-        }
-        else
-        {
-          configInfoValue.setKey(key);
-          configInfoValue.setValue(propValue);
-        }
-
+        configInfoValue.setKey(key);
+        configInfoValue.setValue(propValue);
         configInfoKeyList.add(configInfoValue);
       }
     }
@@ -412,7 +504,7 @@ public class AppCloudServiceImpl implements AppCloudService
 
     rsp.setConfigKey(configInfoKeyList);
     rsp.setResultCode(ResultCode.SUCCESS.getCode());
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return rsp;
   }
 
@@ -422,7 +514,7 @@ public class AppCloudServiceImpl implements AppCloudService
   {
     if ("ok".equalsIgnoreCase(getUserInfoReq.getEmergencyLogonFlag()))
     {
-      LogUtils.VDESKTOP_LOG.info("EMERGENCYLOGON Mode,AD is bad,return...");
+      LogUtils.LOG.info("EMERGENCYLOGON Mode,AD is bad,return...");
       return null;
     }
 
@@ -438,22 +530,91 @@ public class AppCloudServiceImpl implements AppCloudService
     return this.wiClientService.monitorStatus();
   }
 
- 
+  public GetAppLoginInfoRsp getApploginInfo(GetAppLoginInfoReq req)
+  {
+    return this.wiClientService.getApploginInfo(req);
+  }
+
+  public FavoriteAppRsp dealFavoriteApp(FavoriteAppReq req)
+  {
+    return this.wiClientService.dealFavoriteApp(req);
+  }
+
+  public GetIconRsp getAppIcon(GetIconReq req)
+  {
+    LogUtils.LOG.enterMethod();
+
+    GetIconRsp rsp = new GetIconRsp();
+
+    if ((req.getAppList() == null) || (req.getAppList().isEmpty()))
+    {
+      LogUtils.LOG.error("req is error.");
+      rsp.setResultCode(ResultCode.REQUEST_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.REQUEST_INVALID.getMessage());
+      return rsp;
+    }
+
+    List<IconInfoModel> iconModels = new ArrayList<IconInfoModel>();
+
+    for (AppModel app : req.getAppList())
+    {
+      List<AppModel> appList = new ArrayList<AppModel>();
+      appList.add(app);
+
+      GetIconReq iconReq = new GetIconReq();
+      iconReq.setAppList(appList);
+      iconReq.setGroupId(app.getGroupId());
+      iconReq.setCurrentSession(req.getCurrentSession());
+      iconReq.setCurrentSessionMap(req.getCurrentSessionMap());
+      iconReq.setUserId(req.getUserId());
+     
+
+      rsp = this.wiClientService.getAppIcon(iconReq);
+
+      if (rsp == null)
+      {
+        LogUtils.LOG.error("GetIconRsp is null.");
+        return rsp;
+      }
+      if (ResultCode.SUCCESS.getCode() != rsp.getResultCode())
+      {
+        LogUtils.LOG.error("errorCode= " + rsp.getResultCode() + ", errorMessage= " + rsp.getResultDesc());
+        rsp.setResultCode(rsp.getResultCode());
+        rsp.setResultDesc(rsp.getResultDesc());
+        return rsp;
+      }
+
+      List<IconInfoModel> rspicons = rsp.getIconInfos();
+
+      if (rspicons != null)
+      {
+       
+    	  for(IconInfoModel icon:rspicons ){
+    		  iconModels.add(icon);
+    	  }
+      }
+
+    }
+
+    rsp.setIconInfos(iconModels);
+    LogUtils.LOG.exitMethod();
+    return rsp;
+  }
 
   public GetSessionByUserNameRsp getSessionByUserName(GetSessionByUserNameReq req)
   {
-    LogUtils.VDESKTOP_LOG.debug(req);
+    LogUtils.LOG.debug(req);
 
     GetSessionByUserNameRsp rsp = new GetSessionByUserNameRsp();
     List<SessionModel> sessionList = new ArrayList<SessionModel>();
 
-    Map<String, List<WiInterfaceModel>>  hdcMap = this.wiService.getWIMap();
+    Map<String, List<WiInterfaceModel>>  wiMap = this.wiService.getWIMap();
 
-    if ((hdcMap == null) || (hdcMap.isEmpty()))
+    if ((wiMap == null) || (wiMap.isEmpty()))
     {
-      LogUtils.VDESKTOP_LOG.error("hdc list is null.");
+      LogUtils.LOG.error("WI list is null.");
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
-      rsp.setResultDesc("hdc list is null.");
+      rsp.setResultDesc("WI list is null.");
       return rsp;
     }
 
@@ -469,7 +630,7 @@ public class AppCloudServiceImpl implements AppCloudService
 
     List<Future<GetSessionByUserNameRsp>> lst = new ArrayList<Future<GetSessionByUserNameRsp>>();
 
-    LogUtils.VDESKTOP_LOG.debug("groupIds = " + wiInfos);
+    LogUtils.LOG.debug("groupIds = " + wiInfos);
 
     if (wiInfos.size() == 1)
     {
@@ -504,7 +665,7 @@ public class AppCloudServiceImpl implements AppCloudService
           }
           catch (Exception e)
           {
-            LogUtils.VDESKTOP_LOG.error(e);
+            LogUtils.LOG.error(e);
           }
           return null;
         }
@@ -526,17 +687,17 @@ public class AppCloudServiceImpl implements AppCloudService
       }
       catch (Exception e)
       {
-        LogUtils.VDESKTOP_LOG.error(e);
+        LogUtils.LOG.error(e);
       }
 
       if (getRsp == null)
       {
-        LogUtils.VDESKTOP_LOG.error("sessionRsp is null.");
-        retCode = ResultCode.HDC_INVALID.getCode();
+        LogUtils.LOG.error("sessionRsp is null.");
+        retCode = ResultCode.WI_INVALID.getCode();
       }
       else if (ResultCode.SUCCESS.getCode() != getRsp.getResultCode())
       {
-        LogUtils.VDESKTOP_LOG
+        LogUtils.LOG
           .error("errorCode= " + getRsp.getResultCode() + ", errorMessage= " + getRsp.getResultDesc());
         retCode = getRsp.getResultCode();
         message = getRsp.getResultDesc();
@@ -552,7 +713,7 @@ public class AppCloudServiceImpl implements AppCloudService
 
     if (!healFlag)
     {
-      LogUtils.VDESKTOP_LOG.error("query sessionlist of all the WI is empty.");
+      LogUtils.LOG.error("query sessionlist of all the WI is empty.");
       rsp.setResultCode(retCode);
       rsp.setResultDesc(message);
       return rsp;
@@ -561,13 +722,13 @@ public class AppCloudServiceImpl implements AppCloudService
     rsp.setResultCode(ResultCode.SUCCESS.getCode());
     rsp.setSessionInfoList(sessionList);
 
-    LogUtils.VDESKTOP_LOG.debug(rsp);
+    LogUtils.LOG.debug(rsp);
     return rsp;
   }
 
   private GetSessionByUserNameRsp getSessionsBySingleFarm(GetSessionByUserNameReq req)
   {
-    LogUtils.VDESKTOP_LOG.debug(req);
+    LogUtils.LOG.debug(req);
 
     GetSessionByUserNameRsp rsp = new GetSessionByUserNameRsp();
     GetSessionByUserNameRsp getRsp = this.wiClientService.getSessionByUserName(req);
@@ -578,7 +739,7 @@ public class AppCloudServiceImpl implements AppCloudService
 
     if ((getRsp == null) || (ResultCode.SUCCESS.getCode() != getRsp.getResultCode()))
     {
-      retCode = ResultCode.HDC_INVALID.getCode();
+      retCode = ResultCode.WI_INVALID.getCode();
       rsp.setResultCode(retCode);
       rsp.setResultDesc(message);
       return rsp;
@@ -588,7 +749,7 @@ public class AppCloudServiceImpl implements AppCloudService
 
     rsp.setResultCode(ResultCode.SUCCESS.getCode());
 
-    LogUtils.VDESKTOP_LOG.debug(rsp);
+    LogUtils.LOG.debug(rsp);
     return rsp;
   }
 

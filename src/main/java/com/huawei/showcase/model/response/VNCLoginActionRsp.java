@@ -6,9 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-//@XmlRootElement(name="VncLoginActionRsp")
 @XmlRootElement(name="VNCLoginActionRsp")
-//public class VncLoginActionRsp extends CommonRsp
 @XmlAccessorType(XmlAccessType.FIELD)
 public class VNCLoginActionRsp extends CommonRsp
 {
@@ -19,14 +17,14 @@ public class VNCLoginActionRsp extends CommonRsp
 
  @XmlElement(name="addressInfo")
   private String addressInfo;
-// @XmlElement(name="password")
+
   @XmlElement(name="vncPassword")
   private String password;
 
  public String toString()
   {
     StringBuilder builder = new StringBuilder();
-    builder.append("[HDC>>WI]req:resultCode=" + getResultCode());
+    builder.append("req:resultCode=" + getResultCode());
     builder.append(",resultDesc=" + getResultDesc());
 
     return builder.toString();

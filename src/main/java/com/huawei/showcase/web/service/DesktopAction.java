@@ -5,7 +5,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import com.huawei.showcase.model.request.DescribeVMUserCustomPolicyReq;
+import com.huawei.showcase.model.request.FavoriteAppReq;
+import com.huawei.showcase.model.request.GetAppLoginInfoReq;
 import com.huawei.showcase.model.request.GetConfigInfoReq;
+import com.huawei.showcase.model.request.GetIconReq;
 import com.huawei.showcase.model.request.GetLoginInfoReq;
 import com.huawei.showcase.model.request.GetVmListReq;
 import com.huawei.showcase.model.request.ModifyVMUserCustomPolicyReq;
@@ -13,7 +16,10 @@ import com.huawei.showcase.model.request.QueryVmStatusReq;
 import com.huawei.showcase.model.request.RebootUserVMReq;
 import com.huawei.showcase.model.request.VncLoginReq;
 import com.huawei.showcase.model.response.DescribeVMUserCustomPolicyRsp;
+import com.huawei.showcase.model.response.FavoriteAppRsp;
+import com.huawei.showcase.model.response.GetAppLoginInfoRsp;
 import com.huawei.showcase.model.response.GetConfigInfoRsp;
+import com.huawei.showcase.model.response.GetIconRsp;
 import com.huawei.showcase.model.response.GetLoginInfoRsp;
 import com.huawei.showcase.model.response.GetVmListRsp;
 import com.huawei.showcase.model.response.LogOutRsp;
@@ -69,5 +75,20 @@ public abstract interface DesktopAction
   @Path("/getconfiginfo")
   @Produces({"application/json"})
   public abstract GetConfigInfoRsp getConfigInfo(GetConfigInfoReq paramGetConfigInfoReq);
+
+  @POST
+  @Path("/getApploginInfo")
+  @Produces({"application/json"})
+  public abstract GetAppLoginInfoRsp getApploginInfo(GetAppLoginInfoReq paramGetAppLoginInfoReq);
+
+  @POST
+  @Path("/getAppIcon")
+  @Produces({"application/json"})
+  public abstract GetIconRsp getAppIcon(GetIconReq paramGetIconReq);
+
+  @POST
+  @Path("/dealFavoriteApp")
+  @Produces({"application/json"})
+  public abstract FavoriteAppRsp dealFavoriteApp(FavoriteAppReq paramFavoriteAppReq);
 
 }

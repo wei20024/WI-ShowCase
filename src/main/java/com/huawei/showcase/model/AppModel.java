@@ -7,11 +7,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="AppModel")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AppModel
+public class AppModel implements java.io.Serializable
 {
   
 
-  @XmlElement(name="appId")
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5145568994515418490L;
+
+@XmlElement(name="appId")
   private String appId;
 
   @XmlElement(name="farmId")
@@ -82,6 +87,13 @@ public class AppModel
     return builder.toString();
   }
 
+  @Override
+  public boolean equals(Object other)
+  {
+	  AppModel otherApp = (AppModel)other;
+	  if(this.appId.equals(otherApp.appId))return true;
+	  return false;
+  }
   public String getAppId()
   {
     return this.appId;

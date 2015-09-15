@@ -1,5 +1,5 @@
 <div class="searchArea" >
-    <img src="/webui/default/img/app/search.png" class="searchImg">
+    <img src="/uns/default/img/app/search.png" class="searchImg">
     <input type="text" id="searchAppName" class="searchInput"/>
     <ul class="selectAppName"></ul>
 </div>

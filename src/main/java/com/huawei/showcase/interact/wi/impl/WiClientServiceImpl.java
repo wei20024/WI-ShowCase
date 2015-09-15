@@ -59,23 +59,14 @@ public class WiClientServiceImpl  implements WiClientService
     GetVmListRsp rsp = new GetVmListRsp();
     if (vmRsp == null)
     {
-      //LogUtils.VDESKTOP_LOG.error("vmRsp is null.");
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
       return rsp;
     }
-   /* if (ResultCode.DESKLOGIN_QUERY_VNCINFO_ERROR.getCode() == vmRsp.getResultCode())
-    {
-      LogUtils.VDESKTOP_LOG.error("rsp.getResultCode(): " + vmRsp.getResultCode() + " errormessage : " + 
-        vmRsp.getResultDesc());
-      rsp.setResultCode(ResultCode.DESKLOGIN_GET_VNCINFO_ERROR.getCode());
-      rsp.setResultDesc(vmRsp.getResultCode() + vmRsp.getResultDesc());
-      return rsp;
-    }*/
     if (ResultCode.SUCCESS.getCode() != vmRsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("errorCode= " + vmRsp.getResultCode() + ", errorMessage= " + vmRsp.getResultDesc());
+      LogUtils.LOG.error("errorCode= " + vmRsp.getResultCode() + ", errorMessage= " + vmRsp.getResultDesc());
       rsp.setResultCode(vmRsp.getResultCode());
       rsp.setResultDesc(vmRsp.getResultCode() + vmRsp.getResultDesc());
       return rsp;
@@ -91,7 +82,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new GetLoginInfoRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -104,7 +95,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new VncLoginUnsRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -117,7 +108,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new RebootUserVMRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -131,7 +122,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new DescribeVMUserCustomPolicyRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -144,7 +135,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new ModifyUserVMPolicyRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -161,13 +152,6 @@ public class WiClientServiceImpl  implements WiClientService
     return rsp;
   }
 
- /* public CommonRsp logout(String tokenId, String groupId)
-  {
-    UnsCommonReq req = new UnsCommonReq();
-    req.setGroupId(groupId);
-    return (CommonRsp)this.wiService.handleRequest("logout", req);
-  }*/
-
   public ChangePwdRsp changePWD(ChangePwdReq req)
   {
     ChangePwdRsp rsp = (ChangePwdRsp)this.wiService.handleRequest("changePWD", req);
@@ -176,7 +160,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new ChangePwdRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -189,7 +173,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new QueryVmStatusRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -202,7 +186,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new GetUserInfoRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -220,7 +204,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new GetAppLoginInfoRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -233,7 +217,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new FavoriteAppRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -246,7 +230,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new GetIconRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -258,14 +242,14 @@ public class WiClientServiceImpl  implements WiClientService
 
     if (vmRsp == null)
     {
-      LogUtils.VDESKTOP_LOG.error("vmRsp is null.");
-      rsp.setResultCode(ResultCode.HDC_INVALID.getCode());
-      rsp.setResultDesc(ResultCode.HDC_INVALID.getMessage());
+      LogUtils.LOG.error("vmRsp is null.");
+      rsp.setResultCode(ResultCode.WI_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
       return rsp;
     }
     if (ResultCode.SUCCESS.getCode() != vmRsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("errorCode= " + vmRsp.getResultCode() + ", errorMessage= " + vmRsp.getResultDesc());
+      LogUtils.LOG.error("errorCode= " + vmRsp.getResultCode() + ", errorMessage= " + vmRsp.getResultDesc());
       rsp.setResultCode(vmRsp.getResultCode());
       rsp.setResultDesc(vmRsp.getResultCode() + vmRsp.getResultDesc());
       return rsp;
@@ -273,20 +257,6 @@ public class WiClientServiceImpl  implements WiClientService
 
     return vmRsp;
   }
-
-  /*public SessionLogoffRsp logoffSessions(SessionLogoffReq req)
-  {
-    SessionLogoffRsp rsp = (SessionLogoffRsp)this.wiService.handleRequest("logoffSessions", req);
-
-    if (rsp == null)
-    {
-      rsp = new SessionLogoffRsp();
-      rsp.setResultCode(ResultCode.WI_INVALID.getCode());
-      rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
-    }
-    return rsp;
-  }*/
 
   public LoginSystemRsp loginSystem(LoginSystemReq req)
   {
@@ -296,7 +266,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new LoginSystemRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }
@@ -310,7 +280,7 @@ public class WiClientServiceImpl  implements WiClientService
       rsp = new UpdateTokenRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc(ResultCode.WI_INVALID.getMessage());
-      LogUtils.VDESKTOP_LOG.error(rsp);
+      LogUtils.LOG.error(rsp);
     }
     return rsp;
   }

@@ -37,14 +37,13 @@
 	<bean id="applicationContextBean" class="com.huawei.showcase.common.framwork.WIApplicationContext" />
    
 	<!-- Global Property placeholders -->
-	<bean
+<!--	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location">
-			<!-- <value>controller.properties</value> -->
+		<property name="location">			
 			<value>classpath:controller.properties</value>
 		</property>
 	</bean>
-
+ -->
 	<!-- REST server(http) -->
 	<bean id="wiJaxbProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
 		<property name="dropRootElement" value="true" />
@@ -70,7 +69,6 @@
 		<property name="address" value="/" />
 		<property name="serviceBeans">
 			<list>
-<!--				<ref bean="configurationActionImpl" />-->
 				<ref bean="desktopActionImpl" />
 				<ref bean="loginActionImpl" />
 				<ref bean="monitorRestImpl" />
@@ -82,40 +80,12 @@
 			</list>
 		</property>
 		<property name="inInterceptors">
-			<list>
-			<!-- 	<ref bean="loggingInInterceptor" />  -->
+			<list>			
 				<ref bean="infInterceptor" />
 			</list>
 		</property>
-		<!-- 
-		<property name="outInterceptors">
-			<list>
-
-				<ref bean="loggingOutInterceptor" />
-
-			</list>
-		</property>
-		 -->
 	</bean>
-<!-- 
-	<bean class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean"
-		init-method="create">
-		<property name="address" value="/api" />
-		<property name="serviceBeans">
-			<list>
-				<ref bean="desktopRestImpl" />
-				<ref bean="loginRestImpl" />
-				<ref bean="monitorApiRestImpl" />
-			</list>
-		</property>
-		<property name="providers">
-			<list>
-				<ref bean="wiJaxbProvider" />
-			</list>
-		</property>
 
-	</bean>
--->
 	<!-- 日志打印 -->
 	<bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor" />
 

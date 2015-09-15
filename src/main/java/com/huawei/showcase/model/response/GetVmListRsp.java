@@ -18,7 +18,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class GetVmListRsp extends CommonRsp
 {
   private static final long serialVersionUID = 1256766317176525L;
-  private String farmId;
+  private String farmId; //WI id
 
   @XmlElement(name="vms")
   private List<VmModel> vmList;

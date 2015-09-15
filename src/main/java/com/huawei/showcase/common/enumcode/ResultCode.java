@@ -22,8 +22,7 @@ public enum ResultCode
   UNKNOWED_REASON(
     410104, "logon failed,unknown reason"), 
 
-  AD_Fault(
-    410105, "AD may be defective"), 
+
 
   EMERGENCY_LOGON(
     410106, "In emergency mode, no operating authority"), 
@@ -103,8 +102,6 @@ public enum ResultCode
   REQUEST_INVALID(
     410200, "request parameter is invalid."), 
 
-  HDC_INVALID(
-    410201, "system error."), 
 
   SESSION_INVALID(
     410202, "session is invalid."), 
@@ -160,11 +157,6 @@ public enum ResultCode
   SID_IN_SESSION_INVALID(
     410219, "the user donot have this vm."), 
 
-  ITA_INVALID(
-    410220, "ita return null."), 
-
-  ALL_HDC_INVALID(
-    410221, "All hdc invalid."), 
 
   FARM_INVALID(
     410222, "farmid of vm and login.properties is not same."), 

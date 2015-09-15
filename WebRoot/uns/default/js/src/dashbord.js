@@ -312,11 +312,6 @@ webui.objects.dashbord.actionurls = {
             ele.find(".vmNameLink").attr("title", vmName); 
             ele.find(".vmName").attr("title", vmName); 
         }
-        
-        if (vmVersion == "R21") {
-            ele.find(".powerSet").hide();
-            ele.find(".loginVnc").hide();
-        }
 
         //动态池模式（vmGroup）不显示，静态池模式（vmStaticGroup）只有第一次的时候不显示,如果是维护模式也不显示这些按钮
         if (vmVersion == "R51") {
@@ -460,25 +455,6 @@ webui.objects.dashbord.actionurls = {
             tip.find(".vmTipTable").css("width",width);
             tip.find(".vmTipTable").css("height",height);
         }    
-    }
-    function callClient_R21(instance, loginInfo)
-    {
-        $("#icaFileId").val(loginInfo.icaFileId);
-        var icaUrl = "/launch.ica?icaFileId="+loginInfo.icaFileId + "&" + Math.random();
-        if (ClientInfo.isIE()) {
-            var icaobjhtml = '<object id="icaobj" classid="clsid:238f6f83-b8b4-11cf-8771-00a024541ee3" width="0" height="0">'+
-                                '<param name="Launch" value= "true">'+
-                                '<param name="Start" value= "true">'+
-                                '<param name="IPCLaunch" value="false">'+
-                                '<param name="ICAfile" value="'+icaUrl+'">'+
-                            '</object>';
-                    $("#icaobjdiv").html(icaobjhtml);
-        }
-        else if (ClientInfo.isFirefox()) {
-            $("#icaIframe").attr("src", icaUrl);    
-        }else{
-            $("#icaIframe").attr("src", icaUrl);    
-        }
     }
     
     // 成功得到连接信息后，将客户端调起来
@@ -657,123 +633,6 @@ webui.objects.dashbord.actionurls = {
             else $("#clientIframe").attr("src", reqStr);
             showTip(instance, LA("Running Client"));
         }
-    }
-    function tryConnect_R21(instance, callback, timeout)
-            {
-        // 再次防止重入，除定时器外，对未完成的ajax请求也做中断处理
-            if (typeof(instance.__retryTimer) != "undefined" && instance.__retryTimer != null && instance.__retryTimer != 0)
-            {
-                clearTimeout(instance.__retryTimer);
-                instance.__retryTimer = 0;
-            }
-            if (typeof(instance.__connectAjaxer) != "undefined" && instance.__connectAjaxer != null && instance.__connectAjaxer != 0)
-            {
-                instance.__connectAjaxer.abort();
-                instance.__connectAjaxer = 0;
-            }
-            
-            if (typeof(timeout) == "undefined" || timeout == null || timeout == 0)
-            {
-                timeout = 300000;
-            }
-            
-            console.log("clientMac=" + hdpclient.getClientMac() + ",clientName=" + hdpclient.clientName() 
-                    + ",clientIP=" + hdpclient.clientIp() + ",clientVersion=" + hdpclient.clientVersion() 
-                    + "clientType=" + hdpclient.clientType());
-            
-            //登录过后cookie中的isFirstLogin变为false，下次刷新就不会重新登录
-            commonvar.setCookieByProtocol("isFirstLogin", "false");
-            
-            //每次请求生成唯一标识,与返回标识对比,以确认请求与响应匹配
-            var randomId =  createRandomId();      
-            console.log("try connecting., randomId = " + randomId);
-            
-            // 发起ajax请求
-         __connectAjaxer = $.ajax({
-            url : webui.objects.dashbord.actionurls.getLoginInfo, // 加随机数防止缓存
-            type : "POST",
-            headers: { "cache-control": "no-cache"},    
-            dataType : "json",
-            contentType :"application/json",
-            timeout: timeout,
-            data : JSON.stringify({
-                    "id" : instance.sid,
-                  "type" : instance.type,
-                "farmId" : instance.farmId,
-                  "dgId" : instance.dgId,
-              "clientMac": hdpclient.getClientMac(),
-             "clientName": hdpclient.clientName(),
-               "clientIp": hdpclient.clientIp(),
-          "clientVersion": hdpclient.clientVersion(),
-             "clientType": hdpclient.clientType(),
-             "randomId":randomId
-            }),
-            beforeSend: function(XMLHttpRequest){
-                XMLHttpRequest.setRequestHeader("randomTokenId",commonvar.getRandomTokenId());
-            },
-            success : function(msg) {
-                webui.objects.dashbord.urlChecker.checkGetVncLoginInfoRsp(msg);
-                try
-                {
-                    if (msg.resultCode != 0)
-                    {
-                        console.log("login vm fail(" + msg.resultCode + ")");
-                        
-                        var errorMsg = "";
-                        if (msg.resultCode == 10000402) errorMsg = LA('10000402') + '(' + msg.resultCode + ')';
-                        else if (msg.resultCode == 10000403) errorMsg = instance.name + LA('10000403') + '(' + msg.resultCode + ')';
-                        else if (msg.resultCode == 10000404) errorMsg = LA('10000404') + '(' + msg.resultCode + ')';
-                        else if (msg.resultCode == 10000405) errorMsg = LA('10000405') + '(' + msg.resultCode + ')';
-                        else if (msg.resultCode == 10000406) errorMsg = LA('10000406') + '(' + msg.resultCode + ')';
-                        else if (msg.resultCode == 10000601) errorMsg = LA('10000601_L') + instance.name + LA('10000601_R');
-                        else if (msg.resultCode == 10000602) errorMsg = LA('10000602_L') + instance.name + LA('10000602_R') + '(' + msg.resultCode + ')';
-                        else if (msg.resultCode == 10000801) errorMsg = LA('10000801_L') + instance.name + LA('10000801_R') + '(' + msg.resultCode + ')';
-                        else if (msg.resultCode == 10000802) errorMsg = LA('10000802_L') + instance.name + LA('10000802_R') + '(' + msg.resultCode + ')';
-                        else errorMsg = LA('Can not connect to VM') + '(' + msg.resultCode + ')';
-                        callback(msg.resultCode, errorMsg);
-                    }
-                     else {
-                           if ((null != msg.randomId && '' != msg.randomId && undefined != msg.randomId)
-                                        && (msg.randomId != randomId)) 
-                           {
-                                    // 1225代表请求与响应不匹配
-                                    errorMsg = LA('VM is preparing') + " 1225";
-                                    callback(1225, errorMsg);
-                          } else {
-                                    if (typeof (instance.__retryTimer) != "undefined" && instance.__retryTimer != null
-                                            && instance.__retryTimer != 0) {
-                                        clearTimeout(instance.__retryTimer);
-                                        instance.__retryTimer = 0;
-                                    }
-                                    callClient_R21(instance, msg);
-                                    callback(0, "");
-                            }
-                         }
-                }
-                catch(err)
-                {
-                    console.log("connect throw exception:" + err, err.stack ? err.stack : "");
-                    callback(-1,LA('Internal Error'));
-                }
-            },
-            error : function(msg,ret) {
-                
-                console.log("getLoginInfo msg.status = " + msg.status);
-                if (msg.status == 403)
-                {
-                    window.location.href = commonvar.serviceUrl.errorPage403;
-                }
-                
-                // 前后台通讯错误则直接报错
-                if (typeof(instance.__retryTimer) != "undefined" && instance.__retryTimer != null && instance.__retryTimer != 0)
-                {
-                    clearTimeout(instance.__retryTimer);
-                    instance.__retryTimer = 0;
-                }
-                console.log("connect error(%s).", ret);
-                callback(-2,LA('Connect to VM failed'));
-            }
-        });
     }
     
     function tryConnect(instance, isVNC, isAutoVncLogin, callback, timeout) 
@@ -966,43 +825,7 @@ webui.objects.dashbord.actionurls = {
     
     var queryVmStateInterval = 0;
     var queryVmStateBeginTime = 0;
-    
-    function connectVmNormal_R21(instance, inputPa)
-    {
-        if (webui.objects.dashbord.pluginChecker.isPluginExistR21() == false)
-        {
-            showTip(instance, LA('Please install client first') , function(){});
-            return;
-        }
-
-        if (typeof(instance.__connecting) != "undefined" && instance.__connecting != null && instance.__connecting == true) return;
-           instance.ele.addClass("vmRoleConnecting");
-           instance.__connecting = true;
-           console.log("connect VM normal.");
-               
-        tryConnect_R21(instance, function(errorCode, errorText){
-            cancelConnectingStatus(instance);
-            instance.__connecting = false;
-            if (errorCode == "10000601")
-            {
-                showTip(instance, errorText, function(){});
-                queryVmStateInterval = 0;
-                queryVmStateBeginTime = new Date().getTime();
-                setTimeout(function(){
-                    queryVmState(instance);
-                }, webui.system.rebootAfterTime);
-            }
-            else 
-            {
-                if (errorCode !=0) showTip(instance, errorText, function(){});
-                else 
-                {
-                    setTimeout(function(){document.location.reload();}, 5000);
-                }
-            }
-        });
-    }
-    
+       
     function queryVmState(instance)
     {
         //3分钟后停止状态查询
@@ -1200,28 +1023,19 @@ webui.objects.dashbord.actionurls = {
                 success : function(msg) {
                     setTimeout(function(){outLoading(instance);}, webui.system.rebootKeepTime);
                     if (msg.resultCode == 0)
-                    {
-                        if (instance.vmVersion == "R21") {
-                            console.log("reboot R21 VM...");
-                            intervalIndex = 0;
-                            rebootBeginTime = new Date().getTime();
-                            setTimeout(function(){
-                                getVmStateIsReady(instance, isForce);
-                            }, webui.system.rebootAfterTime);
-                        }else if (instance.vmVersion == "R51") {
-                            console.log("reboot R51 VM...");
-                            webui.objects.dashbord.vmMgr.tryLoop(0);
+                    {                    	
+                        if (instance.vmVersion == "R51") {
+                        console.log("reboot R51 VM...");
+                        webui.objects.dashbord.vmMgr.tryLoop(0);
                         }else{
                             webui.objects.dashbord.vmMgr.tryLoop(0);
                         }
                     }
                     else
-                    {
-                        if (instance.vmVersion == "R21") {
-                            showRebootMsg(instance, msg.resultCode, isForce);
-                        }else if (instance.vmVersion == "R51") {
-                            showTip(instance, LA(isForce ? "Force reboot VM failed" : "Reboot VM failed"), function(){});
-                            outLoading(instance);
+                    {                       	
+                        if (instance.vmVersion == "R51") {
+                        showTip(instance, LA(isForce ? "Force reboot VM failed" : "Reboot VM failed"), function(){});
+                        outLoading(instance);
                         }
                     }
                 },
@@ -1233,11 +1047,10 @@ webui.objects.dashbord.actionurls = {
                         window.location.href = commonvar.serviceUrl.errorPage403;
                     }
                     
-                    outLoading(instance);
-                    if (instance.vmVersion == "R21") {
-                        showTip(instance, LA(isForce ? "Force RebootOtherCode" : "RebootOtherCode"), function(){});
-                    }else if (instance.vmVersion == "R51") {
-                        showTip(instance, LA(isForce ? "Can not force reboot VM" : "Can not reboot VM"), function(){});
+                    outLoading(instance);              
+                    	
+                    if (instance.vmVersion == "R51") {
+                    showTip(instance, LA(isForce ? "Can not force reboot VM" : "Can not reboot VM"), function(){});
                     }
                     console.log(isForce ? "force reboot vm" : "reboot vm" + instance.sid + "error(" + ret + ")");
                 }
@@ -1254,7 +1067,7 @@ webui.objects.dashbord.actionurls = {
         }
         outLoading(instance);
     }
-    
+ 
     function getVmStateIsReady(instance, isForce)
     {
         //3分钟后停止状态查询
@@ -1294,7 +1107,7 @@ webui.objects.dashbord.actionurls = {
             });
         }
     }
-    
+  
     function inLoading(instance)
     {
         instance.ele.find(".vmLoading").fadeIn(200);
@@ -1386,6 +1199,8 @@ webui.objects.dashbord.actionurls = {
                 hidePannel(instance); connectVNC(instance);
             }
         });
+        
+      
         instance.ele.find(".vmNameLink").click(function(){
             if(instance.inMaintenanceMode == "2") 
             {
@@ -1394,14 +1209,12 @@ webui.objects.dashbord.actionurls = {
                 });
             }else{    
                 $("#globalConfirmTipContainer").css("top", "130px");
-                if (inputPa.vmVersion == "R21") {
-                    connectVmNormal_R21(instance, inputPa);
-                }
-                else if (inputPa.vmVersion == "R51") {
+                	if (inputPa.vmVersion == "R51") {
                     connectVmNormal(instance, inputPa);
                 }
             }
         });
+       
         instance.ele.find(".vmTipOk").click(function(){instance.ele.find(".vmTip").fadeOut(200);});
         instance.ele.find(".vmOption").click(function(){togglePannel(instance)});
         webui.objects.dashbord.popupMgr.register(vmId, [instance.ele.find(".vmOptionPannel")[0], instance.ele.find(".vmOption")[0]], function(){hidePannel(instance);});
@@ -1633,16 +1446,12 @@ webui.objects.dashbord.actionurls = {
                         $("#vmListContainer").show();
 
                         var newVms = {};
-                        var isExistVersion_R2 = false;
                         var isExistVersion_R5 = false;
                         for (var i in msg.vms)
                         {
                             var vm = msg.vms[i];
                             newVms[vm.sid] = vm;
-                            if (isExistVersion_R2 == false && vm.vmVersion == "R21") 
-                            {
-                                isExistVersion_R2 = true;
-                            }
+                            
                             if (isExistVersion_R5 == false && vm.vmVersion == "R51") 
                             {
                                 isExistVersion_R5 = true;
@@ -1655,7 +1464,7 @@ webui.objects.dashbord.actionurls = {
                         instance.JSS.refresh(newVms);
                         
                         if (webui.objects.dashbord.pluginChecker.isFirstCheck()) {
-                            webui.objects.dashbord.pluginChecker.begin(isExistVersion_R2, isExistVersion_R5);
+                            webui.objects.dashbord.pluginChecker.begin(isExistVersion_R5);
                         }
                         
                         //只有在有应用的情况下才显示应用Tab按钮；另外应用虚拟化不支持“android_tc”和“Mac”
@@ -1988,8 +1797,8 @@ webui.objects.dashbord.actionurls = {
         }
         return 1;
     }
-    //1：首先要判断R2和R5是否都需要检测，
-    function begin(isExistVersion_R2, isExistVersion_R5)
+    //1：首先要判断R5是否都需要检测，
+    function begin(isExistVersion_R5)
     {
         console.log("user agent is:", navigator.userAgent);
         console.log("user agent is:", navigator.appVersion);
@@ -2009,7 +1818,7 @@ webui.objects.dashbord.actionurls = {
             });
 			
             dowloader.find("#downloadRefR21").attr("href", "/plugin/Clients/huaweiDesktop.exe");
-            showWindowsDownloadTip(isExistVersion_R2, isExistVersion_R5);
+            showWindowsDownloadTip(isExistVersion_R5);
             return;
         }
         else if (os == "Linux")
@@ -2019,7 +1828,7 @@ webui.objects.dashbord.actionurls = {
                 });
             pluginExistR21 = true;
             r2ClientIsInstall = 1;
-            showLinuxDownloadTip(isExistVersion_R2, isExistVersion_R5);
+            showLinuxDownloadTip(isExistVersion_R5);
         }
         else if (os == "android_tc")
         {
@@ -2040,21 +1849,17 @@ webui.objects.dashbord.actionurls = {
         }
     }
     
-    function showWindowsDownloadTip(isExistVersion_R2, isExistVersion_R5)
+    function showWindowsDownloadTip(isExistVersion_R5)
     {
-        setR2Client(isExistVersion_R2);
+    	 r2ClientIsInstall = 1;
+         r2NetIsInstall = 1;
+
         setWindowsR5Client(isExistVersion_R5);
         var browser = commonvar.getBrowserType();
         if(browser == "chrome") {
             //标志客户端已安装标志位
 			pluginExist = true;
-			
-            if (isExistVersion_R2 && isExistVersion_R5) {
-                $("#downloadRef").text(LA("clickDownload1"));
-                $("#downloadRefR21").text(LA("clickDownload2"));
-            } else if(isExistVersion_R2) {
-                $("#downloadRefR21").text(LA("clickDownload"));
-            } else if(isExistVersion_R5) {
+            if(isExistVersion_R5) {
                 $("#downloadRef").text(LA("clickDownload"));
             }
             $("#pluginTipArea").show();
@@ -2068,9 +1873,11 @@ webui.objects.dashbord.actionurls = {
         $("#clientVersion").text(LA("Client Version:") + pluginVersion);
     }
     
-    function showLinuxDownloadTip(isExistVersion_R2, isExistVersion_R5)
+    function showLinuxDownloadTip(isExistVersion_R5)
     {
-        setR2Client(isExistVersion_R2);
+        r2ClientIsInstall = 1;
+        r2NetIsInstall = 1;
+        
         setLinuxR5Client(isExistVersion_R5);
         if (r5ClientIsInstall != 1) {
             $("#linuxTipText").text(LA("contactAdministrator"));
@@ -2085,32 +1892,7 @@ webui.objects.dashbord.actionurls = {
         var pluginVersion = getPluginVersion();
         $("#clientVersion").text(LA("Client Version:") + pluginVersion);
     }
-    
-    function setR2Client(isExistVersion_R2)
-    {
-        if (isExistVersion_R2) {
-            //检测R2插件是否安装
-            var result = SilentDetection.run();
-            if (result.remoteClient == null || result.remoteClient == "") {
-                r2ClientIsInstall = 0;
-            }else{
-                pluginExistR21 = true;
-                r2ClientIsInstall = 1;
-            }
-            
-            //检测.net插件
-            r2NetIsInstall = checkNetIsInstall(r2ClientIsInstall);
-            
-            //.net安装包中包含了R2的插件包，所以当没有检测到.net插件时，只需要安装.net包就可以了
-            if (r2NetIsInstall == 0) {
-                r2ClientIsInstall = 1;
-            }
-        }else{
-            r2ClientIsInstall = 1;
-            r2NetIsInstall = 1;
-        }
-    }
-    
+   
     function setWindowsR5Client(isExistVersion_R5)
     {
 		if (checkPlugin(/hwcloud/)) 

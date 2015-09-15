@@ -110,7 +110,7 @@ public class GetLoginInfoRsp extends CommonRsp
   public String toString()
   {
     StringBuilder builder = new StringBuilder();
-    builder.append("[WI>>UNS]GetLoginInfoRsp:addressTicket=" + this.adressTicket);
+    builder.append("GetLoginInfoRsp:addressTicket=" + this.adressTicket);
     builder.append(",addressInfo=" + this.addressInfo);
     builder.append(",linkType=" + this.linkType);
     builder.append(",transactionId=" + this.transactionId);

@@ -28,7 +28,7 @@ public class GetDesktopListReq extends CommonReq
   public String toString()
   {
     StringBuilder builder = new StringBuilder();
-    builder.append("[WI>>HDC]req:userName=" + this.userName);
+    builder.append("req:userName=" + this.userName);
     builder.append(",domain=" + this.domain);
     builder.append(",sid=" + this.sid);
     builder.append(",userGroupList=" + this.userGroupList);

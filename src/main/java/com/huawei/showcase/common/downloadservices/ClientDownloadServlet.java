@@ -20,8 +20,8 @@ import com.huawei.showcase.common.util.log.LogUtils;
 public class ClientDownloadServlet extends HttpServlet
 {
   private static final long serialVersionUID = -6943019252963941711L;
-  private static final String FILEPATH = System.getProperty("catalina.home") + System.getProperty("file.separator") + 
-  Configuration.getControllerPropInstance().getString("WI.pathPrefix") + System.getProperty("file.separator") + "plugin" + System.getProperty("file.separator");
+  
+  private static final String FILEPATH = CommonUtils.getProjAbsolutePath() + System.getProperty("file.separator") + "plugin" + System.getProperty("file.separator");
 
   public void destroy()
   {
@@ -46,9 +46,9 @@ public class ClientDownloadServlet extends HttpServlet
 
     String fileName = request.getParameter("name");
 
-    if (CommonUtils.checkAllStringNull(new String[] { fileName }))
+    if (CommonUtils.checkAllStringNull(fileName ))
     {
-      LogUtils.VDESKTOP_LOG.error("The fileName is error. fileName = " + fileName);
+      LogUtils.LOG.error("The fileName is error. fileName = " + fileName);
       return;
     }
 
@@ -58,23 +58,19 @@ public class ClientDownloadServlet extends HttpServlet
 
     if (!DownloadCountMonitor.addCount())
     {
-      LogUtils.VDESKTOP_LOG.error("The download count is overflow.");
+      LogUtils.LOG.error("The download count is overflow.");
       return;
     }
 
     Long beginTime = Long.valueOf(System.currentTimeMillis());
     try
     {
-      //File file = new File(path);
       input = new BufferedInputStream(new FileInputStream(path));
       byte[] buffer = new byte[Configuration.getControllerPropInstance().getInt("WI.download.readbuffer", 1024)];
       int len = 0;
 
       response.reset();
-
       response.addHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes()));
-//      response.addHeader("Content-Length", file.length());
-
       toClient = new BufferedOutputStream(response.getOutputStream(), 
         Configuration.getControllerPropInstance().getInt("WI.download.outputbuffer", 1024));
       response.setContentType("application/octet-stream");
@@ -89,7 +85,7 @@ public class ClientDownloadServlet extends HttpServlet
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error("Canot read file, catch exception ", e);
+      LogUtils.LOG.error("Canot read file, catch exception ", e);
     }
     finally
     {
@@ -105,7 +101,7 @@ public class ClientDownloadServlet extends HttpServlet
       DownloadCountMonitor.decreaseCount();
     }
 
-    LogUtils.VDESKTOP_LOG.debug("Total cost time  " + (System.currentTimeMillis() - beginTime.longValue()));
+    LogUtils.LOG.debug("Total cost time  " + (System.currentTimeMillis() - beginTime.longValue()));
   }
 
   public void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Desktop@FusionAccess</title>
-    <link type="image/vnd.microsoft.icon" href=${logoIco} rel="SHORTCUT ICON">
+    <link type="image/vnd.microsoft.icon" href="/uns/default/img/logo.ico" rel="SHORTCUT ICON">
     <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="this is my page">
@@ -49,9 +49,9 @@
    
   </head>
   
-  <body style="background-image:url(${nullJpg});">
+  <body style="background-image:url("/uns/default/img/null.jpg");">
       <div id="page">
-        <div id="logo" style="background-image:url(${logoPng});"></div>
+        <div id="logo" style="background-image:url("/uns/default/img/logo.png");"></div>
         
         <#include "hdpclientplugin.ftl"> 
         <div id="hiddenDiv"></div>

@@ -45,13 +45,10 @@ public class CharacterFilter extends OncePerRequestFilter
   {
     ContextUtil.createContext(request, response);
 
-    if ((this.encoding != null) && ((this.forceEncoding) || (request.getCharacterEncoding() == null)))
+    if ( (this.encoding != null && this.forceEncoding) || (request.getCharacterEncoding() == null))
     {
       request.setCharacterEncoding(this.encoding);
-      if (this.forceEncoding)
-      {
-        response.setCharacterEncoding(this.encoding);
-      }
+     
     }
 
     String uri = request.getRequestURI();

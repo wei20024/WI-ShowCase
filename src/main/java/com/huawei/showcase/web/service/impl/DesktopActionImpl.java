@@ -1,9 +1,13 @@
 package com.huawei.showcase.web.service.impl;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,18 +16,23 @@ import javax.ws.rs.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.huawei.showcase.common.enumcode.LoginType;
 import com.huawei.showcase.common.enumcode.ResultCode;
 import com.huawei.showcase.common.enumcode.StaticNumber;
 import com.huawei.showcase.common.util.CommonUtils;
 import com.huawei.showcase.common.util.SessionInfoUtil;
 import com.huawei.showcase.common.util.configration.Configuration;
+import com.huawei.showcase.common.util.crypto.AesEncrypter;
 import com.huawei.showcase.common.util.log.LogUtils;
 import com.huawei.showcase.common.util.log.TransactionIdUtil;
+import com.huawei.showcase.model.AppModel;
+import com.huawei.showcase.model.IconInfoModel;
 import com.huawei.showcase.model.UserGroupInfo;
 import com.huawei.showcase.model.VmModel;
 import com.huawei.showcase.model.request.DescribeVMUserCustomPolicyReq;
+import com.huawei.showcase.model.request.FavoriteAppReq;
+import com.huawei.showcase.model.request.GetAppLoginInfoReq;
 import com.huawei.showcase.model.request.GetConfigInfoReq;
+import com.huawei.showcase.model.request.GetIconReq;
 import com.huawei.showcase.model.request.GetLoginInfoReq;
 import com.huawei.showcase.model.request.GetUserInfoReq;
 import com.huawei.showcase.model.request.GetVmListReq;
@@ -32,7 +41,10 @@ import com.huawei.showcase.model.request.QueryVmStatusReq;
 import com.huawei.showcase.model.request.RebootUserVMReq;
 import com.huawei.showcase.model.request.VncLoginReq;
 import com.huawei.showcase.model.response.DescribeVMUserCustomPolicyRsp;
+import com.huawei.showcase.model.response.FavoriteAppRsp;
+import com.huawei.showcase.model.response.GetAppLoginInfoRsp;
 import com.huawei.showcase.model.response.GetConfigInfoRsp;
+import com.huawei.showcase.model.response.GetIconRsp;
 import com.huawei.showcase.model.response.GetLoginInfoRsp;
 import com.huawei.showcase.model.response.GetUserInfoRsp;
 import com.huawei.showcase.model.response.GetVmListRsp;
@@ -53,6 +65,9 @@ public class DesktopActionImpl implements DesktopAction
 
   @Autowired
   private AppCloudService appCloudService;
+
+  String appIconPath = CommonUtils.getProjAbsolutePath() + "/uns/default/img/app/appicon/";
+  private static final String appIconSuffix=".png";
   
   /***
    * 登录之后获得虚拟机列表
@@ -61,8 +76,7 @@ public class DesktopActionImpl implements DesktopAction
    */
   public GetVmListRsp getVmList(GetVmListReq listReq)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
-    
+    LogUtils.LOG.enterMethod();
     GetVmListRsp rsp = new GetVmListRsp();
     HttpSession session = this.req.getSession(false);
     
@@ -70,27 +84,28 @@ public class DesktopActionImpl implements DesktopAction
     String userName = getUserName();
     if (userName == null || listReq==null)
     {
-      LogUtils.VDESKTOP_LOG.error("session is error.");
+      LogUtils.LOG.error("session is error.");
       rsp.setResultCode(ResultCode.SESSION_INVALID.getCode());
       rsp.setResultDesc(ResultCode.SESSION_INVALID.getMessage());
       return rsp;
     }
+    
+    //读取配置文件判断查询虚拟机时是否要查询用户组
     Configuration LoginPropConfig = Configuration.getControllerPropInstance();
     
-    //判断查询虚拟机时是否要查询用户组
     String getUserGroup = LoginPropConfig.getString("getUserGroup");
-
     String isEmergencyLogin = "no";
+    UserGroupInfo userInfo = null;
+    
     if (SessionInfoUtil.isEmergencyLogin(session))
     {
       isEmergencyLogin = "ok";
     }
-    UserGroupInfo userInfo = null;
     
     if ("true".equalsIgnoreCase(getUserGroup) && CommonUtils.checkAllObjectNull(new Object[]{session.getAttribute("userGroup") }))
       {
-        LogUtils.VDESKTOP_LOG.error("session userGroup is null.");
-
+        LogUtils.LOG.error("session userGroup is null.");
+        
         GetUserInfoReq getUserInfoReq = new GetUserInfoReq();
         getUserInfoReq.setUsername(userName);
         getUserInfoReq.setEmergencyLogonFlag(isEmergencyLogin);
@@ -104,46 +119,55 @@ public class DesktopActionImpl implements DesktopAction
           session.setAttribute("userGroup", userInfo);
         }
       }
-      else{
+      else
+      {
     	  userInfo = (UserGroupInfo)session.getAttribute("userGroup");
-     }
+      }
 
     if (CommonUtils.checkAllObjectNull(new Object[] { userInfo }))
     {
       userInfo = new UserGroupInfo();
-      LogUtils.VDESKTOP_LOG.error("userinfo is null. username = " + userName);
+      LogUtils.LOG.error("userinfo is null. username = " + userName);
     }
 
-    	userInfo.setUserName(userName);
-
-    LogUtils.VDESKTOP_LOG.debug("username = " + userName + ", usergroup = " + userInfo.getUserGroupList());
+    userInfo.setUserName(userName);
+    LogUtils.LOG.debug("username = " + userName + ", usergroup = " + userInfo.getUserGroupList());
 
     //1.构造GetVmListReq
     GetVmListReq getVmListReq = new GetVmListReq();
     getVmListReq.setUserInfo(userInfo);
     getVmListReq.setIsEmergencyLogin(isEmergencyLogin);
     getVmListReq.setQueryType(listReq.getQueryType());
-
-
     CommonUtils.setCommonReq(getVmListReq);
     //2.查询VM列表
     rsp = this.appCloudService.getVmList(getVmListReq);
     //3.设置结果  
-    setSidIntoSession(rsp);
-
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    if ((listReq.getQueryType() == null) || (StaticNumber.ZERO.getCode() == listReq.getQueryType().intValue()))
+    {
+      setSidIntoSession(rsp);
+    }
+    else if (StaticNumber.ONE.getCode() == listReq.getQueryType().intValue())
+    {
+      setAppIntoSession(rsp);
+    }
+    else
+    {
+      setSidIntoSession(rsp);
+      setAppIntoSession(rsp);
+    }
+    LogUtils.LOG.exitMethod();
     return rsp;
   }
 
   public QueryVmStatusRsp queryVmStatus(QueryVmStatusReq getVmStatusReq)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
     QueryVmStatusRsp rsp = new QueryVmStatusRsp();
     String userName = getUserName();
     
     if ((userName == null) || (getVmStatusReq == null))
     {
-      LogUtils.VDESKTOP_LOG.error("session is error.");
+      LogUtils.LOG.error("session is error.");
       rsp.setResultCode(ResultCode.SESSION_INVALID.getCode());
       rsp.setResultDesc(ResultCode.SESSION_INVALID.getMessage());
       return rsp;
@@ -153,7 +177,7 @@ public class DesktopActionImpl implements DesktopAction
 
     if (!checkSidInSession(session, getVmStatusReq.getId()))
     {
-      LogUtils.VDESKTOP_LOG.error("This vm is not belong to this user, sid is " + getVmStatusReq.getId());
+      LogUtils.LOG.error("This vm is not belong to this user, sid is " + getVmStatusReq.getId());
       rsp.setResultCode(ResultCode.SID_IN_SESSION_INVALID.getCode());
       rsp.setResultDesc(ResultCode.SID_IN_SESSION_INVALID.getMessage());
       return rsp;
@@ -166,6 +190,7 @@ public class DesktopActionImpl implements DesktopAction
       isEmergencyLogin = "ok";
     }
 
+    //构造Req
     CommonUtils.setCommonReq(getVmStatusReq);
     getVmStatusReq.setGroupId(getGroupIdById(getVmStatusReq.getId()));
     getVmStatusReq.setUserId(userName);
@@ -174,22 +199,23 @@ public class DesktopActionImpl implements DesktopAction
     getVmStatusReq.setId(getVmStatusReq.getId());
 
     rsp = this.appCloudService.queryVmStatus(getVmStatusReq);
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return rsp;
   }
   
+  /***
+   * 调用hdpclient时获取虚拟机登录信息
+   */
   public GetLoginInfoRsp getLoginInfo(GetLoginInfoReq getLoginInfoReq)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
-
+    LogUtils.LOG.enterMethod();
     GetLoginInfoRsp rsp = new GetLoginInfoRsp();
     HttpSession session = this.req.getSession(false);
-
     getLoginInfoReq.setVmList(getVmIds(session));
-    //1.1 会话中必须存在虚拟机IP
+    //1.1 会话中必须存在虚拟机Id
     if (!checkSidInSession(session, getLoginInfoReq.getId()))
     {
-      LogUtils.VDESKTOP_LOG.error("This vm is not belong to this user, sid is " + getLoginInfoReq.getId());
+      LogUtils.LOG.error("This vm is not belong to this user, sid is " + getLoginInfoReq.getId());
       rsp.setResultCode(ResultCode.SID_IN_SESSION_INVALID.getCode());
       rsp.setResultDesc(ResultCode.SID_IN_SESSION_INVALID.getMessage());
       return rsp;
@@ -206,7 +232,7 @@ public class DesktopActionImpl implements DesktopAction
     
     if (userName == null)
     {
-      LogUtils.VDESKTOP_LOG.error("session is error.");
+      LogUtils.LOG.error("session is error.");
       rsp.setResultCode(ResultCode.SESSION_INVALID.getCode());
       rsp.setResultDesc(ResultCode.SESSION_INVALID.getMessage());
       return rsp;
@@ -214,11 +240,10 @@ public class DesktopActionImpl implements DesktopAction
 
     userGrpInfo.setPassword((String)session.getAttribute("password"));
     //2. 构造Request
-
+    getLoginInfoReq.setIsEmergencyLogin((String)session.getAttribute("EMERGENCYLOGON"));
     getLoginInfoReq.setUserInfo(userGrpInfo);
     getLoginInfoReq.setGroupId(getGroupIdById(getLoginInfoReq.getId()));
     getLoginInfoReq.setId(getLoginInfoReq.getId());
-
     CommonUtils.setCommonReq(getLoginInfoReq);
     //3. 远程调用，实际执行
     rsp = this.appCloudService.getLoginInfo(getLoginInfoReq);
@@ -231,7 +256,7 @@ public class DesktopActionImpl implements DesktopAction
     if ((ResultCode.SUCCESS.getCode() == rsp.getResultCode()) && 
       (!CommonUtils.checkRandomId(getLoginInfoReq.getRandomId(), rsp.getRandomId())))
     {
-      LogUtils.VDESKTOP_LOG.error("check randomId is error.");
+      LogUtils.LOG.error("check randomId is error.");
       rsp.setResultCode(ResultCode.DESKTOP_PREPARING.getCode());
       return rsp;
     }
@@ -239,11 +264,11 @@ public class DesktopActionImpl implements DesktopAction
     if (ResultCode.SUCCESS.getCode() != rsp.getResultCode())
     {
       
-      LogUtils.VDESKTOP_LOG.error("login fail. rsp = " + rsp);
+      LogUtils.LOG.error("login fail. rsp = " + rsp);
     }
 
     rsp.setTransactionId(TransactionIdUtil.getCurrentTransactionId());
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return rsp;
   }
 
@@ -253,24 +278,18 @@ public class DesktopActionImpl implements DesktopAction
    */
   public LogOutRsp loginOut()
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
-
+    LogUtils.LOG.enterMethod();
     HttpSession session = this.req.getSession();
     //释放会话信息
     session.removeAttribute("username");
     session.invalidate();
-    Configuration LoginPropConfig = Configuration.getControllerPropInstance();
-    String authType = LoginPropConfig.getString("logintype").trim();
-    if (CommonUtils.checkAllObjectNull(new Object[] { authType }))
-    {
-      authType = LoginType.EXPLICIT.getName();
-    }
+    
+      
     LogOutRsp rsp = new LogOutRsp();
     rsp.setResultCode(StaticNumber.ZERO.getCode());
     rsp.setResultDesc("OK");
-    rsp.setAuthType(authType);
 
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return rsp;
   }
   
@@ -281,14 +300,14 @@ public class DesktopActionImpl implements DesktopAction
    */
   public VNCLoginActionRsp vncLoginAction(VncLoginReq vncLoginReq)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     VNCLoginActionRsp rsp = new VNCLoginActionRsp();
     HttpSession session = this.req.getSession(false);
 
     if (SessionInfoUtil.isEmergencyLogin(session))
     {
-      LogUtils.VDESKTOP_LOG.warn("in emergency mode,the user has  no operating authority ");
+      LogUtils.LOG.warn("in emergency mode,the user has  no operating authority ");
       rsp.setResultCode(ResultCode.EMERGENCY_LOGON.getCode());
       rsp.setResultDesc(ResultCode.EMERGENCY_LOGON.getMessage());
       return rsp;
@@ -296,13 +315,12 @@ public class DesktopActionImpl implements DesktopAction
 
     if (!checkSidInSession(session, vncLoginReq.getSid()))
     {
-      LogUtils.VDESKTOP_LOG.error("This vm is not belong to this user, sid is " + vncLoginReq.getSid());
+      LogUtils.LOG.error("This vm is not belong to this user, sid is " + vncLoginReq.getSid());
       rsp.setResultCode(ResultCode.SID_IN_SESSION_INVALID.getCode());
       rsp.setResultDesc(ResultCode.SID_IN_SESSION_INVALID.getMessage());
       return rsp;
     }  
     String userName=null;
-
     UserGroupInfo userGrpInfo = (UserGroupInfo)session.getAttribute("userGroup");
     if (!CommonUtils.checkAllObjectNull(new Object[] { userGrpInfo }) &&
     	!CommonUtils.checkAllObjectNull(new Object[] { userGrpInfo.getUserName() }))
@@ -311,7 +329,7 @@ public class DesktopActionImpl implements DesktopAction
     }
     if (userName == null)
     {
-      LogUtils.VDESKTOP_LOG.error("session is error.");
+      LogUtils.LOG.error("session is error.");
       rsp.setResultCode(ResultCode.SESSION_INVALID.getCode());
       rsp.setResultDesc(ResultCode.SESSION_INVALID.getMessage());
       return rsp;
@@ -327,7 +345,7 @@ public class DesktopActionImpl implements DesktopAction
     rsp = this.appCloudService.vncLoginAction(vncLoginReq);
 
     rsp.setTransactionId(TransactionIdUtil.getCurrentTransactionId());
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return rsp;
   }
   
@@ -338,49 +356,47 @@ public class DesktopActionImpl implements DesktopAction
    */
   public RebootUserVMRsp restartDesktop(RebootUserVMReq rebootVMReq)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     RebootUserVMRsp rsp = new RebootUserVMRsp();
     HttpSession session = this.req.getSession(false);
 
     if (!checkSidInSession(session, rebootVMReq.getSid()))
     {
-      LogUtils.VDESKTOP_LOG.error("This vm is not belong to this user, sid is " + rebootVMReq.getSid());
+      LogUtils.LOG.error("This vm is not belong to this user, sid is " + rebootVMReq.getSid());
       rsp.setResultCode(ResultCode.SID_IN_SESSION_INVALID.getCode());
       rsp.setResultDesc(ResultCode.SID_IN_SESSION_INVALID.getMessage());
       return rsp;
     }
-
     if (SessionInfoUtil.isEmergencyLogin(session))
     {
-      LogUtils.VDESKTOP_LOG.warn("in emergency mode,the user has  no operating authority ");
+      LogUtils.LOG.warn("in emergency mode,the user has  no operating authority ");
       rsp.setResultCode(ResultCode.EMERGENCY_LOGON.getCode());
       rsp.setResultDesc(ResultCode.EMERGENCY_LOGON.getMessage());
       return rsp;
     }
-
     rebootVMReq.setGroupId(getGroupIdById(rebootVMReq.getSid()));
     rebootVMReq.setSid(rebootVMReq.getSid());
-
     CommonUtils.setCommonReq(rebootVMReq);
     rsp = this.appCloudService.restartDesktop(rebootVMReq);
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return rsp;
   }
 
   /***
-   * 设置虚拟机电源管理策略
+   * 查询虚拟机电源管理策略
    * @param describeUserVMPolicyReq
    * @return	
    */
   public DescribeVMUserCustomPolicyRsp describeVMUserCustomPolicy(DescribeVMUserCustomPolicyReq describeUserVMPolicyReq)
   {
+	LogUtils.LOG.enterMethod();
     describeUserVMPolicyReq.setGroupId(getGroupIdById(describeUserVMPolicyReq.getSid()));
     describeUserVMPolicyReq.setSid(describeUserVMPolicyReq.getSid());
-
-    
     CommonUtils.setCommonReq(describeUserVMPolicyReq);
+    
     DescribeVMUserCustomPolicyRsp rsp = this.appCloudService.describeVMUserCustomPolicy(describeUserVMPolicyReq);
+    LogUtils.LOG.exitMethod();
     return rsp;
   }
 
@@ -391,14 +407,13 @@ public class DesktopActionImpl implements DesktopAction
    */
   public ModifyUserVMPolicyRsp modifyVMUserCustomPolicy(ModifyVMUserCustomPolicyReq modifyUserVMPolicyReq)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
     ModifyUserVMPolicyRsp rsp = new ModifyUserVMPolicyRsp();
-
     HttpSession session = this.req.getSession(false);
 
     if (!checkSidInSession(session, modifyUserVMPolicyReq.getSid()))
     {
-      LogUtils.VDESKTOP_LOG.error("This vm is not belong to this user, sid is " + modifyUserVMPolicyReq.getSid());
+      LogUtils.LOG.error("This vm is not belong to this user, sid is " + modifyUserVMPolicyReq.getSid());
       rsp.setResultCode(ResultCode.SID_IN_SESSION_INVALID.getCode());
       rsp.setResultDesc(ResultCode.SID_IN_SESSION_INVALID.getMessage());
       return rsp;
@@ -406,23 +421,22 @@ public class DesktopActionImpl implements DesktopAction
 
     if (SessionInfoUtil.isEmergencyLogin(session))
     {
-      LogUtils.VDESKTOP_LOG.warn("in emergency mode,the user has  no operating authority ");
+      LogUtils.LOG.warn("in emergency mode,the user has  no operating authority ");
       rsp.setResultCode(ResultCode.EMERGENCY_LOGON.getCode());
       rsp.setResultDesc(ResultCode.EMERGENCY_LOGON.getMessage());
       return rsp;
     }
     
-    //GroupId为虚拟机Id或虚拟机桌面组Id
     modifyUserVMPolicyReq.setGroupId(getGroupIdById(modifyUserVMPolicyReq.getSid()));
     modifyUserVMPolicyReq.setSid(modifyUserVMPolicyReq.getSid());
     CommonUtils.setCommonReq(modifyUserVMPolicyReq);
     rsp = this.appCloudService.modifyVMUserCustomPolicy(modifyUserVMPolicyReq);
     
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return rsp;
   }
-/***
- * @since 2015/8/19 11:59
+  
+  /***
  * 首次登陆时获取login.properties配置项值
  * @param reqs 传入了待获取的配置的key值
  */
@@ -437,11 +451,11 @@ public class DesktopActionImpl implements DesktopAction
    */
   private void setSidIntoSession(GetVmListRsp rsp)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     if (rsp == null)
     {
-      LogUtils.VDESKTOP_LOG.error("setSidIntoSession faild rsp is null.");
+      LogUtils.LOG.error("setSidIntoSession faild rsp is null.");
       return;
     }
 
@@ -453,7 +467,7 @@ public class DesktopActionImpl implements DesktopAction
 
     if ((vmList == null) || (vmList.isEmpty()))
     {
-      LogUtils.VDESKTOP_LOG.debug("The vmList is null.");
+      LogUtils.LOG.debug("The vmList is null.");
       return;
     }
 
@@ -461,16 +475,47 @@ public class DesktopActionImpl implements DesktopAction
     {
       sidList.add(vmModel.getSid());
       vmInfoMaps.put(vmModel.getSid(), vmModel);
-      LogUtils.VDESKTOP_LOG.debug("Add sid into session " + vmModel.getSid());
-    
+      LogUtils.LOG.debug("Add sid into session " + vmModel.getSid());
     }
 
     session.setAttribute("vmSidList", sidList);
     session.setAttribute("vmInfoMaps", vmInfoMaps);
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
   }
 
-  
+  private void setAppIntoSession(GetVmListRsp rsp)
+  {
+    LogUtils.LOG.enterMethod();
+
+    if (rsp == null)
+    {
+      LogUtils.LOG.error("setAppIntoSession faild rsp is null.");
+      return;
+    }
+
+    HttpSession session = this.req.getSession(false);
+    List<String> appIdList = new ArrayList<String>();
+    Map<String,AppModel> appInfoMaps = new HashMap<String,AppModel>();
+    List<AppModel> appList = rsp.getAppInfos();
+
+    if ((appList == null) || (appList.isEmpty()))
+    {
+      LogUtils.LOG.debug("The appList is null.");
+      return;
+    }
+
+    for (AppModel appModel : appList)
+    {
+      if(!appIdList.contains(appModel.getAppId()))
+    		  appIdList.add(appModel.getAppId());
+      appInfoMaps.put(appModel.getAppId(), appModel);
+      LogUtils.LOG.debug("Add appId into session " + appModel.getAppId());
+    }
+
+    session.setAttribute("appIdList", appIdList);
+    session.setAttribute("appInfoMaps", appInfoMaps);
+    LogUtils.LOG.exitMethod();
+  }
   
   /***
    * 获得该虚拟机Sid的桌面组groupId
@@ -496,7 +541,7 @@ public class DesktopActionImpl implements DesktopAction
   {
     if (session == null)
     {
-      LogUtils.VDESKTOP_LOG.debug("The session is null.");
+      LogUtils.LOG.debug("The session is null.");
       return null;
     }
     return (List<String>)session.getAttribute("vmSidList");
@@ -510,17 +555,17 @@ public class DesktopActionImpl implements DesktopAction
    */
   public boolean checkSidInSession(HttpSession session, String sid)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     if (session == null)
     {
-      LogUtils.VDESKTOP_LOG.debug("The session is null.");
+      LogUtils.LOG.debug("The session is null.");
       return false;
     }
 
     if (session.getAttribute("vmSidList") == null)
     {
-      LogUtils.VDESKTOP_LOG.debug("The session.getAttribute is null.");
+      LogUtils.LOG.debug("The session.getAttribute is null.");
       return false;
     }
 
@@ -528,17 +573,17 @@ public class DesktopActionImpl implements DesktopAction
 
     if (vmSidList == null)
     {
-      LogUtils.VDESKTOP_LOG.debug("The vmSidList in session is null.");
+      LogUtils.LOG.debug("The vmSidList in session is null.");
       return false;
     }
 
     if (!vmSidList.contains(sid))
     {
-      LogUtils.VDESKTOP_LOG.debug("The session do not have this sid.");
+      LogUtils.LOG.debug("The session do not have this sid.");
       return false;
     }
 
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return true;
   }
 
@@ -552,8 +597,323 @@ public class DesktopActionImpl implements DesktopAction
     }
     else
     {
-     LogUtils.VDESKTOP_LOG.error("session is null.");
+     LogUtils.LOG.error("session is null.");
     }
     return userName;
   }
+
+  /***
+   * 调用hdpclient时获取应用登录信息
+   */
+ public GetAppLoginInfoRsp getApploginInfo(GetAppLoginInfoReq appReq)
+  {
+    LogUtils.LOG.enterMethod();
+
+    GetAppLoginInfoRsp rsp = new GetAppLoginInfoRsp();
+    HttpSession session = this.req.getSession(false);
+
+    if (session == null)
+    {
+      LogUtils.LOG.error("session is error.");
+      rsp.setResultCode(ResultCode.SESSION_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.SESSION_INVALID.getMessage());
+      return rsp;
+    }
+
+    if (!checkAppIdInSession(session, appReq.getAppId(), appReq.getAppType()))
+    {
+      LogUtils.LOG.error("This app is not belong to this user, appId is " + appReq.getAppId());
+      rsp.setResultCode(ResultCode.SID_IN_SESSION_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.SID_IN_SESSION_INVALID.getMessage());
+      return rsp;
+    }
+
+    String userName = getUserName();
+
+    UserGroupInfo nameInfo = (UserGroupInfo)session.getAttribute("userGroup");
+    if (!CommonUtils.checkAllObjectNull(new Object[] { nameInfo }) && !CommonUtils.checkAllObjectNull(new Object[] { nameInfo.getUserName() }))
+      {
+        userName = nameInfo.getUserName();
+       
+      }
+     if (userName == null)
+    {
+      LogUtils.LOG.error("session is error.");
+      rsp.setResultCode(ResultCode.SESSION_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.SESSION_INVALID.getMessage());
+      return rsp;
+    }
+    nameInfo = new UserGroupInfo();
+    nameInfo.setUserName(userName);
+    nameInfo.setPassword(AesEncrypter.decrypt((String)session.getAttribute("password")));
+    appReq.setIsEmergencyLogin((String)session.getAttribute("EMERGENCYLOGON"));
+    appReq.setUserInfo(nameInfo);
+    appReq.setGroupId(getAppGroupIdById(appReq.getAppId()));
+    CommonUtils.setCommonReq(appReq);
+
+    rsp = this.appCloudService.getApploginInfo(appReq);
+
+    if ((ResultCode.SUCCESS.getCode() == rsp.getResultCode()) && 
+      (!CommonUtils.checkRandomId(appReq.getRandomId(), rsp.getRandomId())))
+    {
+      LogUtils.LOG.error("check randomId is error.");
+     
+      rsp.setResultCode(ResultCode.DESKTOP_PREPARING.getCode());
+      return rsp;
+    }
+
+    rsp.setTransactionId(TransactionIdUtil.getCurrentTransactionId());
+
+    LogUtils.LOG.exitMethod();
+    return rsp;
+  }
+
+  private String getAppGroupIdById(String appId)
+  {
+    HttpSession session = this.req.getSession(false);
+    Map<String,AppModel> appInfoMaps = (Map<String,AppModel>)session.getAttribute("appInfoMaps");
+    if ((appInfoMaps == null) || (appInfoMaps.get(appId) == null))
+    {
+      return null;
+    }
+    return ((AppModel)appInfoMaps.get(appId)).getGroupId();
+  }
+
+  public GetIconRsp getAppIcon(GetIconReq getIconReq)
+  {
+    LogUtils.LOG.enterMethod();
+
+    GetIconRsp rsp = new GetIconRsp();
+    HttpSession session = this.req.getSession(false);
+
+    if (session == null)
+    {
+      LogUtils.LOG.error("session is error.");
+      rsp.setResultCode(ResultCode.SESSION_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.SESSION_INVALID.getMessage());
+      return rsp;
+    }
+
+    if (getIconReq == null)
+    {
+      LogUtils.LOG.error("getIconReq is null.");
+      rsp.setResultCode(ResultCode.REQUEST_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.REQUEST_INVALID.getMessage());
+      return rsp;
+    }
+
+    if (!getIconReq.isValid())
+    {
+      LogUtils.LOG.error("getIconReq is invalid.");
+      rsp.setResultCode(ResultCode.REQUEST_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.REQUEST_INVALID.getMessage());
+      return rsp;
+    }
+
+    List<String> files = CommonUtils.getFiles(appIconPath);
+
+    if ((files == null) || (files.isEmpty()))
+    {
+      LogUtils.LOG.info("Have not icon imgs.");
+      files = new ArrayList<String>();
+    }
+
+    List<IconInfoModel> iconInfos = new ArrayList<IconInfoModel>();
+    List<AppModel> newApp = new ArrayList<AppModel>();
+    //查找本地缺少的应用图标
+    for (AppModel app : getIconReq.getAppList())
+    {
+      if (!files.contains(app.getAppId()+appIconSuffix))
+      {
+        newApp.add(app);
+      }
+    }
+
+    getIconReq.setAppList(newApp);    
+
+    CommonUtils.setCommonReq(getIconReq);
+
+    rsp = this.appCloudService.getAppIcon(getIconReq);
+
+    if (rsp.getResultCode() == ResultCode.SUCCESS.getCode())
+    {
+      iconInfos = rsp.getIconInfos();
+    }
+    else
+    {
+      LogUtils.LOG.error("errorCode= " + rsp.getResultCode() + ", errorMessage= " + rsp.getResultDesc());
+      return rsp;
+    }
+
+    List<String> appIdList = saveIcon(iconInfos, appIconPath);
+
+    rsp.setAppIdList(appIdList);
+
+    LogUtils.LOG.exitMethod();
+    return rsp;
+  }
+  /***
+   * 将从服务器获得的应用图标保存到本地
+   * @param iconInfos
+   * @param path
+   * @return 获得图标的应用Id
+   */
+  private List<String> saveIcon(List<IconInfoModel> iconInfos, String path)
+  {
+    List<String> appIdList = new ArrayList<String>();
+
+    if (iconInfos == null)
+    {
+      LogUtils.LOG.info("The iconInfos is null.");
+      return appIdList;
+    }
+
+    for (IconInfoModel model : iconInfos)
+    {
+      FileOutputStream fos = null;
+      try
+      {
+        fos = new FileOutputStream(path + model.getAppId() + appIconSuffix);
+        byte[] icon = model.getIcon();
+
+        fos.write(icon);
+
+        appIdList.add(model.getAppId());
+      }
+      catch (Exception e)
+      {
+        LogUtils.LOG.error("create img catch exception appId = " + model.getAppId(), e);
+
+        if (fos != null)
+        {
+          try
+          {
+            fos.close();
+          }
+          catch (IOException e1)
+          {
+            LogUtils.LOG.error("create img catch exception ", e1);
+          }
+        }
+      }
+      finally
+      {
+        if (fos != null)
+        {
+          try
+          {
+            fos.close();
+          }
+          catch (IOException e)
+          {
+            LogUtils.LOG.error("create img catch exception ", e);
+          }
+        }
+      }
+    }
+
+    return appIdList;
+  }
+
+  public FavoriteAppRsp dealFavoriteApp(FavoriteAppReq favoriteAppReq)
+  {
+    LogUtils.LOG.enterMethod();
+
+    FavoriteAppRsp rsp = new FavoriteAppRsp();
+    HttpSession session = this.req.getSession(false);
+
+    if (session == null)
+    {
+      LogUtils.LOG.error("session is error.");
+      rsp.setResultCode(ResultCode.SESSION_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.SESSION_INVALID.getMessage());
+      return rsp;
+    }
+
+    if (favoriteAppReq == null)
+    {
+      LogUtils.LOG.error("favoriteAppReq is null.");
+      rsp.setResultCode(ResultCode.REQUEST_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.REQUEST_INVALID.getMessage());
+      return rsp;
+    }
+
+    if (!favoriteAppReq.isValid())
+    {
+      LogUtils.LOG.error("favoriteAppReq is inValid.");
+      rsp.setResultCode(ResultCode.REQUEST_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.REQUEST_INVALID.getMessage());
+      return rsp;
+    }
+
+    if (!checkAppIdInSession(session, favoriteAppReq.getAppId(), null))
+    {
+      LogUtils.LOG.error("This app is not belong to this user, appId is " + favoriteAppReq.getAppId());
+      rsp.setResultCode(ResultCode.SID_IN_SESSION_INVALID.getCode());
+      rsp.setResultDesc(ResultCode.SID_IN_SESSION_INVALID.getMessage());
+      return rsp;
+    }
+
+    favoriteAppReq.setGroupId(getAppGroupIdById(favoriteAppReq.getAppId()));
+
+    CommonUtils.setCommonReq(favoriteAppReq);
+    rsp = this.appCloudService.dealFavoriteApp(favoriteAppReq);
+
+    LogUtils.LOG.debug("errorCode= " + rsp.getResultCode() + ", errorMessage= " + rsp.getResultDesc());
+    LogUtils.LOG.exitMethod();
+    return rsp;
+  }
+
+  private boolean checkAppIdInSession(HttpSession session, String appId, Integer appType)
+  {
+    LogUtils.LOG.enterMethod();
+
+    if (session == null)
+    {
+      LogUtils.LOG.error("The session is null.");
+      return false;
+    }
+
+    if (session.getAttribute("appInfoMaps") == null)
+    {
+      LogUtils.LOG.error("The session.getAttribute is null.");
+      return false;
+    }
+
+    Map<String,AppModel> appMap = (Map<String,AppModel>)session.getAttribute("appInfoMaps");
+
+    if (appMap == null)
+    {
+      LogUtils.LOG.error("The vmList in session is null.");
+      return false;
+    }
+
+    Iterator<Entry<String, AppModel>> iter = appMap.entrySet().iterator();
+
+    while (iter.hasNext())
+    {
+      Map.Entry<String,AppModel> entry = (Map.Entry<String,AppModel>)iter.next();
+      AppModel val = (AppModel)entry.getValue();
+
+      if (val.getAppId().equals(appId))
+      {
+        if ((appType != null) && (val.getAppType() != null))
+        {
+          if (val.getAppType().equals(appType))
+          {
+            return true;
+          }
+
+          LogUtils.LOG.error("The appId is valid but appType is inValid. appTyep = " + appType);
+          return false;
+        }
+
+        return true;
+      }
+    }
+
+    LogUtils.LOG.exitMethod();
+    return false;
+  }
+  
 }

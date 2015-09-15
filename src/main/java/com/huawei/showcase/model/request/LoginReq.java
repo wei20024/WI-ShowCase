@@ -68,7 +68,7 @@ public class LoginReq extends CustomReq
 
   public String getAuthType()
   {
-    if (CommonUtils.checkAllStringNull(new String[] { this.authType }))
+    if (CommonUtils.checkAllStringNull( this.authType ))
     {
       this.authType = "user";
     }

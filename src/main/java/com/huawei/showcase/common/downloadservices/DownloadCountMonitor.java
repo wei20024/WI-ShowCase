@@ -4,7 +4,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.huawei.showcase.common.enumcode.StaticNumber;
-//import com.huawei.showcase.common.util.configration.WriteConf;
 import com.huawei.showcase.common.util.configration.Configuration;
 import com.huawei.showcase.common.util.log.LogUtils;
 
@@ -21,7 +20,7 @@ public class DownloadCountMonitor
   {
     if (curCount > limitCount)
     {
-      LogUtils.VDESKTOP_LOG.error("addCount ： curCount over limitCount, curCount = " + curCount + 
+      LogUtils.LOG.error("addCount ： curCount over limitCount, curCount = " + curCount + 
         ", limitcount = " + limitCount);
       return false;
     }
@@ -48,12 +47,6 @@ public class DownloadCountMonitor
     return true;
   }
 
-//  private static void decreaseCurCount()
-//  {
-//    decreaseLock.lock();
-//    curCount -= 1;
-//    decreaseLock.unlock();
-//  }
 
   public static boolean downloadFlag()
   {
@@ -62,7 +55,7 @@ public class DownloadCountMonitor
       return true;
     }
 
-    LogUtils.VDESKTOP_LOG.error("curCount over limitCount, curCount = " + curCount + 
+    LogUtils.LOG.error("curCount over limitCount, curCount = " + curCount + 
       ", limitcount = " + limitCount);
     return false;
   }

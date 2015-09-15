@@ -38,13 +38,19 @@ public class LoginActionImpl implements LoginAction
     TransactionIdUtil.setCurrentTransactionId(CommonUtils.createTransactoinId(loginreq.getUserName()));
     return this.loginManage.login(loginreq);
   }
+ 
+  public ChangePwdRsp changePWD(ChangePwdReq changepwdreq)
+  {
+    return this.loginManage.changePWD(changepwdreq);
+  }
+  
 /***
- * @since 2015/8/19 11:57
+ * @date 2015/8/19 11:57
  * 获取session中的用户名
  */
   public UsernameRsp getUsername()
   {
-    LogUtils.USERLOGIN_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
     UsernameRsp usernamersp = new UsernameRsp();
 
     HttpSession session = this.httpReq.getSession(false);
@@ -55,7 +61,7 @@ public class LoginActionImpl implements LoginAction
     }
     else
     {
-      LogUtils.USERLOGIN_LOG.error("getusername is null.session is null.");
+      LogUtils.LOG.error("getusername is null.session is null.");
     }
 
     if ((username == null) || (username.equals("")))
@@ -71,14 +77,10 @@ public class LoginActionImpl implements LoginAction
       usernamersp.setResultDesc(ResultCode.OPERATE_SUCCESS.getMessage());
       usernamersp.setLoginusername(username);
     }
-    LogUtils.USERLOGIN_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return usernamersp;
   }
 
-  public ChangePwdRsp changePWD(ChangePwdReq changepwdreq)
-  {
-    return this.loginManage.changePWD(changepwdreq);
-  }
 
   public void setLoginManage(LoginManageService loginManage)
   {

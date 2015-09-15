@@ -31,12 +31,11 @@ public class LogMonitor
   private static final int CATALINA_MAXSIZE = 10485760;
   private static final int LOG_MAXSIZE = 104857600;
   private static final int LOG_MINSIZE = 52428800;
-//  private static final long CATALINA_STANDARDSIZE = 1048576L;
   private static final String TOMCATLOG_FILE_SUFFIX_log = ".log";
   private static final String TOMCATLOG_FILE_SUFFIX_zip = ".zip";
   private ScheduledThreadPoolExecutor executortimer;
   private String tomcatLogPath = System.getProperty("catalina.base") + "/logs";
-  private String wibackLogPath = System.getProperty("product.home") + "/wi/logs/backup";
+  private String wibackLogPath = HRollingFileAppender.LOG_BACKUP_HOME;
   
   private Configuration configuration;
 
@@ -45,7 +44,7 @@ public class LogMonitor
   {
     this.configuration = Configuration.getControllerPropInstance();
     this.executortimer = new ScheduledThreadPoolExecutor(1);
-    int interval = this.configuration.getInt(ITA_HEARTBEATTIME, 2);
+    int interval = 2;
     this.executortimer.scheduleAtFixedRate(new Runnable()
     {
       public void run()
@@ -56,7 +55,7 @@ public class LogMonitor
         }
         catch (Throwable e)
         {
-          LogUtils.VDESKTOP_LOG.error("logMonitor have some errors:" + e);
+          LogUtils.LOG.error("logMonitor have some errors:" + e);
         }
       }
     }
@@ -65,7 +64,7 @@ public class LogMonitor
 
   private void logMoniter()
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
     OutputStream os = null;
     File file = new File(this.tomcatLogPath + "/catalina.out");
     long filesize = 0L;
@@ -85,16 +84,14 @@ public class LogMonitor
           String backupFolderPath = this.tomcatLogPath + "/catalina_" + dateString + TOMCATLOG_FILE_SUFFIX_log;
           File backupfile = new File(backupFolderPath);
           FileUtils.copyFile(file, backupfile);
-          LogUtils.VDESKTOP_LOG.debug("catalina size:" + df.format(file.length() / 1048576.0D) + 
+          LogUtils.LOG.debug("catalina size:" + df.format(file.length() / 1048576.0D) + 
             "M");
           os = new FileOutputStream(file);
           os.write("".getBytes("utf-8"));
         }
       }
        
-      
-      String rootPath = System.getProperty("product.home")+"/wi";
-      //String rootPath = System.getProperty("product.home");
+      String rootPath = HRollingFileAppender.LOG_PATH;
       
       File rootDirectory = new File(rootPath);
       
@@ -108,13 +105,13 @@ public class LogMonitor
 
         if (ifdelete)
         {
-          LogUtils.VDESKTOP_LOG.debug("delete tomcatPath files > 50M");
+          LogUtils.LOG.debug("delete tomcatPath files > 50M");
           return;
         }
 
         File backupDirectory = new File(this.wibackLogPath);
         long lSize = wiMaxsize + 104857600L - 52428800L - tomcatsize;
-        LogUtils.VDESKTOP_LOG.debug("prepare for delete backuppath files size:" + 
+        LogUtils.LOG.debug("prepare for delete backuppath files size:" + 
           df.format(lSize / 1048576.0D) + "M");
         
         if (lSize <= 0L)
@@ -127,18 +124,18 @@ public class LogMonitor
         
         if (backupdelete)
         {
-          LogUtils.VDESKTOP_LOG.debug("delete tomcatPath and backuppath files > 50M");
+          LogUtils.LOG.debug("delete tomcatPath and backuppath files > 50M");
           return;
         }
       } 
       else 
       {
-        LogUtils.VDESKTOP_LOG.debug("/var/FusionAccess/WI dont over l00M;");
+        LogUtils.LOG.debug("/var/FusionAccess/WI dont over l00M;");
       }
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error("logMoniter e:" + e);
+      LogUtils.LOG.error("logMoniter e:" + e);
 
       if (os != null)
       {
@@ -148,7 +145,7 @@ public class LogMonitor
         }
         catch (IOException e1)
         {
-          LogUtils.VDESKTOP_LOG.error("close OutputStream. IOException:" + e1);
+          LogUtils.LOG.error("close OutputStream. IOException:" + e1);
         }
       }
     }
@@ -162,11 +159,11 @@ public class LogMonitor
         }
         catch (IOException e)
         {
-          LogUtils.VDESKTOP_LOG.error("close OutputStream. IOException:" + e);
+          LogUtils.LOG.error("close OutputStream. IOException:" + e);
         }
       }
     }
-  LogUtils.VDESKTOP_LOG.exitMethod();
+  LogUtils.LOG.exitMethod();
   }
 
   private long getFileSize(File file)
@@ -217,7 +214,7 @@ public class LogMonitor
     });
     if (files == null)
     {
-      LogUtils.VDESKTOP_LOG.error("Get file is null.");
+      LogUtils.LOG.error("Get file is null.");
       return Boolean.valueOf(false);
     }
 
@@ -229,18 +226,18 @@ public class LogMonitor
       }
 
     });
-    LogUtils.VDESKTOP_LOG.debug("start delete files");
+    LogUtils.LOG.debug("start delete files");
     long tfilesize = 0L;
     for (File sfile : files)
     {
       long sfilesize = getFileSize(sfile);
       if (!sfile.delete())
       {
-        LogUtils.VDESKTOP_LOG.error("Failed to deleteFile,filePath: " + sfile.getAbsolutePath());
+        LogUtils.LOG.error("Failed to deleteFile,filePath: " + sfile.getAbsolutePath());
       }
       else
       {
-        LogUtils.VDESKTOP_LOG.debug("Success to deleteFile,filePath: " + sfile.getAbsolutePath());
+        LogUtils.LOG.debug("Success to deleteFile,filePath: " + sfile.getAbsolutePath());
 
         tfilesize += sfilesize;
 
@@ -256,11 +253,11 @@ public class LogMonitor
   @PreDestroy
   public void closeLogMonitor()
   {
-    LogUtils.INTERACT_LOG.debug("closeLogMonitor thread start");
+    LogUtils.LOG.debug("closeLogMonitor thread start");
     if (this.executortimer != null)
     {
       this.executortimer.shutdownNow();
     }
-    LogUtils.INTERACT_LOG.debug("closeLogMonitor thread end");
+    LogUtils.LOG.debug("closeLogMonitor thread end");
   }
 }

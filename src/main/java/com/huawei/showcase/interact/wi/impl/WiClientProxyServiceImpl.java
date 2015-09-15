@@ -41,15 +41,18 @@ import com.huawei.showcase.model.response.CommonRsp;
 import com.huawei.showcase.model.response.LoginRsp;
 
 @Service
-public class WiClientProxyServiceImpl
-  implements WiClientProxyService
+public class WiClientProxyServiceImpl implements WiClientProxyService
 {
   private String paramValueSplit = "=";
 
   private String paramSplit = ";";
 
-  private Configuration configuration = Configuration.getControllerPropInstance();//Configuration.getInstance();
-
+  private Configuration configuration = Configuration.getControllerPropInstance();
+  private static final String WI_RESTURL_FORMAT = "https://%s/services";
+  /***
+   * 由Wimonitor在启动时获取配置文件中的Wi信息生成
+   * @author wzf
+   */
   private ConcurrentHashMap<String, List<WiInterfaceModel>> wiMap = 
 		  new ConcurrentHashMap<String, List<WiInterfaceModel>>();
 
@@ -57,7 +60,7 @@ public class WiClientProxyServiceImpl
 
   public <T> T handleRequest(String methodName, UnsCommonReq req)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     String wiId = req.getGroupId();
 
@@ -65,34 +68,34 @@ public class WiClientProxyServiceImpl
 
     if (this.wiMap.isEmpty())
     {
-      LogUtils.VDESKTOP_LOG.error("Wi list is null.");
+      LogUtils.LOG.error("Wi list is null.");
       return null;
     }
 
-    if (CommonUtils.checkAllStringNull(new String[] { wiId }))
+    if (CommonUtils.checkAllStringNull( wiId ))
     {
-      LogUtils.VDESKTOP_LOG.error("wiId is null.");
+      LogUtils.LOG.error("wiId is null.");
       return null;
     }
 
     if (this.wiMap.containsKey(wiId))
     {
-      List<WiInterfaceModel> wiist = (List<WiInterfaceModel>)this.wiMap.get(wiId);
+      List<WiInterfaceModel> wilist = (List<WiInterfaceModel>)this.wiMap.get(wiId);
 
-      if (CommonUtils.checkAllObjectNull(new Object[] { wiist }))
+      if (CommonUtils.checkAllObjectNull( wilist ))
       {
-        LogUtils.VDESKTOP_LOG.error("WiIfModel list is null.");
+        LogUtils.LOG.error("WiIfModel list is null.");
         return null;
       }
 
-      int listsize = wiist.size();
+      int listsize = wilist.size();
       T mothodInvokeResult = null;
       if (listsize == 0)
       {
-        LogUtils.VDESKTOP_LOG.error("wilist size is 0.");
+        LogUtils.LOG.error("wilist size is 0.");
         return null;
       }
-      LogUtils.VDESKTOP_LOG.debug("wilist size =" + listsize);
+      LogUtils.LOG.debug("wilist size =" + listsize);
       String currentIp = null;
       for (int i = 0; i < listsize; i++)
       {
@@ -103,51 +106,47 @@ public class WiClientProxyServiceImpl
         {
           wiinterfacemodle = getWiServiceProxy(wiId, this.wiMap, currentIp);
         }
-        if (!"api".equals(req.getRequestType()))
-        {
           if ((wiinterfacemodle == null) && (req.getCurrentSessionMap() != null))
           {
             SessionInfo sessionInfo = (SessionInfo)req.getCurrentSessionMap().get(wiId);
             if (sessionInfo != null)
             {
-             // currentIp = ((SessionInfo)req.getCurrentSessionMap().get(wiId)).getCurrentIp();
-            	currentIp= sessionInfo.getCurrentIp();
+              currentIp= sessionInfo.getCurrentIp();
               wiinterfacemodle = getWiServiceProxy(wiId, this.wiMap, currentIp);
             }
           }
-        }
         if (wiinterfacemodle == null)
         {
           wiinterfacemodle = getWiServiceProxy(wiId, this.wiMap);
           if (wiinterfacemodle == null)
           {
-            LogUtils.VDESKTOP_LOG.error("wiInterfaceModel of the farm is null.");
+            LogUtils.LOG.error("wiInterfaceModel of the farm is null.");
             return null;
           }
         }
        
         realClientProxy = wiinterfacemodle.getWiInterface();
         currentIp = wiinterfacemodle.getWiIp();
-        LogUtils.VDESKTOP_LOG.debug("current ip =" + currentIp);
+        LogUtils.LOG.debug("current ip =" + currentIp);
 
         if (realClientProxy == null)
         {
-          LogUtils.VDESKTOP_LOG.error("Wi proxy is null.");
+          LogUtils.LOG.error("Wi proxy is null.");
           return null;
         }
-        if (CommonUtils.checkAllStringNull(new String[] { methodName }))
+        if (CommonUtils.checkAllStringNull( methodName ))
         {
-          LogUtils.VDESKTOP_LOG.error(String.format("The parameter methodName is invalid, methodName is %s.",methodName ));
+          LogUtils.LOG.error(String.format("The parameter methodName is invalid, methodName is %s.",methodName ));
           return null;
         }
         
-        LogUtils.VDESKTOP_LOG.debug(String.format("the name of method of rest request:%s,times:%s, params is %s",
+        LogUtils.LOG.debug(String.format("the name of method of rest request:%s,times:%s, params is %s",
         		methodName, Integer.valueOf(i), convert(new Object[] { req })));
         Method method = getMethodObj(realClientProxy, methodName);
 
         if (method == null)
         {
-          LogUtils.VDESKTOP_LOG.error("Failed to get method object.");
+          LogUtils.LOG.error("Failed to get method object.");
           return null;
         }
 
@@ -188,7 +187,7 @@ public class WiClientProxyServiceImpl
         }
         catch (Exception e)
         {
-          LogUtils.VDESKTOP_LOG.error(
+          LogUtils.LOG.error(
             String.format("Failed to invoke method : %s. and select other useful Wi.", methodName) , e);
           removewi(wiId, currentIp, methodName);
         }
@@ -211,20 +210,24 @@ public class WiClientProxyServiceImpl
         {
           loginRsp.setResultCode(ResultCode.LOGIN_IN_EMERGENCY.getCode());
         }
-        if (!"api".equals(req.getRequestType()))
-        {
-          //CommonWebUtil.dealAuthRespone(loginRsp, req.getCurrentSession());
         	dealAuthRespone(loginRsp, req.getCurrentSession());
-        }
       }
 
-      LogUtils.VDESKTOP_LOG.debug(mothodInvokeResult);
+      LogUtils.LOG.debug(mothodInvokeResult);
       return mothodInvokeResult;
     }
-    LogUtils.VDESKTOP_LOG.error("WI list is null.");
+    LogUtils.LOG.error("WI list is null.");
     return null;
   }
 
+  /***
+   * tokenId失效时，重新使用login方式登陆，并继续调用原先的操作
+   * @param result
+   * @param oldReq
+   * @param methodName
+   * @param currentIp
+   * @return
+   */
   private <T> T dealTokenInvalid(T result, UnsCommonReq oldReq, String methodName, String currentIp)
   {
     try
@@ -261,21 +264,21 @@ public class WiClientProxyServiceImpl
           }
         }
         else {
-          LogUtils.VDESKTOP_LOG.error(" getCurrentSessionMap is null. ");
+          LogUtils.LOG.error(" getCurrentSessionMap is null. ");
         }
-        LogUtils.VDESKTOP_LOG.info(" token is invalid ,need reLogin WI, currentIp =" + currentIp);
+        LogUtils.LOG.info(" token is invalid ,need reLogin WI, currentIp =" + currentIp);
         LoginRsp loginRsp = (LoginRsp)handleRequest("login", req);
 
        if (loginRsp == null)
         {
-          LogUtils.VDESKTOP_LOG.error("loginRsp is null.");
+          LogUtils.LOG.error("loginRsp is null.");
           return result;
         }
 
         if ((ResultCode.SUCCESS.getCode() != loginRsp.getResultCode()) && 
           (ResultCode.LOGIN_IN_EMERGENCY.getCode() != loginRsp.getResultCode()))
         {
-          LogUtils.VDESKTOP_LOG.error("loginRsp is not success." + loginRsp);
+          LogUtils.LOG.error("loginRsp is not success." + loginRsp);
           rsp.setResultCode(loginRsp.getResultCode());
           rsp.setResultDesc(loginRsp.getResultDesc());
           return result;
@@ -292,11 +295,16 @@ public class WiClientProxyServiceImpl
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     return result;
   }
 
+  /***
+   * 将session中WI对应的tokenId设置到请求中
+   * @param currentIp
+   * @param req
+   */
   private void setTokenId(String currentIp, UnsCommonReq req)
   {
     try
@@ -311,14 +319,14 @@ public class WiClientProxyServiceImpl
         return;
       }
       String tokenId = (String)info.getIpTokenMap().get(currentIp);
-      if (!CommonUtils.checkAllStringNull(new String[] { tokenId }))
+      if (!CommonUtils.checkAllStringNull(tokenId ))
       {
         req.setTokenId(tokenId);
       }
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
   }
 
@@ -329,10 +337,10 @@ public class WiClientProxyServiceImpl
 
     if (lstwi == null)
     {
-      LogUtils.VDESKTOP_LOG.debug("list of Wi is already null.");
+      LogUtils.LOG.debug("list of Wi is already null.");
       return;
     }
-    LogUtils.VDESKTOP_LOG.debug("prepare for remove wilist size =" + lstwi.size());
+    LogUtils.LOG.debug("prepare for remove wilist size =" + lstwi.size());
     try
     {
       this.lock.writeLock().lock();
@@ -340,10 +348,10 @@ public class WiClientProxyServiceImpl
       {
         WiInterfaceModel interfaecModel = (WiInterfaceModel)lstIterator.next();
 
-        LogUtils.VDESKTOP_LOG.debug("prepare for ip:" + interfaecModel.getWiIp());
+        LogUtils.LOG.debug("prepare for ip:" + interfaecModel.getWiIp());
         if (currentip.equals(interfaecModel.getWiIp()))
         {
-          LogUtils.VDESKTOP_LOG.debug("deleted ip:" + interfaecModel.getWiIp());
+          LogUtils.LOG.debug("deleted ip:" + interfaecModel.getWiIp());
           lstIterator.remove();
           break;
         }
@@ -357,13 +365,13 @@ public class WiClientProxyServiceImpl
 
   private WiInterfaceModel getWiServiceProxy(String WiId, Map<String, List<WiInterfaceModel>> wiMaps)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     List<WiInterfaceModel> lstwi = (List<WiInterfaceModel>)wiMaps.get(WiId);
 
     if (CommonUtils.checkAllObjectNull(new Object[] { lstwi }))
     {
-      LogUtils.VDESKTOP_LOG.error("WiIfModel is null.");
+      LogUtils.LOG.error("WiIfModel is null.");
       return null;
     }
 
@@ -371,7 +379,6 @@ public class WiClientProxyServiceImpl
 
     WiInterfaceModel wiInterfaceModel = null;
 
-    //if (lstwi.size() > 0)
     if(lstwi.size()>1)
     {
       wiInterfaceModel = (WiInterfaceModel)lstwi.get(ra.nextInt(lstwi.size()));
@@ -385,25 +392,25 @@ public class WiClientProxyServiceImpl
 
     if (proxy == null)
     {
-      LogUtils.VDESKTOP_LOG.error("Wi proxy is null.");
+      LogUtils.LOG.error("Wi proxy is null.");
       return null;
     }
 
-    LogUtils.VDESKTOP_LOG.debug("get proxy of the wiIp = " + wiInterfaceModel.getWiIp());
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.debug("get proxy of the wiIp = " + wiInterfaceModel.getWiIp());
+    LogUtils.LOG.exitMethod();
 
     return wiInterfaceModel;
   }
 
   private WiInterfaceModel getWiServiceProxy(String WiId, Map<String, List<WiInterfaceModel>> wiMaps, String ip)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     List<WiInterfaceModel> lstwi = (List<WiInterfaceModel>)wiMaps.get(WiId);
 
     if (CommonUtils.checkAllObjectNull(new Object[] { lstwi }))
     {
-      LogUtils.VDESKTOP_LOG.error("WiIfModel is null.");
+      LogUtils.LOG.error("WiIfModel is null.");
       return null;
     }
 
@@ -416,19 +423,24 @@ public class WiClientProxyServiceImpl
       }
     }
    
-      LogUtils.VDESKTOP_LOG.error("Wi proxy is null.");
+      LogUtils.LOG.error("Wi proxy is null.");
    
 
     return null;
   }
 
+  /***
+   * 获得rest接口调用的CXF客户端
+   * @param wiIp
+   * @return WiclientService
+   */
   public WiClientService getClientProxy(String wiIp)
   {
     WiClientService wiClientProxy = null;
     try
     {
-      String urlf = this.configuration.getString("WI.Rest.Url.Format.R51");
-      String WIsUrl = String.format(urlf, wiIp );
+     
+      String WIsUrl = String.format(WI_RESTURL_FORMAT, wiIp );
       JAXRSClientFactoryBean clientFactoryBean = (JAXRSClientFactoryBean)WIApplicationContext.getBean("clientFactoryBean");
 
       clientFactoryBean.setAddress(WIsUrl);
@@ -449,13 +461,6 @@ public class WiClientProxyServiceImpl
       String protocolType = Configuration.getControllerPropInstance().getString("protocolType");
       if ("https".equals(protocolType))
       {
-       /* ArrayList<JSONProvider> providers = new ArrayList<JSONProvider>();
-        JSONProvider provider = new JSONProvider();
-        provider.setSupportUnwrapped(true);
-        provider.setDropRootElement(true);
-        provider.setSerializeAsArray(true);
-        providers.add(provider);*/
-        
         TLSClientParameters tlsParams = new TLSClientParameters();
         tlsParams.setSecureSocketProtocol("TLSv1");
         tlsParams.setDisableCNCheck(true);
@@ -487,8 +492,8 @@ public class WiClientProxyServiceImpl
     }
     catch (Exception exception)
     {
-      LogUtils.VDESKTOP_LOG.error(String.format("Failed to get the client proxy. "));
-      LogUtils.VDESKTOP_LOG.error(exception);
+      LogUtils.LOG.error(String.format("Failed to get the client proxy. "));
+      LogUtils.LOG.error(exception);
       return null;
     }
 
@@ -529,7 +534,7 @@ public class WiClientProxyServiceImpl
 
   private Method getMethodObj(WiClientService realClientProxy, String methodName)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
     Method[] methods;
     try
     {
@@ -538,7 +543,7 @@ public class WiClientProxyServiceImpl
     catch (SecurityException se)
     {
 
-      LogUtils.VDESKTOP_LOG.error(String.format("Failed to get method object of %s method.", methodName ), se);
+      LogUtils.LOG.error(String.format("Failed to get method object of %s method.", methodName ), se);
       return null;
     }
 
@@ -558,18 +563,18 @@ public class WiClientProxyServiceImpl
 
     if (methodCount == 0)
     {
-      LogUtils.VDESKTOP_LOG.error(String.format("The method : %s, not found in %s.",methodName, WiClientService.class ));
+      LogUtils.LOG.error(String.format("The method : %s, not found in %s.",methodName, WiClientService.class ));
       return null;
     }
 
     if (methodCount != 1)
     {
-      LogUtils.VDESKTOP_LOG.error(String.format("There are more than one method : %s have found in %s.", methodName, 
+      LogUtils.LOG.error(String.format("There are more than one method : %s have found in %s.", methodName, 
         WiClientService.class ));
       return null;
     }
 
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return method;
   }
 
@@ -578,6 +583,11 @@ public class WiClientProxyServiceImpl
   {
   }
 
+ /***
+ * 登陆操作后，将返回的tokenId等信息设置到session中
+ * @param rsp
+ * @param currentSession
+ */
   private  void dealAuthRespone(LoginRsp rsp, HttpSession currentSession)
   {
     if ((rsp == null) || (currentSession == null))
@@ -591,7 +601,7 @@ public class WiClientProxyServiceImpl
     if ((ResultCode.SUCCESS.getCode() != rsp.getResultCode()) && 
       (ResultCode.LOGIN_IN_EMERGENCY.getCode() != rsp.getResultCode()))
     {
-      LogUtils.VDESKTOP_LOG.error("rsp is not success." + rsp);
+      LogUtils.LOG.error("rsp is not success." + rsp);
       return;
     }
 
@@ -619,7 +629,7 @@ public class WiClientProxyServiceImpl
           currentMap.put(WIid, sessionInfo);
          
         }
-    	else LogUtils.VDESKTOP_LOG.error("user and pass is null.");
+    	else LogUtils.LOG.error("user and pass is null.");
     }
 
     if (sessionInfo != null)
@@ -646,7 +656,7 @@ public class WiClientProxyServiceImpl
     try
     {
       String password = AesEncrypter.decodeBASE64(pass);
-      if (CommonUtils.checkAllStringNull(new String[] { password }))
+      if (CommonUtils.checkAllStringNull( password ))
       {
         return pass;
       }
@@ -654,7 +664,7 @@ public class WiClientProxyServiceImpl
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     return pass;
   }

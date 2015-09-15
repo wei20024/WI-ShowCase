@@ -26,7 +26,7 @@ public class GetAppLoginInfoRsp extends GetLoginInfoRsp
   public String toString()
   {
     StringBuilder builder = new StringBuilder();
-    builder.append("[HDC>>WI]GetAppLoginInfoRsp:loginInfoTicket=" + this.loginInfoTicket);
+    builder.append("GetAppLoginInfoRsp:loginInfoTicket=" + this.loginInfoTicket);
     builder.append(",vmName=" + this.vmName);
     builder.append(",domain=" + this.domain);
     builder.append(",machineSid=" + this.machineSid);

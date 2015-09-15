@@ -83,6 +83,7 @@ function webuilog(levelNum,logmessage,ex)
 		return;
 	}
 }
+
 document.onmousewheel = function (evt) 
     {
         var e = evt || window.event;
@@ -404,7 +405,7 @@ var commonvar={
 	        dataType : "json",
 	        contentType :"application/json",
 	        data : JSON.stringify({
-	        	"configReq":["dynamicPassword.SMSOTPAuth","retryConnectVNCCount","retryConnectCount","runningMode","autoConnectVm","desktopLock","dynamicPassword.2FactorAuth","clientAuth","vmNameType"]
+	        	"configReq":["retryConnectVNCCount","autoConnectVm","desktopLock","vmNameType"]
 	        }),
 	        timeout: 300000,
 	        success : function(msg) {

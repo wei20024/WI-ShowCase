@@ -27,7 +27,6 @@ import com.huawei.showcase.model.response.ChangePwdRsp;
 import com.huawei.showcase.model.response.GetUserInfoRsp;
 import com.huawei.showcase.model.response.LoginRsp;
 import com.huawei.showcase.services.AppCloudService;
-import com.huawei.showcase.services.CustomService;
 import com.huawei.showcase.services.LoginManageService;
 
 @Service
@@ -37,13 +36,13 @@ public class LoginManageImpl  implements LoginManageService
   @Autowired
   private AppCloudService appCloudService;
 
-  @Autowired
-  private CustomService customService;
+ 
   
   @Autowired
   private WiClientService wiClientService;
-	/***
-	 * @since 2015/8/19 17:18
+   
+   /***
+   * @date 2015/8/19 17:18
    * 用户登录和记录用户信息
    * @param loginReq
    * @return
@@ -55,22 +54,20 @@ public class LoginManageImpl  implements LoginManageService
     LoginRsp loginrsp = new LoginRsp();
     String username = loginReq.getUserName();
     String password = loginReq.getPassword();
-
     HttpSession currentSession = ContextUtil.getSession();
     
-
-    if (CommonUtils.checkAllStringNull(new String[] { username }))
+    if (CommonUtils.checkAllStringNull( username ))
     {
-      LogUtils.VDESKTOP_LOG.error("The parameter username is null.");
+      LogUtils.LOG.error("The parameter username is null.");
       loginrsp.setResultCode(ResultCode.PARAMETER_INVALID.getCode());
       loginrsp.setResultDesc(ResultCode.PARAMETER_INVALID.getMessage());      
       loginrsp.setLoginState(1);
       return loginrsp;
     }
 
-    if (CommonUtils.checkAllStringNullNotTrim(new String[] { password }))
+    if (CommonUtils.checkAllStringNullNotTrim(password ))
     {
-      LogUtils.VDESKTOP_LOG.error("The parameter password is null");
+      LogUtils.LOG.error("The parameter password is null");
       loginrsp.setResultCode(ResultCode.PARAMETER_INVALID.getCode());
       loginrsp.setResultDesc(ResultCode.PARAMETER_INVALID.getMessage());
       loginrsp.setLoginState(1);
@@ -81,17 +78,15 @@ public class LoginManageImpl  implements LoginManageService
     String passwordbase64 = password;
     try
     {
-      passwordbase64 = AesEncrypter.getBASE64(password.getBytes("utf-8"));
-    }
-    catch (Exception e)
+	  passwordbase64 = AesEncrypter.getBASE64(password.getBytes("utf-8"));
+	} 
+    catch (UnsupportedEncodingException e) 
     {
-      LogUtils.VDESKTOP_LOG.error(e);
-    }
+	  LogUtils.LOG.error(e);
+	}
     
-    //TODO session中的userId内部用
     currentSession.setAttribute("userId", username);
     currentSession.setAttribute("pass", passwordbase64);
-
     loginReq.setUserId(username);
     loginReq.setCurrentSession(currentSession);
     
@@ -101,23 +96,22 @@ public class LoginManageImpl  implements LoginManageService
     //1.认证 所有WI处于同一AD域， 随机获取WIip进行用户认证
     String wiId = LocalConfigWI.getRandomWiId();
     loginReq.setGroupId(wiId);
-    LoginRsp rsp = this.customService.authentication(loginReq);
+    LoginRsp rsp = authentication(loginReq);
      
+    //认证失败，跳转4.1
     if ((ResultCode.SUCCESS.getCode() != rsp.getResultCode()) && 
       (ResultCode.LOGIN_IN_EMERGENCY.getCode() != rsp.getResultCode()))
     {
     	currentSession.removeAttribute("userId");
     	currentSession.removeAttribute("pass");
-    	//认证失败，跳转5.1
+    	
     }
     if ((ResultCode.SUCCESS.getCode() == rsp.getResultCode()) || 
-      (ResultCode.LOGIN_IN_EMERGENCY.getCode() == rsp.getResultCode()))
+    		(ResultCode.LOGIN_IN_EMERGENCY.getCode() == rsp.getResultCode()))
     {
-    	//2.创建新会话
-      //CommonWebUtil.createNewSession();
+      //2.设置会话
       setSessionInfo(rsp, loginReq);
       currentSession = ContextUtil.getSession();
-    
       currentSession.setAttribute("userCurrentWiIp", rsp.getCurrentIp());
 
       if (ResultCode.LOGIN_IN_EMERGENCY.getCode() == rsp.getResultCode())
@@ -130,24 +124,47 @@ public class LoginManageImpl  implements LoginManageService
       //3.获得用户组信息
       UserGroupInfo userGrpInfo = getUserGroup(loginReq);
       currentSession.setAttribute("userGroup", userGrpInfo);
-      //4.设置用户的tokenId，WI返回tokenId
-      //currentSession.setAttribute("tokenId", rsp.getTokenId());
-      //5.认证成功
+  
+      //4.认证成功
       loginrsp.setResultCode(ResultCode.SUCCESS.getCode());
       loginrsp.setResultDesc(ResultCode.SUCCESS.getMessage());
       loginrsp.setLoginState(0);
       return loginrsp;
     }
-    //5.1 认证登陆失败
+    //4.1 认证登陆失败
     return convertLoginFailResult(loginrsp, rsp, loginReq);
   }
 
+  private LoginRsp authentication(LoginReq req)
+  {
+    LoginRsp rsp = new LoginRsp();
+    String passwordbase64 = null;
+    try
+    {
+      passwordbase64 = AesEncrypter.getBASE64(req.getPassword().getBytes("utf-8"));
+    }
+    catch (Exception e)
+    {
+      LogUtils.LOG.error(e);
+    }
+    if (CommonUtils.checkAllStringNull( passwordbase64 ))
+    {
+      passwordbase64 = req.getPassword();
+    }
+
+    req.setPassword(passwordbase64);
+
+    rsp = this.wiClientService.login(req);
+   
+    return rsp;
+  }
+  
   /****
    * 用户修改密码
    */
   public ChangePwdRsp changePWD(ChangePwdReq changepwdreq)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
     ChangePwdRsp changersp = new ChangePwdRsp();
     String username = changepwdreq.getUsername();
     String oldpwd = changepwdreq.getOldpwd();
@@ -157,7 +174,7 @@ public class LoginManageImpl  implements LoginManageService
 
     if (SessionInfoUtil.isEmergencyLogin(session))
     {
-      LogUtils.VDESKTOP_LOG.warn("in emergency mode,the user has  no operating authority ");
+      LogUtils.LOG.warn("in emergency mode,the user has  no operating authority ");
       changersp.setResultCode(ResultCode.EMERGENCY_LOGON.getCode());
       changersp.setResultDesc(ResultCode.EMERGENCY_LOGON.getMessage());
       return changersp;
@@ -165,7 +182,7 @@ public class LoginManageImpl  implements LoginManageService
 
     if (CommonUtils.checkAllStringNull(new String[] { username, oldpwd, newpwd }))
     {
-      LogUtils.VDESKTOP_LOG.error(String.format("parameters of change pwd have null, username is %s.", username));
+      LogUtils.LOG.error(String.format("parameters of change pwd have null, username is %s.", username));
       changersp.setChangeState(-1);
       changersp.setResultCode(ResultCode.COMMON_PWD_INVOKEINTERFACE_NULL.getCode());
       changersp.setResultDesc(ResultCode.COMMON_PWD_INVOKEINTERFACE_NULL.getMessage());
@@ -179,15 +196,15 @@ public class LoginManageImpl  implements LoginManageService
       changepwdreq.setNewpwd(newpwd);
       changepwdreq.setOldpwd(oldpwd);
     }
-    catch (Exception e)
+    catch (UnsupportedEncodingException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
 
     String WiId = LocalConfigWI.getRandomWiId();
-    if (CommonUtils.checkAllStringNull(new String[] { WiId }))
+    if (CommonUtils.checkAllStringNull( WiId ))
     {
-      LogUtils.VDESKTOP_LOG.error("WiId  is null.");
+      LogUtils.LOG.error("WiId  is null.");
       ChangePwdRsp rsp = new ChangePwdRsp();
       rsp.setResultCode(ResultCode.WI_INVALID.getCode());
       rsp.setResultDesc("WiId  is null.");
@@ -197,8 +214,8 @@ public class LoginManageImpl  implements LoginManageService
     changepwdreq.setGroupId(WiId);
     CommonUtils.setCommonReq(changepwdreq);
 
-    ChangePwdRsp resp =this.wiClientService.changePWD(changepwdreq);// this.appCloudService.changePWD(changepwdreq);
-    LogUtils.VDESKTOP_LOG.info("invoke WI interface is success,username = " + username);
+    ChangePwdRsp resp =this.wiClientService.changePWD(changepwdreq);
+    LogUtils.LOG.info("invoke WI interface is success,username = " + username);
     
     //修改密码操作成功
     if (resp.getResultCode() == ResultCode.SUCCESS.getCode())
@@ -206,14 +223,14 @@ public class LoginManageImpl  implements LoginManageService
       changersp.setChangeState(0);
       changersp.setResultCode(ResultCode.OPERATE_SUCCESS.getCode());
       changersp.setResultDesc(ResultCode.OPERATE_SUCCESS.getMessage());
-      LogUtils.VDESKTOP_LOG.exitMethod();
+      LogUtils.LOG.exitMethod();
       return changersp;
     }
     
     //账号被锁定，修改密码失败
     if (resp.getResultCode() == ResultCode.COMMON_ACCOUNT_LOCKED_OUT.getCode())
     {
-      LogUtils.VDESKTOP_LOG.error("change password error resultCode = " + ResultCode.USER_LOCK.getCode() + 
+      LogUtils.LOG.error("change password error resultCode = " + ResultCode.USER_LOCK.getCode() + 
         ", errorMessage = " + ResultCode.USER_LOCK.getMessage() + ", username = " + username);
       changersp.setChangeState(-1);
       changersp.setResultCode(ResultCode.USER_LOCK.getCode());
@@ -222,7 +239,7 @@ public class LoginManageImpl  implements LoginManageService
     }
     
     //新密码不符合字符域的长度、复杂性或历史要求,操作失败
-    LogUtils.VDESKTOP_LOG.error("change password error resultCode = " + resp.getResultCode() + ", errorMessage = " + 
+    LogUtils.LOG.error("change password error resultCode = " + resp.getResultCode() + ", errorMessage = " + 
       resp.getResultDesc() + ", username = " + username);
     changersp.setChangeState(-1);
     changersp.setResultCode(resp.getResultCode());
@@ -239,7 +256,7 @@ public class LoginManageImpl  implements LoginManageService
     HttpSession session = ContextUtil.getSession();
     if (session == null)
     {
-      LogUtils.VDESKTOP_LOG.error(" session is null.");
+      LogUtils.LOG.error(" session is null.");
       return;
     }
 
@@ -248,11 +265,11 @@ public class LoginManageImpl  implements LoginManageService
     CurrentInfo info = rsp.getCurrentInfo();
     if (info != null)
     {
-      if (!CommonUtils.checkAllStringNull(new String[] { info.getUserName() }))
+      if (!CommonUtils.checkAllStringNull(info.getUserName() ))
       {
         userName = info.getUserName();
       }
-      if (!CommonUtils.checkAllStringNull(new String[] { info.getPassword() }))
+      if (!CommonUtils.checkAllStringNull(info.getPassword() ))
       {
         password = info.getPassword();
       }
@@ -266,23 +283,10 @@ public class LoginManageImpl  implements LoginManageService
       //加密密码
       session.setAttribute("password", passwordAes);
 
-      if (!CommonUtils.checkAllStringNull(new String[] { rsp.getLoginExtendInfo() }))
-      {
-        session.setAttribute("session-loginExtendInfo", rsp.getLoginExtendInfo());
-      }
-      if (!CommonUtils.checkAllStringNull(new String[] { rsp.getExtendData() }))
-      {
-        session.setAttribute("session-extendData", rsp.getExtendData());
-      }
-      if (rsp.getExtendList() != null)
-      {
-        session.setAttribute("session-extendList", rsp.getExtendList());
-      }
-
     }
     catch (UnsupportedEncodingException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
   }
 
@@ -297,9 +301,9 @@ public class LoginManageImpl  implements LoginManageService
     GetUserInfoReq getUserInfoReq = new GetUserInfoReq();
     getUserInfoReq.setUsername(req.getUserName());
     CommonUtils.setCommonReq(getUserInfoReq);
-    
     getUserInfoReq.setEmergencyLogonFlag((String)
     		getUserInfoReq.getCurrentSession().getAttribute("EMERGENCYLOGON"));
+    
     GetUserInfoRsp getUserInfoRsp = this.appCloudService.getUserInfo(getUserInfoReq);
     UserGroupInfo userInfo = null;
     if (getUserInfoRsp != null && getUserInfoRsp.getResultCode()!=ResultCode.SUCCESS.getCode())
@@ -323,18 +327,18 @@ public class LoginManageImpl  implements LoginManageService
     loginrsp.setLoginState(1);
     if (ResultCode.ACCOUNT_REVOKED.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("user login authenticate failed,userName= " + username + ",password=**** " + 
-        ",domainName= " + loginreq.getDomain());
+      LogUtils.LOG.error("user login authenticate failed,userName= " + username + ",password=**** " + 
+    		  ",domainName= " + loginreq.getDomain());
       loginrsp.setResultCode(ResultCode.USER_LOCK.getCode());
       loginrsp.setResultDesc(ResultCode.USER_LOCK.getMessage());
       return loginrsp;
     }
     if ((ResultCode.UESR_PASSWORD_EXPIRED.getCode() == rsp.getResultCode()) || 
-      (ResultCode.WI_PASS_EXPIRED.getCode() == rsp.getResultCode()) || 
-      (ResultCode.UESR_PASSWORD_EXPIRED_C10.getCode() == rsp.getResultCode()))
+    		(ResultCode.WI_PASS_EXPIRED.getCode() == rsp.getResultCode()) || 
+    		(ResultCode.UESR_PASSWORD_EXPIRED_C10.getCode() == rsp.getResultCode()))
     {
-      LogUtils.VDESKTOP_LOG.error("user's pwd has expired,userName= " + username + ",password=**** " + ",domainName= " + 
-        loginreq.getDomain());
+      LogUtils.LOG.error("user's pwd has expired,userName= " + username + ",password=**** " + ",domainName= " + 
+    		  loginreq.getDomain());
 
       HttpSession httpsession = ContextUtil.getSession();
       httpsession.setAttribute("userPasswordExpired", "true");
@@ -345,7 +349,7 @@ public class LoginManageImpl  implements LoginManageService
     }
     if (ResultCode.UESR_ACCOUNT_EXPIRED.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("user's account has expired,userName= " + username + ",password=**** " + ",domainName= " + 
+      LogUtils.LOG.error("user's account has expired,userName= " + username + ",password=**** " + ",domainName= " + 
         loginreq.getDomain());
       loginrsp.setResultCode(ResultCode.ACCOUNT_INVALIDATIONED.getCode());
       loginrsp.setResultDesc(ResultCode.ACCOUNT_INVALIDATIONED.getMessage());
@@ -353,7 +357,7 @@ public class LoginManageImpl  implements LoginManageService
     }
     if (ResultCode.AD_NOT_INIT.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("AD module no initialization,userName= " + username + ",password=**** " + 
+      LogUtils.LOG.error("AD module no initialization,userName= " + username + ",password=**** " + 
         ",domainName= " + loginreq.getDomain());
       loginrsp.setResultCode(ResultCode.AD_UNREADY.getCode());
       loginrsp.setResultDesc(ResultCode.AD_UNREADY.getMessage());
@@ -361,7 +365,7 @@ public class LoginManageImpl  implements LoginManageService
     }
     if (ResultCode.USER_NOT_EXISTS.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("AD module no exist, userName not exist, userName= " + username + ",password=**** " + 
+      LogUtils.LOG.error("AD module no exist, userName not exist, userName= " + username + ",password=**** " + 
         ",domainName= " + loginreq.getDomain());
       loginrsp.setResultCode(ResultCode.USER_PASSWORD_INVALID.getCode());
       loginrsp.setResultDesc(ResultCode.USER_PASSWORD_INVALID.getMessage());
@@ -371,7 +375,7 @@ public class LoginManageImpl  implements LoginManageService
     //输入的密码错误
     if (ResultCode.WRONG_PASSWORD.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("username or password has some errors,userName= " + username + ",password=**** " + 
+      LogUtils.LOG.error("username or password has some errors,userName= " + username + ",password=**** " + 
         ",domainName= " + loginreq.getDomain());
       loginrsp.setResultCode(ResultCode.USER_PASSWORD_INVALID.getCode());
       loginrsp.setResultDesc(ResultCode.USER_PASSWORD_INVALID.getMessage());
@@ -381,56 +385,56 @@ public class LoginManageImpl  implements LoginManageService
     if ((ResultCode.USER_NOT_BINDING_TO_TC.getCode() == rsp.getResultCode()) || 
       (ResultCode.USER_NOT_BINDING_TO_THE_TC.getCode() == rsp.getResultCode()))
     {
-      LogUtils.VDESKTOP_LOG.error("username or password has some errors:" + rsp);
+      LogUtils.LOG.error("username or password has some errors:" + rsp);
       loginrsp.setResultCode(rsp.getResultCode());
       loginrsp.setResultDesc(rsp.getResultDesc());
       return loginrsp;
     }
     if (String.valueOf(rsp.getResultCode()).startsWith("1000"))
     {
-      LogUtils.VDESKTOP_LOG.error("login fail rsp  " + rsp);
+      LogUtils.LOG.error("login fail rsp  " + rsp);
       loginrsp.setResultCode(rsp.getResultCode());
       loginrsp.setResultDesc(rsp.getResultDesc());
       return loginrsp;
     }
     if (ResultCode.RADIUS_SERVICE_EXCEPTION.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("login fail rsp  " + rsp);
+      LogUtils.LOG.error("login fail rsp  " + rsp);
       loginrsp.setResultCode(rsp.getResultCode());
       loginrsp.setResultDesc(rsp.getResultDesc());
       return loginrsp;
     }
     if (ResultCode.GET_DYNAMIC_CODE_FAIL.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("login fail rsp  " + rsp);
+      LogUtils.LOG.error("login fail rsp  " + rsp);
       loginrsp.setResultCode(rsp.getResultCode());
       loginrsp.setResultDesc(rsp.getResultDesc());
       return loginrsp;
     }
     if (ResultCode.CHECK_DYNAMIC_CODE_FAIL.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("login fail rsp  " + rsp);
+      LogUtils.LOG.error("login fail rsp  " + rsp);
       loginrsp.setResultCode(rsp.getResultCode());
       loginrsp.setResultDesc(rsp.getResultDesc());
       return loginrsp;
     }
     if (ResultCode.INIT_DYNAMIC_CODE_FAIL.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("login fail rsp  " + rsp);
+      LogUtils.LOG.error("login fail rsp  " + rsp);
       loginrsp.setResultCode(rsp.getResultCode());
       loginrsp.setResultDesc(rsp.getResultDesc());
       return loginrsp;
     }
     if (ResultCode.DYNAMIC_CODE_NULL.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("login fail rsp  " + rsp);
+      LogUtils.LOG.error("login fail rsp  " + rsp);
       loginrsp.setResultCode(rsp.getResultCode());
       loginrsp.setResultDesc(rsp.getResultDesc());
       return loginrsp;
     }
     if (ResultCode.API_LOGIN_TYPE_ERROR.getCode() == rsp.getResultCode())
     {
-      LogUtils.VDESKTOP_LOG.error("login fail rsp  " + rsp);
+      LogUtils.LOG.error("login fail rsp  " + rsp);
       loginrsp.setResultCode(rsp.getResultCode());
       loginrsp.setResultDesc(rsp.getResultDesc());
       return loginrsp;
@@ -441,8 +445,8 @@ public class LoginManageImpl  implements LoginManageService
       loginrsp.setResultDesc(rsp.getResultDesc());
       return loginrsp;
     }
-
-    LogUtils.VDESKTOP_LOG.error("unknow reason,userName= " + username + ",password=**** " + ",domainName= " + 
+    
+    LogUtils.LOG.error("unknow reason,userName= " + username + ",password=**** " + ",domainName= " + 
       loginreq.getDomain());
     loginrsp.setResultCode(ResultCode.UNKNOW_REASON.getCode());
     loginrsp.setResultDesc(ResultCode.UNKNOW_REASON.getMessage());

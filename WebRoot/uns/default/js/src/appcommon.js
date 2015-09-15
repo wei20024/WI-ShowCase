@@ -6,9 +6,9 @@ var appcommon = {
     appListHeight : 370,//app区域高度
     myCollectionList : new Array(),//常用应用列表
     allAppList : new Array(),//所有应用列表
-    appImgSrc : "/webui/default/img/app/",
-    appIconSrc : "/webui/default/img/app/appicon/",
-    desktopImg : "/webui/default/img/app/appicon/windowsDesktop.png",
+    appImgSrc : "/uns/default/img/app/",
+    appIconSrc : "/uns/default/img/app/appicon/",
+    desktopImg : "/uns/default/img/app/appicon/windowsDesktop.png",
     itemFloatDivW : 88, //浮动背景div的宽度
     itemFloatDivH : 88, //浮动背景div的高度
     itemMarginTop : 30, //appItem上边距大小

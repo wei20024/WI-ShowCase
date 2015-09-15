@@ -37,7 +37,7 @@ public class CommonWebUtil
       }
       catch (Exception e)
       {
-        LogUtils.VDESKTOP_LOG.error(e);
+        LogUtils.LOG.error(e);
       }
     }
     else

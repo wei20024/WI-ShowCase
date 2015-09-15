@@ -7,37 +7,16 @@ import java.util.List;
 public enum GetConfigForbidKey
 {
   GENERATE_OTP_API_PATH(
-    10, "Generate_OTP_API_Path"), 
+    0, "Uns.to.WI.password"), 
 
   DYNAMICPASSWORDRADIUSSERVERIP(
-    9, "dynamicPassword.RadiusServerIP"), 
+    1, "Uns.to.WI.userName"), 
 
-  WIIP(
-    8, "wi.ip"), 
+  WIIP(2, "wi.ip"), 
 
-  WILDAPIP(
-    7, "wi.ldap.ip"), 
-
-  ITAIP(
-    6, "ita.ip"), 
 
   DYNAMICPASSWORDRADIUSSECRET(
-    5, "dynamicPassword.RadiusSecret"), 
-
-  SVNIP(
-    4, "svn.ip"), 
-
-  FORBIDDCIPS(
-    3, "forbid.dcips"), 
-
-  VNCGATEIP(
-    2, "vncgate.ip"), 
-
-  DCIPS(
-    1, "dcips"), 
-
-  HDCIP(
-    0, "hdc.ip");
+    3, "Uns.to.WI.AuthType");
 
   private static List<String> values;
   private int code;
@@ -79,7 +58,7 @@ public enum GetConfigForbidKey
 
   public static boolean containKey(String key)
   {
-    if (CommonUtils.checkAllStringNull(new String[] { key }))
+    if (CommonUtils.checkAllStringNull(key ))
     {
       return false;
     }

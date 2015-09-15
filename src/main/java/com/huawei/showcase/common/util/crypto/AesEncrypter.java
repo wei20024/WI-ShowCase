@@ -23,14 +23,9 @@ public final class AesEncrypter
 {
   private static final String DESKEY_FILENAME = "deskey.skey";
   private static final String CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
-//  private static final String IVPARAM = "1gnk1e000mD0OQ0V";
-//  private static final String CIPHER_ALGORITHM_CBC = "AES/CBC/PKCS5Padding";
   private static final byte[] EN_FILE_BYTES = { -84, -64, -104, 56, -6, 126, 112, -69, 1, -65, -108, 34, -107, 88, -113, -1 };
   private static final String ENCRYPT_FILE_ALGORITHM = "AES";
-//  private static final byte[] IV = { 115, -12, -87, 21, 16, 23, 24, -49, -123, 73, -119, 57, 
-//    -15, -83, 48, 116 };
 
- // private static final IvParameterSpec IV_SPEC = new IvParameterSpec(IV);
   private static String keyPath;
   private static SecretKey secretKey ;
 
@@ -55,12 +50,12 @@ public final class AesEncrypter
   {
     if (str == null)
     {
-      LogUtils.VDESKTOP_LOG.error("encrypt():str is null");
+      LogUtils.LOG.error("encrypt():str is null");
       return null;
     }
     if (secretKey == null)
     {
-      LogUtils.VDESKTOP_LOG.error("encrypt():initialize failed");
+      LogUtils.LOG.error("encrypt():initialize failed");
       return null;
     }
 
@@ -76,23 +71,23 @@ public final class AesEncrypter
     }
     catch (NoSuchAlgorithmException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     catch (NoSuchPaddingException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     catch (InvalidKeyException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     catch (IllegalBlockSizeException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     return null;
   }
@@ -101,13 +96,13 @@ public final class AesEncrypter
   {
     if (str == null)
     {
-      LogUtils.VDESKTOP_LOG.error("decrypt():str is null");
+      LogUtils.LOG.error("decrypt():str is null");
       return null;
     }
 
     if (secretKey == null)
     {
-      LogUtils.VDESKTOP_LOG.error("decrypt():initialize failed");
+      LogUtils.LOG.error("decrypt():initialize failed");
       return null;
     }
 
@@ -123,27 +118,27 @@ public final class AesEncrypter
     }
     catch (NoSuchAlgorithmException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     catch (NoSuchPaddingException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     catch (InvalidKeyException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     catch (IllegalBlockSizeException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     catch (BadPaddingException e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
 
     return null;
@@ -186,7 +181,7 @@ public final class AesEncrypter
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }return null;
   }
 
@@ -195,11 +190,11 @@ public final class AesEncrypter
   {
     if ((filename == null) || (filename.isEmpty()))
     {
-      LogUtils.VDESKTOP_LOG.error("filename is invalid");
+      LogUtils.LOG.error("filename is invalid");
       return null;
     }
 
-    LogUtils.VDESKTOP_LOG.info("filename = " + filename);
+    LogUtils.LOG.info("filename = " + filename);
 
     FileInputStream fileInput = null;
     ObjectInputStream objInput = null;
@@ -218,7 +213,7 @@ public final class AesEncrypter
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error("failed to readEnKeyFile", e);
+      LogUtils.LOG.error("failed to readEnKeyFile", e);
       return null;
     }
     finally
@@ -231,7 +226,7 @@ public final class AesEncrypter
         }
         catch (Exception e)
         {
-          LogUtils.VDESKTOP_LOG.error(e);
+          LogUtils.LOG.error(e);
         }
       }
 
@@ -243,7 +238,7 @@ public final class AesEncrypter
         }
         catch (Exception e)
         {
-          LogUtils.VDESKTOP_LOG.error(e);
+          LogUtils.LOG.error(e);
         }
       }
     }

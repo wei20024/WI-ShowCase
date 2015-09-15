@@ -59,7 +59,7 @@ function initLogoutInfo()
 	    //设置自动登录的值:true表示登录自动登录，false表示不自动登
 		commonvar.setCookieByProtocol("isFirstLogin", "true");
 	    
-		authType = $.cookie("authType");
+		
 		accessType = $.cookie("accessClientType");
 		
 		if (accessType == "android" || accessType == "android_pad" || accessType == "iPhone" || accessType == "iPad" || accessType == "iPod" || accessType == "unknow")
@@ -81,31 +81,6 @@ function initLogoutInfo()
 			});
 			return;
 		}
-		
-		if(authType==""||authType==null)
-		{
-			$.ajax({
-            url:commonvar.serviceUrl.getAuthType,
-            dataType:"json",
-            type:"GET",
-			cache:false,
-            success:function(data){
-				var ConfigurationRsp=data;
-               if (ConfigurationRsp.resultCode == ResultCode.code.OPERATE_SUCCESS) {
-			   		authType = ConfigurationRsp.loginType;
-					commonvar.setCookieByProtocol("authType", authType);
-					logoutByAuth();
-			   }
-			   else {
-			   	showerror("getAutherror");
-			   }
-            },
-			error: function(event, xhrequest, option, except){
-				showerror("getAutherror");
-			}
-			
-        });
-		}
 		else
 		{
 			logoutByAuth();
@@ -113,82 +88,22 @@ function initLogoutInfo()
 	}
 function logoutByAuth()
 {
-	if(authType==0)
-		   {
-			   
-			   $.ajax({
-	            url:commonvar.serviceUrl.userLogout,
-	            dataType:"json",
-	            type:"POST",	
-				cache:false,	
-                beforeSend: function(XMLHttpRequest){
-                	XMLHttpRequest.setRequestHeader("randomTokenId",commonvar.getRandomTokenId());
-				},
-	            success:function(data){
-					window.location.href =commonvar.serviceUrl.userNameLoginPage + "?isLogout=1";
-	            },
-				error: function(event, xhrequest, option, except){
-					window.location.href = commonvar.serviceUrl.userNameLoginPage;
-				}
-				});
-		   }
-		   else if(authType==4)
-		   {
-			   
-			   $.ajax({
-	            url:commonvar.serviceUrl.userLogout,
-	            dataType:"json",
-	            type:"POST",	
-				cache:false,
-                beforeSend: function(XMLHttpRequest){
-                	XMLHttpRequest.setRequestHeader("randomTokenId",commonvar.getRandomTokenId());
-				},
-	            success:function(data){
-					window.location.href =commonvar.serviceUrl.userNameLoginPage + "?isLogout=1";
-	            },
-				error: function(event, xhrequest, option, except){
-					window.location.href = commonvar.serviceUrl.fingerLoginPage;
-				}
-				});
-		   }
-		   else if(authType==6)
-		   {
-			   
-			   $.ajax({
-	         url:commonvar.serviceUrl.userLogout,
-	         dataType:"json",
-	         type:"POST",	
-				cache:false,
-                beforeSend: function(XMLHttpRequest){
-                	XMLHttpRequest.setRequestHeader("randomTokenId",commonvar.getRandomTokenId());
-				},
-	         success:function(data){
-					window.location.href =commonvar.serviceUrl.userNameLoginPage;
-	         },
-				error: function(event, xhrequest, option, except){
-					window.location.href = commonvar.serviceUrl.userNameLoginPage;
-				}
-				});
-		   }
-	   else//证书登录方式显示关闭浏览其
-		   {
-		   	$.ajax({
-	            url:commonvar.serviceUrl.userLogout,
-	            dataType:"json",
-	            type:"POST",	
-				cache:false,
-                beforeSend: function(XMLHttpRequest){
-                	XMLHttpRequest.setRequestHeader("randomTokenId",commonvar.getRandomTokenId());
-				},
-	            success:function(data){
-					
-	            },
-				error: function(event, xhrequest, option, except){
-				}
-				});
-			showerror("closeBrowser");
-		   }
-		$.cookie("JSESSIONID",null);//清除session缓存
+   $.ajax({
+	    url:commonvar.serviceUrl.userLogout,
+	    dataType:"json",
+	    type:"POST",	
+		cache:false,	
+	    beforeSend: function(XMLHttpRequest){
+	    	XMLHttpRequest.setRequestHeader("randomTokenId",commonvar.getRandomTokenId());
+		},
+	    success:function(data){
+			window.location.href =commonvar.serviceUrl.userNameLoginPage + "?isLogout=1";
+	    },
+		error: function(event, xhrequest, option, except){
+			window.location.href = commonvar.serviceUrl.userNameLoginPage;
+		}
+	});
+	$.cookie("JSESSIONID",null);//清除session缓存
 }
 
 function showerror(resultCode)

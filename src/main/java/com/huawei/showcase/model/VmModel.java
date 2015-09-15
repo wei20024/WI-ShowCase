@@ -9,11 +9,15 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 @XmlRootElement(name="VmList")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class VmModel
+public class VmModel implements java.io.Serializable
 {
   
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5250582993141333887L;
 
-  @XmlElement(name="farmId")
+@XmlElement(name="farmId")
   private String farmId;
 
   @XmlElement(name="sid")
@@ -56,7 +60,7 @@ public class VmModel
   private String vmVersion = "R51";
 
   @XmlElement(name="groupId")
-  private String groupId;
+  private String groupId; //WI id
 
   @XmlElement(name="groupVmOpFlag")
   private Integer groupVmOpFlag;
@@ -64,6 +68,14 @@ public class VmModel
   @XmlElement(name="vipFlag")
   private Integer vipFlag;
 
+  @Override
+  public boolean equals(Object other)
+  {
+	  VmModel otherVm = (VmModel)other;
+	  if(this.sid.equals(otherVm.sid))return true;
+	  return false;
+  }
+  
   public void setFarmId(String farmId)
   {
     this.farmId = farmId;

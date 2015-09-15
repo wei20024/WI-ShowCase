@@ -24,11 +24,10 @@ public class SessionInfoUtil
     {
       if (sessionInfo == null)
       {
-        LogUtils.VDESKTOP_LOG.error("input param invalid.");
+        LogUtils.LOG.error("input param invalid.");
         return false;
       }
       sessionInfo.setCreateTime(new Date());
-      //SessionInfo old = (SessionInfo)sessionInfoMap.get(sessionInfo.getId());
       SessionInfo old = (SessionInfo)sessionInfoMap.get(sessionInfo.getUserId());
       if (old != null)
       {
@@ -40,7 +39,7 @@ public class SessionInfoUtil
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
     }
     return true;
   }
@@ -49,7 +48,7 @@ public class SessionInfoUtil
   {
     if (StringUtils.isEmpty(userId))
     {
-      LogUtils.VDESKTOP_LOG.error("input param invalid.");
+      LogUtils.LOG.error("input param invalid.");
       return false;
     }
 
@@ -75,17 +74,17 @@ public class SessionInfoUtil
    */
   public static boolean isEmergencyLogin(HttpSession session)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     if (session == null)
     {
-      LogUtils.VDESKTOP_LOG.debug("The session is null.");
+      LogUtils.LOG.debug("The session is null.");
       return false;
     }
 
     if (session.getAttribute("EMERGENCYLOGON") == null)
     {
-      LogUtils.VDESKTOP_LOG.debug("The session.getAttribute is null.");
+      LogUtils.LOG.debug("The session.getAttribute is null.");
       return false;
     }
 
@@ -95,7 +94,7 @@ public class SessionInfoUtil
       return true;
     }
 
-    LogUtils.VDESKTOP_LOG.exitMethod();
+    LogUtils.LOG.exitMethod();
     return false;
   }
   

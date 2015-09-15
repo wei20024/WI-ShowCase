@@ -23,7 +23,7 @@ public class SessionLogoffReq extends UnsCommonReq
   public String toString()
   {
     StringBuilder builder = new StringBuilder();
-    builder.append("[ITA>>HDC]LogoffSessionsReq:sessionInfoIdList=" + this.sessionInfoIdList);
+    builder.append("LogoffSessionsReq:sessionInfoIdList=" + this.sessionInfoIdList);
     return builder.toString();
   }
 

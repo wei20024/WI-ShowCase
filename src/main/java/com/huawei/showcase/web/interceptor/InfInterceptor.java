@@ -1,17 +1,14 @@
-package com.huawei.showcase.web.interceptor;
+﻿package com.huawei.showcase.web.interceptor;
 
-import com.huawei.showcase.common.enumcode.StaticNumber;
-import com.huawei.showcase.common.util.CommonUtils;
-import com.huawei.showcase.common.util.log.LogUtils;
-import com.huawei.showcase.common.util.log.TransactionIdUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.servlet.ServletContext;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Response;
+
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.interceptor.InterceptorChain;
 import org.apache.cxf.interceptor.OutgoingChainInterceptor;
@@ -20,6 +17,11 @@ import org.apache.cxf.message.MessageImpl;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.ws.policy.PolicyOutInterceptor;
+
+import com.huawei.showcase.common.enumcode.StaticNumber;
+import com.huawei.showcase.common.util.CommonUtils;
+import com.huawei.showcase.common.util.log.LogUtils;
+import com.huawei.showcase.common.util.log.TransactionIdUtil;
 
 public class InfInterceptor extends AbstractPhaseInterceptor<Message>
 {
@@ -47,7 +49,7 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
         boolean result = checkInterfacesAuth(message);
         if (!result)
         {
-          LogUtils.VDESKTOP_LOG.error(" Rest Request port error.");
+          LogUtils.LOG.error(" Rest Request port error.");
           return;
         }
       }
@@ -55,12 +57,12 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
       String interfaceName = getInterfaceName(message);
 
       String transactionId = null;
-      if (!CommonUtils.checkAllStringNull(new String[] { interfaceName }))
+      if (!CommonUtils.checkAllStringNull( interfaceName ))
       {
         if ((this.outInterfaceNameLists != null) && (!this.outInterfaceNameLists.contains(interfaceName)))
         {
           String userName = getUserName();
-
+          //内部接口，生成事物Id
           transactionId = CommonUtils.createTransactoinId(userName);
         }
 
@@ -69,7 +71,7 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
       if (transactionId != null)
       {
         TransactionIdUtil.setCurrentTransactionId(transactionId);
-        LogUtils.VDESKTOP_LOG.debug("cached transactionId = " + transactionId);
+        LogUtils.LOG.debug("cached transactionId = " + transactionId);
       }
       else
       {
@@ -78,7 +80,7 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
       TransactionIdUtil.removeCurrentTransactionId();
     }
   }
@@ -92,27 +94,23 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
     HttpSession session = httprequest.getSession();
     if (session != null)
     {
-      username = (String)session.getAttribute("username");
-      if (CommonUtils.checkAllStringNull(new String[] { username }))
-      {
-        ServletContext context = session.getServletContext();
-        HttpSession sesionsoo = (HttpSession)context.getAttribute(session.getId());
-        if (sesionsoo != null)
-        {
-          username = (String)sesionsoo.getAttribute("username");
-        }
-      }
+      username = (String)session.getAttribute("username");     
     }
     return username;
   }
-
+  /***
+   * 检查所拦截接口是否有权限
+   * 不需要检查的接口直接返回true，受检查接口主要检查其访问端口
+   * @param message
+   * @return true（接口不在检查列表，或访问端口正确）
+   */
   private boolean checkInterfacesAuth(Message message)
   {
     HttpServletRequest httprequest = (HttpServletRequest)message.get("HTTP.REQUEST");
 
     if (httprequest == null)
     {
-      LogUtils.VDESKTOP_LOG.error("httprequest is null.");
+      LogUtils.LOG.error("httprequest is null.");
       Response response = createResponse(Response.Status.NOT_FOUND.getStatusCode(), null);
       returnSpeResponse(message, Response.Status.NOT_FOUND.getStatusCode(), response, null);
       return false;
@@ -120,12 +118,12 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
 
     String curMethodPath = httprequest.getPathInfo();
 
-    if ((CommonUtils.checkAllStringNull(new String[] { curMethodPath })) || (curMethodPath.endsWith("/")))
+    if ((CommonUtils.checkAllStringNull(curMethodPath )) || (curMethodPath.endsWith("/")))
     {
       curMethodPath = httprequest.getRequestURI();
-      if ((CommonUtils.checkAllStringNull(new String[] { curMethodPath })) || (curMethodPath.endsWith("/")))
+      if ((CommonUtils.checkAllStringNull( curMethodPath )) || (curMethodPath.endsWith("/")))
       {
-        LogUtils.VDESKTOP_LOG.error("pathInfo is null or invalid.");
+        LogUtils.LOG.error("pathInfo is null or invalid.");
         Response response = createResponse(Response.Status.NOT_FOUND.getStatusCode(), null);
         returnSpeResponse(message, Response.Status.NOT_FOUND.getStatusCode(), response, null);
         return false;
@@ -145,7 +143,7 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error("get https port error.", e);
+      LogUtils.LOG.error("get https port error.", e);
 
       Response response = createResponse(Response.Status.NOT_FOUND.getStatusCode(), null);
       returnSpeResponse(message, Response.Status.NOT_FOUND.getStatusCode(), response, null);
@@ -154,7 +152,7 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
 
     if (HTTPS_REST_PORT != httpsPort)
     {
-      LogUtils.VDESKTOP_LOG.error(" port invalid.");
+      LogUtils.LOG.error(" port invalid.");
 
       Response response = createResponse(Response.Status.FORBIDDEN.getStatusCode(), null);
       returnSpeResponse(message, Response.Status.FORBIDDEN.getStatusCode(), response, null);
@@ -163,15 +161,20 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
     return true;
   }
 
+  /***
+   * 获得请求的接口方法名
+   * @param message
+   * @return 接口方法名
+   */
   private String getInterfaceName(Message message)
   {
     String requestURL = (String)message.get("org.apache.cxf.request.url");
-    if (!CommonUtils.checkAllStringNull(new String[] { requestURL }))
+    if (!CommonUtils.checkAllStringNull( requestURL ))
     {
       int separator = requestURL.lastIndexOf("/");
       if (separator == -1)
       {
-        LogUtils.VDESKTOP_LOG.error("URL is invalid url = " + requestURL);
+        LogUtils.LOG.error("URL is invalid url = " + requestURL);
         return null;
       }
       return requestURL.substring(separator + 1);
@@ -199,7 +202,7 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
       rspMsg.put(Message.PROTOCOL_HEADERS, headers);
     }
 
-    if (!CommonUtils.checkAllStringNull(new String[] { tokenId }))
+    if (!CommonUtils.checkAllStringNull( tokenId ))
     {
       ArrayList<String> xAuthToken = new ArrayList<String>();
       xAuthToken.add(tokenId);
@@ -238,25 +241,25 @@ public class InfInterceptor extends AbstractPhaseInterceptor<Message>
   {
     if (methodPath == null)
     {
-      LogUtils.VDESKTOP_LOG.debug("excludePath is null.");
+      LogUtils.LOG.debug("excludePath is null.");
       return false;
     }
-    if (CommonUtils.checkAllStringNull(new String[] { curMethodPath }))
+    if (CommonUtils.checkAllStringNull( curMethodPath ))
     {
-      LogUtils.VDESKTOP_LOG.error("curMethodPath is null.");
+      LogUtils.LOG.error("curMethodPath is null.");
       return false;
     }
     int separator = curMethodPath.lastIndexOf("/");
     if (separator == -1)
     {
-      LogUtils.VDESKTOP_LOG.error("URL is not correct. url = " + curMethodPath);
+      LogUtils.LOG.error("URL is not correct. url = " + curMethodPath);
     }
     else
     {
       String path = curMethodPath.substring(separator + 1);
       if (methodPath.contains(path))
       {
-        LogUtils.VDESKTOP_LOG.debug("path = " + path);
+        LogUtils.LOG.debug("path = " + path);
         return true;
       }
     }

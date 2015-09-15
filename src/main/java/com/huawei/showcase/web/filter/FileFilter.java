@@ -31,7 +31,7 @@ public class FileFilter
   {
     this.except = paramFilterConfig.getInitParameter("exclude");
 
-    if (!CommonUtils.checkAllStringNull(new String[] { this.except }))
+    if (!CommonUtils.checkAllStringNull( this.except ))
     {
       String[] exceptArrays = this.except.split(":");
       this.excepts = Arrays.asList(exceptArrays);
@@ -41,7 +41,7 @@ public class FileFilter
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
     throws IOException, ServletException
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
     HttpServletRequest req = (HttpServletRequest)servletRequest;
     HttpServletResponse rsp = (HttpServletResponse)servletResponse;
 
@@ -49,7 +49,7 @@ public class FileFilter
 
     if (!allowFlag)
     {
-      LogUtils.VDESKTOP_LOG.error("url rejected.");
+      LogUtils.LOG.error("url rejected.");
       rsp.sendRedirect("/");
       return;
     }
@@ -60,7 +60,7 @@ public class FileFilter
     }
     catch (Exception e1)
     {
-      LogUtils.VDESKTOP_LOG.error(e1);
+      LogUtils.LOG.error(e1);
     }
   }
 
@@ -69,11 +69,11 @@ public class FileFilter
     try
     {
       String requri = req.getRequestURI();
-      LogUtils.VDESKTOP_LOG.debug("url " + requri);
+      LogUtils.LOG.debug("url " + requri);
 
       for (String interfaces : this.excepts)
       {
-        if ((!CommonUtils.checkAllStringNull(new String[] { interfaces })) && (!interfaces.isEmpty()))
+        if ((!CommonUtils.checkAllStringNull(interfaces )) && (!interfaces.isEmpty()))
         {
           if (requri.contains(interfaces))
           {
@@ -86,7 +86,7 @@ public class FileFilter
       {
         String userName = getUserNameFromSession(req.getSession());
 
-        if (!CommonUtils.checkAllStringNull(new String[] { userName }))
+        if (!CommonUtils.checkAllStringNull(userName ))
         {
           return true;
         }
@@ -94,7 +94,7 @@ public class FileFilter
     }
     catch (Exception e)
     {
-      LogUtils.VDESKTOP_LOG.error(e);
+      LogUtils.LOG.error(e);
       return true;
     }
     return false;
@@ -102,7 +102,7 @@ public class FileFilter
 
   private String getUserNameFromSession(HttpSession session)
   {
-    LogUtils.VDESKTOP_LOG.enterMethod();
+    LogUtils.LOG.enterMethod();
 
     String username = null;
 
@@ -112,29 +112,11 @@ public class FileFilter
 
       if ((username == null) || (username.equals("")))
       {
-        ServletContext context = session.getServletContext();
-        String sessionid = (String)session.getAttribute("ssoContextId");
-
-        if (!CommonUtils.checkAllStringNull(new String[] { sessionid }))
-        {
-          HttpSession sesionval = (HttpSession)context.getAttribute(sessionid);
-          if (sesionval != null)
-          {
-            username = (String)sesionval.getAttribute("username");
-          }
-          else
-          {
-            LogUtils.VDESKTOP_LOG.debug("Username is null in ServletContext.");
-          }
-        }
+    	  LogUtils.LOG.debug("username is null.");
       }
     }
-    else
-    {
-      LogUtils.VDESKTOP_LOG.debug("Session is null, username is null.");
-    }
-
-    LogUtils.VDESKTOP_LOG.debug("GetUserNameFromSession the userName is " + username);
+    
+    LogUtils.LOG.debug("GetUserNameFromSession the userName is " + username);
     return username;
   }
 
@@ -142,11 +124,13 @@ public class FileFilter
   {
   }
 
-public static String getHtmlsuffix() {
+  public static String getHtmlsuffix() 
+  {
 	return HTMLSUFFIX;
-}
+  }
 
-public static String getHtmlsuffixs() {
+  public static String getHtmlsuffixs() 
+  {
 	return HTMLSUFFIXS;
-}
+  }
 }
